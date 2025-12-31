@@ -1,0 +1,1277 @@
+\documentclass[10pt]{beamer}
+\usepackage[spanish]{babel}
+\usepackage{csquotes}
+\usepackage[T1]{fontenc}
+
+\setbeameroption{hide notes} % Only slides
+%\setbeameroption{show only notes} % Only notes
+% \setbeameroption{show notes on second screen=bottom} % Both
+
+\usepackage{graphicx}
+
+\usepackage{colortbl}
+
+\usetheme{moloch}
+\molochset{block=fill}
+
+\setbeamertemplate{page number in head/foot}[appendixframenumber]
+\setbeamertemplate{section in toc}[sections numbered]
+
+\usepackage{plex-serif}
+\usepackage{plex-sans}
+\usepackage{plex-mono}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    pdftitle={Sistema de Monitoreo y Alerta Temprana basado en IA para Áreas Protegidas}
+}
+
+% Bibliografia
+\usepackage[style=ieee, backend=biber]{biblatex}
+\addbibresource{src/bachelor-thesis/referencias.bib}
+
+\title{Sistema de Monitoreo y Alerta Temprana basado en IA para Áreas Protegidas}
+\subtitle{Proyecto Final Integrador - Ingeniería en Computación}
+\author{Fabrizio Contigiani - Gabriel Da Silva}
+\institute{Tutor: Dr. Ing. Sergio Moya} % institute already in titlegraphic
+\date{\today}
+\titlegraphic{\includegraphics[width=\textwidth]{img/logos.png}}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+	\frametitle{Índice}
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+% ==============================================================================
+% Sección 1: Contexto Regional
+% ==============================================================================
+\section{Contexto Regional}
+
+\begin{frame}{El Bosque Atlántico}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item Originalmente: 1.3 millones de km² \cite{ribeiro2009atlantic}
+				\item Brasil (92\%), Paraguay (6\%), Argentina (2\%)
+				\item Hoy: solo 12-17\% de su extensión original
+				\item Uno de los \textbf{hotspots de biodiversidad} más amenazados del planeta \cite{wwf2024atlantic}
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Mapa del Bosque Atlántico historico vs actual
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Mapa Bosque Atlántico\\histórico vs. actual]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{La Selva Misionera}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Remanente continuo mas extenso} del Bosque Atlantico en el Cono Sur
+
+			\vspace{1em}
+			\begin{itemize}
+				\item 1.1 millones de hectareas protegidas
+				\item \textbf{Corredor Verde de Misiones}
+				\item Mas del \textbf{50\% de la biodiversidad} de Argentina \cite{dibitetti2003yaguarete}
+				\item En menos del 0.5\% del territorio nacional
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Mapa de la Selva Misionera y Corredor Verde
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Mapa Selva Misionera\\Corredor Verde]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Biodiversidad Excepcional}
+	\begin{columns}
+		\begin{column}{0.55\textwidth}
+			\textbf{Concentracion de especies:}
+			\begin{itemize}
+				\item $\sim$3,000 especies de plantas vasculares
+				\item 554 especies de aves
+				\item 120 especies de mamiferos
+				\item 79 reptiles y 55 anfibios
+			\end{itemize}
+
+			\vspace{0.5em}
+			\textbf{Especies emblematicas:}
+			\begin{itemize}
+				\item Yaguarete (\textit{Panthera onca})
+				\item Tapir (\textit{Tapirus terrestris})
+				\item Aguila harpia (\textit{Harpia harpyja})
+				\item Yacutinga (\textit{Aburria jacutinga})
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.45\textwidth}
+			% TODO: Collage de fauna emblematica
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2.5cm}
+					[Collage fauna emblematica]
+					\vspace{2.5cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{El Yaguarete: Especie Bandera}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item \textbf{Monumento Natural} provincial (1988) y nacional (2001)
+				\item Censo 2024: $\sim$84 individuos en el Corredor Verde \cite{vidasilvestre2024censo}
+				\item Menos de 250 adultos en toda Argentina
+				\item \textbf{En peligro critico} de extincion
+			\end{itemize}
+
+			\vspace{0.5em}
+			Su presencia es \textbf{indicador clave} del estado de salud del ecosistema
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Foto de yaguarete (camara trampa)
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Foto yaguarete\\camara trampa]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Importancia Ecologica}
+	\textbf{Servicios ecosistemicos:}
+	\begin{itemize}
+		\item Regulacion del ciclo hidrologico
+		\item Secuestro de carbono
+		\item Proteccion contra la erosion del suelo
+		\item Regulacion climatica regional
+	\end{itemize}
+
+	\vspace{1em}
+	\textbf{Marco legal:} Ley 26.331 de Proteccion de Bosques Nativos \cite{ley26331bosques}
+	\begin{description}
+		\item[Categoria I (Rojo):] Muy alto valor - no se transforma
+		\item[Categoria II (Amarillo):] Mediano valor - uso sostenible
+		\item[Categoria III (Verde):] Bajo valor - puede transformarse
+	\end{description}
+\end{frame}
+
+\begin{frame}{Amenazas a la Conservación}
+	% TODO: Imagen ilustrativa de las amenazas
+	\centering
+	\fbox{\parbox{0.6\textwidth}{\centering\vspace{1.5cm}
+			[Imagen amenazas a la conservacion]
+			\vspace{1.5cm}}}
+
+	\begin{itemize}
+		\item Deforestacion y fragmentacion del habitat
+		\item Caza furtiva y trafico de fauna
+		\item Intrusion en areas protegidas
+		\item Recursos limitados para vigilancia
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Deforestacion}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{1990-2020:} $\sim$130,000 hectareas perdidas solo en el Corredor Verde \cite{fauba2024corredorverde}
+
+			\vspace{0.5em}
+			\begin{itemize}
+				\item 77\% en parcelas $<$50 ha
+				\item Ocupaciones para cultivos de subsistencia
+				\item Tala ilegal de madera noble
+			\end{itemize}
+
+			\vspace{0.5em}
+			\textbf{2025:} Reduccion del 18\% respecto al promedio historico \cite{ecologiamisiones2025deforestacion}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Grafico/mapa de deforestacion
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Mapa deforestacion\\o grafico temporal]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Fragmentacion del Habitat}
+	\begin{alertblock}{Consecuencias}
+		\begin{itemize}
+			\item Poblaciones aisladas geneticamente
+			\item Desplazamiento por areas no protegidas
+			\item Conflictos con actividades humanas
+			\item Atropellamientos en rutas
+		\end{itemize}
+	\end{alertblock}
+
+	% TODO: Diagrama de fragmentacion
+	\centering
+	\fbox{\parbox{0.7\textwidth}{\centering\vspace{1.5cm}
+			[Diagrama fragmentacion del habitat]
+			\vspace{1.5cm}}}
+\end{frame}
+
+\begin{frame}{Caza Furtiva}
+	\begin{columns}
+		\begin{column}{0.55\textwidth}
+			\textbf{Dos dimensiones:}
+			\begin{enumerate}
+				\item \textbf{Cultural/subsistencia:} Residentes locales
+				\item \textbf{Economica/organizada:} Trafico de fauna
+			\end{enumerate}
+
+			\vspace{0.5em}
+			\textbf{Zonas criticas:}
+			\begin{itemize}
+				\item Frontera con Brasil
+				\item Reserva de Biosfera Yaboti
+				\item Parques provinciales Pinalito, Urugua-i
+			\end{itemize}
+
+			\vspace{0.5em}
+			\textbf{Especies afectadas:} Tapir, paca, corzuelas, tucanes, loros
+		\end{column}
+		\begin{column}{0.45\textwidth}
+			% TODO: Imagen relacionada a caza furtiva
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Imagen problematica\\caza furtiva]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Intrusion en Areas Protegidas}
+	\textbf{Actividades ilicitas frecuentes:}
+	\begin{itemize}
+		\item Pesca ilegal en cursos de agua
+		\item Desmonte encubierto para expansion de cultivos
+		\item Campamentos de caza con infraestructura permanente
+		\item Extraccion de recursos naturales
+	\end{itemize}
+
+	\vspace{1em}
+	\begin{alertblock}{Problema critico}
+		Sin un sistema de \textbf{alerta temprana}, las intrusiones se descubren \textbf{a posteriori} durante patrullajes de rutina, cuando el dano ya fue perpetrado.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{Desafios de la Vigilancia}
+	\textbf{780,000 hectareas} distribuidas en \textbf{106+ areas protegidas}
+
+	\vspace{0.5em}
+	\begin{description}
+		\item[Extension:] Terreno accidentado, vegetacion densa, acceso limitado
+		\item[Comunicaciones:] Sin cobertura celular en zonas interiores
+		\item[Latencia:] Semanas/meses entre captura de evento y descubrimiento
+		\item[Volumen:] Miles de imagenes requieren clasificacion manual
+	\end{description}
+
+	% TODO: Foto de terreno/vegetacion densa
+	\centering
+	\fbox{\parbox{0.5\textwidth}{\centering\vspace{1.2cm}
+			[Foto vegetacion densa]
+			\vspace{1.2cm}}}
+\end{frame}
+
+% ==============================================================================
+% Sección 2: Sistemas Actuales y Limitaciones
+% ==============================================================================
+\section{Sistemas Actuales}
+
+\begin{frame}{Camaras Trampa Tradicionales \cite{steenweg2017scaling}}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Componentes:}
+			\begin{itemize}
+				\item Sensor PIR (movimiento)
+				\item Camara digital
+				\item Almacenamiento SD
+				\item Iluminacion IR (nocturna)
+				\item Baterias AA
+			\end{itemize}
+
+			\textbf{Ventajas:}
+			\begin{itemize}
+				\item Alta autonomia
+				\item Bajo costo inicial
+				\item Robustez probada
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Foto camara trampa tradicional
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Foto camara trampa tradicional]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Limitaciones de Camaras Tradicionales}
+	\begin{alertblock}{Brechas criticas}
+		\begin{description}
+			\item[Latencia:] Imagenes almacenadas localmente por semanas/meses
+			\item[Sin alertas:] Informacion fluye solo hacia centros de analisis
+			\item[Manual:] 80\%+ de imagenes son vacias o irrelevantes \cite{tabak2019machine}
+			\item[Mantenimiento:] Visitas periodicas para baterias y tarjetas
+		\end{description}
+	\end{alertblock}
+
+	\vspace{0.5em}
+	\centering
+	\textit{Para cuando se detecta una intrusion,\\los responsables ya estan lejos del area.}
+\end{frame}
+
+\begin{frame}{Soluciones Comerciales Celulares}
+	\begin{columns}
+		\begin{column}{0.55\textwidth}
+			\textbf{Ejemplos:} Tactacam REVEAL \cite{tactacam2024reveal}, Spypoint Flex \cite{spypoint2024cellular}
+
+			\vspace{0.5em}
+			\textbf{Caracteristicas:}
+			\begin{itemize}
+				\item Envio via redes 3G/4G/LTE
+				\item App movil propietaria
+				\item Disparo rapido ($<$0.5s)
+				\item Vision nocturna IR
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.45\textwidth}
+			% TODO: Imagen camara celular comercial
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Camara celular comercial]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Limitaciones de Soluciones Comerciales}
+	\begin{block}{Dependencia de infraestructura}
+		\begin{itemize}
+			\item \textbf{Sin cobertura celular} en interior de reservas
+			\item En selva densa, la senal es inexistente
+		\end{itemize}
+	\end{block}
+
+	\begin{block}{Costos elevados}
+		\begin{itemize}
+			\item Alto costo de adquisicion por unidad
+			\item Suscripciones mensuales: \$5-15 USD por camara
+			\item Servicios en la nube propietarios
+		\end{itemize}
+	\end{block}
+
+	\begin{block}{Escalabilidad limitada}
+		\begin{itemize}
+			\item Costo prohibitivo para despliegues masivos
+			\item Especialmente en paises en vias de desarrollo
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Trabajos Relacionados}
+	\begin{description}
+		\item[Barrero \& Schmunck (UNaM, 2023) \cite{barrero2023microcamara}:] Microcamara de vigilancia para fauna - bases para soluciones de bajo costo
+
+		\item[Whytock et al. (2023) \cite{whytock2023iridium}:] Camaras trampa con IA + alertas satelitales Iridium - costos operativos muy altos
+
+		\item[AiCatcher (Mallya, 2019) \cite{mallya2019aicatcher}:] Raspberry Pi + LoRa + inferencia en borde - alto consumo energetico
+	\end{description}
+
+	\vspace{0.5em}
+	\begin{alertblock}{Brecha identificada}
+		Oportunidad para un sistema que combine \textbf{bajo costo}, \textbf{independencia de infraestructura celular}, y \textbf{alertas en tiempo real}.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{Analisis Comparativo}
+	\begin{table}
+		\scriptsize
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			\textbf{Caracteristica} & \textbf{Tradicional} & \textbf{Celular} & \textbf{Satelital} & \textbf{LoRa} \\
+			\hline
+			Alertas tiempo real     & No                   & Si               & Si                 & Si            \\
+			Infraestructura         & Ninguna              & Operador         & Satelite           & Gateway       \\
+			Procesamiento IA        & Post-hoc             & No/Limitado      & Edge               & Edge          \\
+			Costo adquisicion       & Bajo                 & Medio-Alto       & Muy alto           & Medio         \\
+			Costo operativo         & Bajo                 & Alto             & Muy alto           & Bajo          \\
+			Autonomia               & Muy alta             & Media            & Baja               & Baja          \\
+			\hline
+		\end{tabular}
+	\end{table}
+
+	\vspace{0.5em}
+	\centering
+	\textit{Las alertas inmediatas estan condicionadas por\\elevados costos o dependencia de terceros.}
+\end{frame}
+
+% ==============================================================================
+% Sección 3: Motivación y Objetivos
+% ==============================================================================
+\section{Motivacion y Objetivos}
+
+\begin{frame}{Motivacion del Proyecto}
+	\textbf{Transformar el paradigma:}
+
+	\begin{center}
+		Monitoreo \textbf{pasivo} $\longrightarrow$ Vigilancia \textbf{activa e inteligente}
+	\end{center}
+
+	\vspace{1em}
+	\textbf{Un sistema que:}
+	\begin{itemize}
+		\item No solo capture imagenes, sino que las \textbf{transmita en tiempo real}
+		\item Las \textbf{analice automaticamente} mediante IA
+		\item Genere \textbf{alertas inmediatas} ante eventos de interes
+		\item Sea \textbf{accesible y de bajo costo}
+		\item Use \textbf{hardware economico} y \textbf{software de codigo abierto}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Oportunidad Tecnologica}
+	\textbf{Convergencia de tres desarrollos:}
+
+	\vspace{0.5em}
+	\begin{block}{1. Microcontroladores de bajo costo}
+		ESP32: WiFi, Bluetooth, bajo consumo. Costo: $<$\$10 USD
+	\end{block}
+
+	\begin{block}{2. Redes mesh autoorganizadas}
+		ESP-MESH: Extension de cobertura sin infraestructura celular
+	\end{block}
+
+	\begin{block}{3. IA para vision por computadora}
+		SpeciesNet, MegaDetector: Modelos de codigo abierto para clasificacion automatica de fauna
+	\end{block}
+\end{frame}
+
+\begin{frame}{Objetivo General}
+	\begin{alertblock}{Objetivo}
+		Demostrar la \textbf{viabilidad tecnica} de un sistema de monitoreo de \textbf{bajo costo} para areas protegidas, basado en:
+		\begin{itemize}
+			\item Nodos de camara con conectividad \textbf{mesh}
+			\item Clasificacion automatica de imagenes mediante \textbf{IA}
+		\end{itemize}
+	\end{alertblock}
+
+	\vspace{1em}
+	\textbf{Reduccion del tiempo de procesamiento:}
+	\begin{center}
+		\textbf{Dias/semanas} $\longrightarrow$ \textbf{Minutos}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Objetivos Especificos}
+	\begin{enumerate}
+		\item Disenar e implementar un \textbf{nodo de camara autonomo} basado en ESP32
+
+		\item Desarrollar una \textbf{red mesh autoorganizada} con ESP-MESH
+
+		\item Implementar un \textbf{servidor de procesamiento} con IA
+
+		\item Integrar \textbf{SpeciesNet/MegaDetector} para clasificacion
+
+		\item \textbf{Validar el funcionamiento} en condiciones reales
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Alcance del Proyecto}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Dentro del alcance:}
+			\begin{itemize}
+				\item Nodos ESP32-CAM + sensor PIR
+				\item Red mesh funcional
+				\item Servidor de recepcion y clasificacion
+				\item Bot de Telegram para alertas
+				\item Pruebas en laboratorio y campo
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\textbf{Fuera del alcance:}
+			\begin{itemize}
+				\item Despliegue en selva densa
+				\item Carcasas con grado IP
+				\item Entrenamiento de modelos especificos
+				\item Certificacion comercial
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Limitaciones Conocidas}
+	\begin{description}
+		\item[Operacion diurna:] Lente con filtro IR, sin vision nocturna
+		\item[Sensor PIR:] Optimizado para humanos, puede no detectar fauna pequena
+		\item[Resolucion:] Limitada por tamano maximo de paquete mesh ($<$8KB)
+		\item[Consumo:] WiFi consume mas que camaras trampa comerciales optimizadas
+	\end{description}
+
+	\vspace{0.5em}
+	\begin{block}{Nota sobre ``tiempo real''}
+		No es tiempo real deterministico (milisegundos), sino \textbf{operativo}: de dias/semanas a \textbf{minutos}.
+	\end{block}
+\end{frame}
+
+% ==============================================================================
+% Sección 4: Marco Teórico
+% ==============================================================================
+\section{Marco Teorico}
+
+\begin{frame}{Funcionamiento de Camaras Trampa}
+	\textbf{Ciclo de operacion:}
+	\begin{enumerate}
+		\item \textbf{Reposo:} Solo sensor PIR activo (bajo consumo)
+		\item \textbf{Deteccion:} Cambio en radiacion IR
+		\item \textbf{Activacion:} Despertar camara (trigger time: 0.1-2s)
+		\item \textbf{Captura:} Foto/video + metadatos
+		\item \textbf{Almacenamiento:} Compresion JPEG, grabacion en SD
+		\item \textbf{Retorno al reposo}
+	\end{enumerate}
+
+	% TODO: Diagrama del ciclo
+	\centering
+	\fbox{\parbox{0.6\textwidth}{\centering\vspace{1cm}
+			[Diagrama ciclo operacion]
+			\vspace{1cm}}}
+\end{frame}
+
+\begin{frame}{Internet de las Cosas (IoT)}
+	\textbf{Arquitectura de tres capas:}
+
+	% TODO: Diagrama arquitectura IoT
+	\centering
+	\fbox{\parbox{0.7\textwidth}{\centering\vspace{2cm}
+			[Diagrama arquitectura IoT - 3 capas]
+			\vspace{2cm}}}
+
+	\begin{enumerate}
+		\item \textbf{Percepcion:} Sensores, camaras $\rightarrow$ ESP32-CAM + PIR
+		\item \textbf{Red:} Transmision de datos $\rightarrow$ ESP-MESH
+		\item \textbf{Aplicacion:} Procesamiento, alertas $\rightarrow$ Django + SpeciesNet
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Protocolos de Comunicacion}
+	\begin{table}
+		\small
+		\centering
+		\begin{tabular}{lccc}
+			\hline
+			\textbf{Protocolo} & \textbf{Alcance} & \textbf{Ancho banda} & \textbf{Consumo} \\
+			\hline
+			BLE                & $\sim$100m       & Bajo                 & Muy bajo         \\
+			ZigBee             & $\sim$100m       & Bajo                 & Bajo             \\
+			LoRa               & km               & Muy bajo             & Bajo             \\
+			WiFi               & $\sim$100m       & \textbf{Alto}        & Alto             \\
+			\hline
+		\end{tabular}
+	\end{table}
+
+	\vspace{0.5em}
+	\textbf{LoRa:} Excelente alcance, pero ancho de banda \textbf{insuficiente} para imagenes
+
+	\vspace{0.5em}
+	\textbf{WiFi Mesh:} Permite transmision de imagenes + extension de cobertura
+\end{frame}
+
+\begin{frame}{Redes Mesh - ESP-MESH \cite{espmesh2023}}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Caracteristicas:}
+			\begin{itemize}
+				\item \textbf{Autoorganizacion:} Seleccion automatica de padre optimo
+				\item \textbf{Autocuracion:} Reconexion ante fallos
+				\item Topologia de arbol
+				\item Hasta 6+ niveles de profundidad
+				\item Cientos de nodos
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Diagrama topologia mesh
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Diagrama topologia mesh]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Deteccion de Objetos con YOLO \cite{redmon2016yolo}}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{You Only Look Once}
+			\begin{itemize}
+				\item Deteccion en una sola pasada
+				\item Bounding boxes + probabilidades
+				\item Balance velocidad/precision
+				\item YOLOv5: PyTorch, multiples variantes \cite{jocher2020yolov5}
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Ejemplo deteccion YOLO
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Ejemplo deteccion YOLO\\con bounding boxes]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{MegaDetector \cite{beery2019megadetector}}
+	\textbf{Microsoft AI for Earth}
+
+	\vspace{0.5em}
+	Modelo especializado para camaras trampa que detecta:
+	\begin{itemize}
+		\item \textbf{Animales} (sin distincion de especie)
+		\item \textbf{Personas}
+		\item \textbf{Vehiculos}
+	\end{itemize}
+
+	\vspace{0.5em}
+	\textbf{Ventajas:}
+	\begin{itemize}
+		\item Altamente robusto y generalizable
+		\item Adoptado por 60+ organizaciones de conservacion \cite{velez2022platforms}
+		\item Reduce hasta 90\% el tiempo de procesamiento
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{SpeciesNet - Google \cite{gadot2024crop}}
+	\textbf{Pipeline de dos fases:}
+
+	\begin{enumerate}
+		\item \textbf{Deteccion:} Identifica regiones de interes (animales, personas, vehiculos)
+
+		\item \textbf{Clasificacion taxonomica:} Para animales detectados
+		      \begin{itemize}
+			      \item Familia
+			      \item Genero
+			      \item Especie
+		      \end{itemize}
+	\end{enumerate}
+
+	\vspace{0.5em}
+	\textbf{Entrenado con millones de imagenes} de camaras trampa a nivel global
+
+	% TODO: Ejemplo de clasificacion
+	\centering
+	\fbox{\parbox{0.5\textwidth}{\centering\vspace{1cm}
+			[Ejemplo clasificacion taxonomica]
+			\vspace{1cm}}}
+\end{frame}
+
+% ==============================================================================
+% Sección 5: Arquitectura del Sistema
+% ==============================================================================
+\section{Arquitectura del Sistema}
+
+\begin{frame}{Vision General}
+	% TODO: Diagrama arquitectura general
+	\centering
+	\fbox{\parbox{0.9\textwidth}{\centering\vspace{3cm}
+			[Diagrama arquitectura general del sistema]\\
+			Nodos camara $\rightarrow$ Red Mesh $\rightarrow$ Nodo Raiz $\rightarrow$ Servidor $\rightarrow$ Telegram
+			\vspace{3cm}}}
+\end{frame}
+
+\begin{frame}{Flujo de Datos}
+	\begin{enumerate}
+		\item Sensor PIR detecta movimiento $\rightarrow$ interrupcion
+		\item Nodo captura imagen JPEG ($<$8KB)
+		\item Transmision via red mesh hasta nodo raiz
+		\item Nodo raiz envia HTTP POST al servidor
+		\item Servidor procesa con SpeciesNet
+		\item Si hay deteccion: alerta via Telegram
+		\item Almacenamiento en base de datos
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Nodo de Camara - Hardware}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Componentes:}
+			\begin{itemize}
+				\item ESP32-CAM (AI-Thinker)
+				\item Camara OV2640 (2MP)
+				\item Sensor PIR HC-SR501
+				\item Buck converter LM2596
+				\item Baterias 18650 (2S, 7.4V)
+			\end{itemize}
+
+			\vspace{0.5em}
+			\textbf{Resolucion:} 640x480 (VGA)
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Foto del nodo ensamblado
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Foto nodo camara ensamblado]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Nodo de Camara - Firmware}
+	\textbf{Desarrollado con ESP-IDF + ESP-MDF}
+
+	\vspace{0.5em}
+	\textbf{Funcionalidades:}
+	\begin{itemize}
+		\item Inicializacion de camara OV2640
+		\item Interrupcion GPIO para sensor PIR
+		\item Conexion a red ESP-MESH como nodo hijo
+		\item Captura y compresion JPEG
+		\item Almacenamiento en microSD (respaldo)
+		\item Transmision via Mwifi
+		\item Modo power-save para ahorro de energia
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Carcasa Impresa en 3D}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Diseno basado en modelo CC 4.0}
+
+			\vspace{0.5em}
+			\textbf{Caracteristicas:}
+			\begin{itemize}
+				\item Material: PLA
+				\item Apertura para lente
+				\item Domo para sensor PIR
+				\item Espacio para buck converter
+				\item Acceso a tarjeta SD
+				\item Puntos de montaje
+			\end{itemize}
+
+			\vspace{0.5em}
+			\textit{Disponible en Printables}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Render/foto carcasa
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Render/foto carcasa 3D]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Nodo Raiz}
+	\begin{columns}
+		\begin{column}{0.55\textwidth}
+			\textbf{Hardware:} ESP32 DevKit V1 (sin camara)
+
+			\vspace{0.5em}
+			\textbf{Rol:} Puerta de enlace Mesh $\leftrightarrow$ Internet
+
+			\vspace{0.5em}
+			\textbf{Funciones:}
+			\begin{itemize}
+				\item Raiz de la red ESP-MESH
+				\item Recepcion de imagenes de nodos hijos
+				\item Conexion WiFi a router
+				\item Cliente HTTP para envio al servidor
+				\item Sincronizacion de tiempo
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.45\textwidth}
+			% TODO: Diagrama flujo nodo raiz
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Diagrama nodo raiz]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Servidor de Aplicacion}
+	\textbf{Arquitectura containerizada con Docker Compose:}
+
+	\vspace{0.5em}
+	\begin{description}
+		\item[Django:] Backend web, recepcion de imagenes
+		\item[SpeciesNet:] Servicio de inferencia (LitServe)
+		\item[PostgreSQL:] Base de datos
+		\item[Telegram Bot:] Notificaciones
+	\end{description}
+
+	% TODO: Diagrama Docker Compose
+	\centering
+	\fbox{\parbox{0.6\textwidth}{\centering\vspace{1.5cm}
+			[Diagrama Docker Compose]
+			\vspace{1.5cm}}}
+\end{frame}
+
+\begin{frame}{Sistema de Alertas}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Bot de Telegram}
+
+			\vspace{0.5em}
+			Cada notificacion incluye:
+			\begin{itemize}
+				\item Imagen original
+				\item Imagen anotada (bounding boxes)
+				\item Cantidad y confianza de detecciones
+				\item Clasificaciones taxonomicas
+			\end{itemize}
+
+			\vspace{0.5em}
+			\textbf{Comandos:}
+			\begin{itemize}
+				\item \texttt{/start} - Registro
+				\item \texttt{/last} - Ultima imagen
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Screenshot Telegram
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2.5cm}
+					[Screenshot notificacion Telegram]
+					\vspace{2.5cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% ==============================================================================
+% Sección 6: Metodología
+% ==============================================================================
+\section{Metodologia}
+
+\begin{frame}{Enfoque de Desarrollo}
+	\textbf{Iterativo e incremental}
+
+	\vspace{0.5em}
+	\begin{itemize}
+		\item Cada componente desarrollado, probado y refinado individualmente
+		\item Identificacion temprana de problemas
+		\item Metodologia agil \textbf{Kanban}
+	\end{itemize}
+
+	\vspace{0.5em}
+	\textbf{Control de versiones:} GitHub (4 repositorios)
+
+	\vspace{0.5em}
+	\textbf{Despliegue continuo:} GitHub Actions
+	\begin{itemize}
+		\item Build automatico de imagenes Docker
+		\item Publicacion en GitHub Container Registry
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Etapas del Desarrollo}
+	% TODO: Diagrama Gantt simplificado
+	\centering
+	\fbox{\parbox{0.8\textwidth}{\centering\vspace{2cm}
+			[Diagrama Gantt - etapas del desarrollo]
+			\vspace{2cm}}}
+
+	\begin{enumerate}
+		\item Investigacion y diseno
+		\item Desarrollo del firmware
+		\item Desarrollo del servidor
+		\item Diseno y fabricacion de hardware
+		\item Integracion
+		\item Pruebas y validacion
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Herramientas Utilizadas}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Desarrollo:}
+			\begin{itemize}
+				\item VS Code
+				\item ESP-IDF + ESP-MDF
+				\item Django
+				\item python-telegram-bot
+				\item Docker / Docker Compose
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\textbf{Diseno 3D:}
+			\begin{itemize}
+				\item Autodesk Fusion 360
+				\item PrusaSlicer
+				\item Impresora Creality Ender 3
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Desafios Enfrentados}
+	\begin{alertblock}{Desafio 1: Limite de tamano de paquete}
+		ESP-MDF limita paquetes a 8KB $\rightarrow$ ajustar compresion JPEG
+	\end{alertblock}
+
+	\begin{alertblock}{Desafio 2: Consumo energetico}
+		WiFi consume significativamente $\rightarrow$ modo power-save de Mwifi
+	\end{alertblock}
+
+	\begin{alertblock}{Desafio 3: Estabilidad de red mesh}
+		Reconexiones frecuentes $\rightarrow$ tuning de parametros de conexion
+	\end{alertblock}
+
+	\begin{alertblock}{Desafio 4: Tiempo de inferencia}
+		SpeciesNet lento en CPU $\rightarrow$ soporte para GPU (nvidia-container-toolkit)
+	\end{alertblock}
+\end{frame}
+
+% ==============================================================================
+% Sección 7: Pruebas y Resultados
+% ==============================================================================
+\section{Pruebas y Resultados}
+
+\begin{frame}{Configuracion de Pruebas}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Hardware:}
+			\begin{itemize}
+				\item 3 nodos de camara
+				\item 1 nodo raiz
+				\item Baterias 18650 (2S)
+				\item Router WiFi domestico
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\textbf{Software:}
+			\begin{itemize}
+				\item ESP-IDF v5.x
+				\item Docker containers
+				\item SpeciesNet + LitServe
+				\item PostgreSQL
+				\item Tunel VPN (Pangolin)
+			\end{itemize}
+		\end{column}
+	\end{columns}
+
+	% TODO: Foto setup
+	\centering
+	\fbox{\parbox{0.5\textwidth}{\centering\vspace{1cm}
+			[Foto setup de pruebas]
+			\vspace{1cm}}}
+\end{frame}
+
+\begin{frame}{Pruebas de Laboratorio}
+	\textbf{Validaciones realizadas:}
+
+	\begin{itemize}
+		\item Captura de imagen: inicializacion, calidad, tamano
+		\item Sensor PIR: distancia, tiempo de respuesta, falsas activaciones
+		\item Transmision mesh: conexion, latencia, perdida de paquetes
+		\item Clasificacion: deteccion de animales/personas/vehiculos
+		\item Alertas: recepcion en Telegram, contenido correcto
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Resultados - Captura de Imagen}
+	% TODO: Ejemplo imagen capturada
+	\centering
+	\fbox{\parbox{0.6\textwidth}{\centering\vspace{2cm}
+			[Ejemplo imagen capturada 640x480]
+			\vspace{2cm}}}
+
+	\begin{itemize}
+		\item Resolucion: 640x480 (VGA)
+		\item Formato: JPEG comprimido
+		\item Tamano tipico: $<$8KB
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Resultados - Red Mesh}
+	\begin{table}
+		\centering
+		\begin{tabular}{lc}
+			\hline
+			\textbf{Metrica}               & \textbf{Valor} \\
+			\hline
+			Latencia promedio              & [X] s          \\
+			Distancia max (linea de vista) & [X] m          \\
+			Distancia max (con obstaculos) & [X] m          \\
+			Tasa perdida de paquetes       & $<$5\%         \\
+			Tiempo de reconexion           & [X] s          \\
+			\hline
+		\end{tabular}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Resultados - Deteccion}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{table}
+				\centering
+				\begin{tabular}{lc}
+					\hline
+					\textbf{Categoria} & \textbf{Precision} \\
+					\hline
+					Animales           & [X]\%              \\
+					Personas           & [X]\%              \\
+					Vehiculos          & [X]\%              \\
+					\hline
+				\end{tabular}
+			\end{table}
+
+			\vspace{0.5em}
+			\textbf{Tiempo de inferencia:}
+			\begin{itemize}
+				\item CPU: 1-5 s/imagen
+				\item GPU: 0.5-1 s/imagen
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Ejemplo deteccion exitosa
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Ejemplo deteccion exitosa]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Resultados - Consumo Energetico}
+	\begin{table}
+		\centering
+		\begin{tabular}{lc}
+			\hline
+			\textbf{Estado}    & \textbf{Consumo (mA)} \\
+			\hline
+			Modo power-save    & [X]                   \\
+			Captura de imagen  & [X]                   \\
+			Transmision WiFi   & [X]                   \\
+			Promedio ponderado & [X]                   \\
+			\hline
+		\end{tabular}
+	\end{table}
+
+	\vspace{0.5em}
+	\textbf{Autonomia estimada:} [X] horas con baterias 18650 (2S, [X]mAh)
+\end{frame}
+
+\begin{frame}{Pruebas de Campo}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Condiciones:}
+			\begin{itemize}
+				\item Duracion: [X] horas
+				\item 3 nodos desplegados
+				\item Distancia entre nodos: [X]m
+				\item Condiciones climaticas favorables
+			\end{itemize}
+
+			\vspace{0.5em}
+			\textbf{Resultados:}
+			\begin{itemize}
+				\item Imagenes capturadas: [X]
+				\item Detecciones exitosas: [X]
+				\item Falsas activaciones: [X]
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			% TODO: Foto despliegue campo
+			\centering
+			\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+					[Foto nodo desplegado en campo]
+					\vspace{2cm}}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% ==============================================================================
+% Sección 8: Conclusiones
+% ==============================================================================
+\section{Conclusiones}
+
+\begin{frame}{Logros Alcanzados}
+	\begin{itemize}
+		\item[$\checkmark$] Sistema completo de monitoreo con \textbf{hardware de bajo costo}
+		\item[$\checkmark$] Reduccion de tiempo de procesamiento: \textbf{dias $\rightarrow$ minutos}
+		\item[$\checkmark$] Red mesh funcional con \textbf{ESP-MESH}
+		\item[$\checkmark$] Integracion exitosa de \textbf{SpeciesNet/MegaDetector}
+		\item[$\checkmark$] Sistema de alertas en tiempo real via \textbf{Telegram}
+		\item[$\checkmark$] Carcasa imprimible en 3D
+		\item[$\checkmark$] \textbf{Codigo abierto} disponible en GitHub
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Aportes del Trabajo}
+	\begin{block}{Arquitectura integrada}
+		Captura distribuida + transmision mesh + procesamiento IA centralizado
+	\end{block}
+
+	\begin{block}{Prototipo de bajo costo}
+		Componentes comerciales economicos + disenos 3D listos para fabricacion
+	\end{block}
+
+	\begin{block}{Integracion de SpeciesNet}
+		Pipeline de clasificacion taxonomica en tiempo operativo
+	\end{block}
+
+	\begin{block}{Codigo abierto}
+		4 repositorios publicos en GitHub
+	\end{block}
+\end{frame}
+
+\begin{frame}{Comparacion con Objetivos}
+	\begin{table}
+		\centering
+		\begin{tabular}{lcc}
+			\hline
+			\textbf{Metrica}       & \textbf{Objetivo} & \textbf{Resultado} \\
+			\hline
+			Latencia de respuesta  & $<$X min          & [X] min            \\
+			Precision de deteccion & $>$X\%            & [X]\%              \\
+			Autonomia              & $>$X horas        & [X] horas          \\
+			Cobertura              & $>$X m            & [X] m              \\
+			\hline
+		\end{tabular}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Trabajos Futuros}
+	\begin{description}
+		\item[Vision nocturna:] Camaras con capacidad IR
+		\item[Conectividad largo alcance:] LoRa, 4G/LTE, satelital
+		\item[Optimizacion energetica:] Paneles solares, nodo repetidor dedicado
+		\item[Procesamiento en borde:] TinyML en nodos de camara
+		\item[Modelos especificos:] Entrenamiento para fauna regional
+		\item[Interfaz web:] Mapas, gestion de despliegues, reportes
+	\end{description}
+\end{frame}
+
+\begin{frame}{Recomendaciones}
+	\begin{enumerate}
+		\item \textbf{Ubicaciones:} Considerar distancia entre nodos y obstaculos
+		\item \textbf{Proteccion:} Usar PETG/ASA para despliegues permanentes
+		\item \textbf{Baterias:} Dimensionar segun frecuencia de activaciones
+		\item \textbf{Sensor PIR:} Evaluar alternativas para fauna pequena
+		\item \textbf{Monitoreo:} Implementar seguimiento de estado de nodos
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Repositorios}
+	\small
+	\begin{description}
+		\item[mesh-node:] \url{github.com/fabcontigiani/mesh-node-capstone-project}
+		\item[root-node:] \url{github.com/fabcontigiani/root-node-capstone-project}
+		\item[server:] \url{github.com/fabcontigiani/server-capstone-project}
+		\item[wildlife-detection:] \url{github.com/fabcontigiani/wildlife-detection-capstone-project}
+	\end{description}
+
+	\vspace{1em}
+	\textbf{Modelo 3D carcasa:} Disponible en Printables
+\end{frame}
+
+% ==============================================================================
+% Cierre
+% ==============================================================================
+
+\begin{frame}{Agradecimientos}
+	\begin{itemize}
+		\item A nuestras familias por el apoyo incondicional
+		\item Al Dr. Ing. Sergio Moya por su guía y dedicación como tutor
+		\item A la Facultad de Ingeniería de la UNaM
+		\item A los docentes que contribuyeron a nuestra formación
+		\item A nuestros compañeros de carrera
+	\end{itemize}
+
+	\vspace{1em}
+	\centering
+	\textit{¡Gracias a todos!}
+\end{frame}
+
+\begin{frame}[standout]
+	¿Preguntas?
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Referencias}
+	\printbibliography[heading=none]
+\end{frame}
+
+% ==============================================================================
+% Slides de Backup
+% ==============================================================================
+\appendix
+
+\begin{frame}{Esquemático del Hardware}
+	% TODO: Esquematico KiCad
+	\centering
+	\fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
+			[Esquematico KiCad del nodo]
+			\vspace{3cm}}}
+\end{frame}
+
+\begin{frame}{Planos de la Carcasa}
+	% TODO: Planos 2D
+	\centering
+	\fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
+			[Planos 2D de la carcasa]
+			\vspace{3cm}}}
+\end{frame}
+
+\begin{frame}{Análisis Económico}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\textbf{Inversión inicial:} \$20,530 USD
+
+			\vspace{0.5em}
+			\textbf{Modelo de negocio:}
+			\begin{itemize}
+				\item Cobro por instalación
+				\item Suscripción mensual (\$50 USD)
+			\end{itemize}
+
+			\vspace{0.5em}
+			\textbf{Mercado objetivo:}
+			\begin{itemize}
+				\item 116 reservas naturales
+				\item 10,800+ EAPs con bosques
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\textbf{Indicadores:}
+			\begin{itemize}
+				\item VAN: \$7,517.55 USD
+				\item TIR: 25\%
+				\item TREMA: 15\%
+				\item Recupero: Ano 4
+			\end{itemize}
+
+			\vspace{0.5em}
+			\textbf{Conclusion:}\\
+			Proyecto \textbf{economicamente viable}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Sensibilidad Económica}
+	% TODO: Graficos de sensibilidad
+	\centering
+	\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}
+			[Graficos de análisis de sensibilidad]
+			\vspace{2.5cm}}}
+
+	\begin{itemize}
+		\item Punto de equilibrio: 24 suscripciones/ano
+		\item Precio minimo viable: \$40 USD/mes
+	\end{itemize}
+\end{frame}
+
+\end{document}
