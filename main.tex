@@ -25,6 +25,12 @@
 
 % Bibliografia
 \usepackage[style=apa, backend=biber]{biblatex}
+\renewrobustcmd*{\mkbibfootnote}[1]{\footnote[frame]{#1}}
+\setbeamertemplate{footnote}{% Footnote spacing fix for double digits
+  \hspace{2pt}%
+  \makebox[1em][l]{\insertfootnotemark}%
+  \insertfootnotetext\par%
+}
 \addbibresource{src/bachelor-thesis/referencias.bib}
 
 % Links
@@ -60,10 +66,10 @@
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\begin{itemize}
-				\item Originalmente: \num{1.3} millones de \unit{\km\squared} \parencite{ribeiro2009atlantic}
+				\item Originalmente: \num{1.3} millones de \unit{\km\squared} \footcite{ribeiro2009atlantic}
 				\item Brasil (\qty{92}{\percent}), Paraguay (\qty{6}{\percent}), Argentina (\qty{2}{\percent})
 				\item Hoy: solo \qtyrange{12}{17}{\percent} de su extensión original
-				\item Uno de los \textbf{hotspots de biodiversidad} más amenazados del planeta \parencite{wwf2024atlantic}
+				\item Uno de los \textbf{hotspots de biodiversidad} más amenazados del planeta \footcite{wwf2024atlantic}
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\textwidth}
@@ -91,7 +97,7 @@
 			\begin{itemize}
 				\item \num{1.1} millones de hectareas protegidas
 				\item \textbf{Corredor Verde de Misiones}
-				\item Mas del \textbf{\qty{50}{\percent} de la biodiversidad} de Argentina \parencite{dibitetti2003yaguarete}
+				\item Mas del \textbf{\qty{50}{\percent} de la biodiversidad} de Argentina \footcite{dibitetti2003yaguarete}
 				\item En menos del \qty{0.5}{\percent} del territorio nacional
 			\end{itemize}
 		\end{column}
@@ -151,7 +157,7 @@
 		\begin{column}{0.5\textwidth}
 			\begin{itemize}
 				\item \textbf{Monumento Natural} provincial (1988) y nacional (2001)
-				\item Censo 2024: $\sim$\num{84} individuos en el Corredor Verde \parencite{vidasilvestre2024censo}
+				\item Censo 2024: $\sim$\num{84} individuos en el Corredor Verde \footcite{vidasilvestre2024censo}
 				\item Menos de \num{250} adultos en toda Argentina
 				\item \textbf{En peligro critico} de extincion
 			\end{itemize}
@@ -185,7 +191,7 @@
 	\end{itemize}
 
 	\vspace{1em}
-	\textbf{Marco legal:} Ley 26.331 de Proteccion de Bosques Nativos \parencite{ley26331bosques}
+	\textbf{Marco legal:} Ley 26.331 de Proteccion de Bosques Nativos \footcite{ley26331bosques}
 	\begin{description}
 		\item[Categoria I (Rojo):] Muy alto valor - no se transforma
 		\item[Categoria II (Amarillo):] Mediano valor - uso sostenible
@@ -222,7 +228,7 @@
 \begin{frame}{Deforestacion}
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
-			\textbf{1990-2020:} $\sim$\qty{130000}{ha} perdidas solo en el Corredor Verde \parencite{fauba2024corredorverde}
+			\textbf{1990-2020:} $\sim$\qty{130000}{ha} perdidas solo en el Corredor Verde \footcite{fauba2024corredorverde}
 
 			\vspace{0.5em}
 			\begin{itemize}
@@ -232,7 +238,7 @@
 			\end{itemize}
 
 			\vspace{0.5em}
-			\textbf{2025:} Reduccion del \qty{18}{\percent} respecto al promedio historico \parencite{ecologiamisiones2025deforestacion}
+			\textbf{2025:} Reduccion del \qty{18}{\percent} respecto al promedio historico \footcite{ecologiamisiones2025deforestacion}
 		\end{column}
 		\begin{column}{0.5\textwidth}
 			% TODO: Grafico/mapa de deforestacion
@@ -354,7 +360,7 @@
 % ==============================================================================
 \section{Sistemas Actuales}
 
-\begin{frame}{Camaras Trampa Tradicionales \parencite{steenweg2017scaling}}
+\begin{frame}{Camaras Trampa Tradicionales \footcite{steenweg2017scaling}}
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\textbf{Componentes:}
@@ -393,7 +399,7 @@
 		\begin{description}
 			\item[Latencia:] Imagenes almacenadas localmente por semanas/meses
 			\item[Sin alertas:] Informacion fluye solo hacia centros de analisis
-			\item[Manual:] \qty{80}{\percent}+ de imagenes son vacias o irrelevantes \parencite{tabak2019machine}
+			\item[Manual:] \qty{80}{\percent}+ de imagenes son vacias o irrelevantes \footcite{tabak2019machine}
 			\item[Mantenimiento:] Visitas periodicas para baterias y tarjetas
 		\end{description}
 	\end{alertblock}
@@ -411,7 +417,7 @@
 \begin{frame}{Soluciones Comerciales Celulares}
 	\begin{columns}
 		\begin{column}{0.55\textwidth}
-			\textbf{Ejemplos:} Tactacam REVEAL \parencite{tactacam2024reveal}, Spypoint Flex \parencite{spypoint2024cellular}
+			\textbf{Ejemplos:} Tactacam REVEAL \footcite{tactacam2024reveal}, Spypoint Flex \footcite{spypoint2024cellular}
 
 			\vspace{0.5em}
 			\textbf{Caracteristicas:}
@@ -468,11 +474,11 @@
 
 \begin{frame}{Trabajos Relacionados}
 	\begin{description}
-		\item[Barrero \& Schmunck (UNaM, 2023) \parencite{barrero2023microcamara}:] Microcamara de vigilancia para fauna - bases para soluciones de bajo costo
+		\item[Barrero \& Schmunck (UNaM, 2023) \footcite{barrero2023microcamara}:] Microcamara de vigilancia para fauna - bases para soluciones de bajo costo
 
-		\item[Whytock et al. (2023) \parencite{whytock2023iridium}:] Camaras trampa con IA + alertas satelitales Iridium - costos operativos muy altos
+		\item[Whytock et al. (2023) \footcite{whytock2023iridium}:] Camaras trampa con IA + alertas satelitales Iridium - costos operativos muy altos
 
-		\item[AiCatcher (Mallya, 2019) \parencite{mallya2019aicatcher}:] Raspberry Pi + LoRa + inferencia en borde - alto consumo energetico
+		\item[AiCatcher (Mallya, 2019) \footcite{mallya2019aicatcher}:] Raspberry Pi + LoRa + inferencia en borde - alto consumo energetico
 	\end{description}
 
 	\vspace{0.5em}
@@ -729,7 +735,7 @@
 	}
 \end{frame}
 
-\begin{frame}{Redes Mesh - ESP-MESH \parencite{espmesh2023}}
+\begin{frame}{Redes Mesh - ESP-MESH \footcite{espmesh2023}}
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\textbf{Caracteristicas:}
@@ -756,7 +762,7 @@
 	}
 \end{frame}
 
-\begin{frame}{Deteccion de Objetos con YOLO \parencite{redmon2016yolo}}
+\begin{frame}{Deteccion de Objetos con YOLO \footcite{redmon2016yolo}}
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\textbf{You Only Look Once}
@@ -764,7 +770,7 @@
 				\item Deteccion en una sola pasada
 				\item Bounding boxes + probabilidades
 				\item Balance velocidad/precision
-				\item YOLOv5: PyTorch, multiples variantes \parencite{jocher2020yolov5}
+				\item YOLOv5: PyTorch, multiples variantes \footcite{jocher2020yolov5}
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\textwidth}
@@ -781,7 +787,7 @@
 	}
 \end{frame}
 
-\begin{frame}{MegaDetector \parencite{beery2019megadetector}}
+\begin{frame}{MegaDetector \footcite{beery2019megadetector}}
 	\textbf{Microsoft AI for Earth}
 
 	\vspace{0.5em}
@@ -796,7 +802,7 @@
 	\textbf{Ventajas:}
 	\begin{itemize}
 		\item Altamente robusto y generalizable
-		\item Adoptado por \num{60}+ organizaciones de conservacion \parencite{velez2022platforms}
+		\item Adoptado por \num{60}+ organizaciones de conservacion \footcite{velez2022platforms}
 		\item Reduce hasta \qty{90}{\percent} el tiempo de procesamiento
 	\end{itemize}
 	\note{
@@ -806,7 +812,7 @@
 	}
 \end{frame}
 
-\begin{frame}{SpeciesNet - Google \parencite{gadot2024crop}}
+\begin{frame}{SpeciesNet - Google \footcite{gadot2024crop}}
 	\textbf{Pipeline de dos fases:}
 
 	\begin{enumerate}
