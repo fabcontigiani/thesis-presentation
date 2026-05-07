@@ -1,3 +1,6 @@
 [submodule "src/bachelor-thesis"]
 	path = src/bachelor-thesis
 	url = https://github.com/fabcontigiani/bachelor-thesis.git
+[submodule "bachelor-thesis"]
+	path = bachelor-thesis
+	url = git@github.com:fabcontigiani/bachelor-thesis.git
