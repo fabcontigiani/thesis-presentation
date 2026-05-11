@@ -588,7 +588,7 @@ ESP32: WiFi, Bluetooth, bajo consumo. Costo: $<$ \qty{10}{\$} USD
 \end{block}
 
 \begin{block}{2. Redes mesh autoorganizadas}
-ESP-MESH: Extension de cobertura sin infraestructura celular
+ESP-MESH-LITE: Extension de cobertura sin infraestructura celular
 \end{block}
 
 \begin{block}{3. IA para vision por computadora}
@@ -626,7 +626,7 @@ procesamiento de días a minutos.
 \begin{enumerate}
 \item Disenar e implementar un \textbf{nodo de camara autonomo} basado en ESP32
 
-\item Desarrollar una \textbf{red mesh autoorganizada} con ESP-MESH
+\item Desarrollar una \textbf{red mesh autoorganizada} con ESP-MESH-LITE
 
 \item Implementar un \textbf{servidor de procesamiento} con IA
 
@@ -674,8 +674,9 @@ real ni carcasas industriales.
 \begin{description}
 \item[Operacion diurna:] Lente con filtro IR, sin vision nocturna
 \item[Sensor PIR:] Optimizado para humanos, puede no detectar fauna pequena
-\item[Resolucion:] Limitada por tamano maximo de paquete mesh ($<$ \qty{8}{\kilo\byte})
+\item[Resolucion:] VGA (640$\times$480), limitada por el balance entre calidad JPEG y tiempo de transmision
 \item[Consumo:] WiFi consume mas que camaras trampa comerciales optimizadas
+\item[Gestion de energia:] Nodos intermedios (Relay) deben mantener conectividad mesh permanente, limitando su autonomia
 \end{description}
 
 \vspace{0.5em}
@@ -683,9 +684,10 @@ real ni carcasas industriales.
 No es tiempo real deterministico (milisegundos), sino \textbf{operativo}: de dias/semanas a \textbf{minutos}.
 \end{block}
 \note{
-Transparencia sobre limitaciones: sin visión nocturna, PIR optimizado para
-humanos, resolución limitada por tamaño de paquete mesh. Tiempo real
-significa minutos, no milisegundos.
+Transparencia sobre limitaciones: sin visión nocturna, PIR domótico,
+resolución VGA limitada por el balance compresión/transmisión.
+Nodos Relay deben mantener la red activa (Light Sleep), lo que reduce
+autonomía. Tiempo real significa minutos, no milisegundos.
 }
 \end{frame}
 
@@ -728,13 +730,13 @@ agrega transmisión y procesamiento.
 
 \begin{enumerate}
 \item \textbf{Percepcion:} Sensores, camaras $\rightarrow$ ESP32-CAM + PIR
-\item \textbf{Red:} Transmision de datos $\rightarrow$ ESP-MESH
+\item \textbf{Red:} Transmision de datos $\rightarrow$ ESP-MESH-LITE
 \item \textbf{Aplicacion:} Procesamiento, alertas $\rightarrow$ Django + SpeciesNet
 \end{enumerate}
 \note{
 Arquitectura IoT clásica de tres capas. Percepción: nuestros ESP32-CAM.
-Red: ESP-MESH. Aplicación: servidor Django con SpeciesNet. Esta estructura
-guía todo el diseño.
+Red: ESP-MESH-LITE. Aplicación: servidor Django con SpeciesNet. Esta
+estructura guía todo el diseño.
 }
 \end{frame}
 
@@ -766,16 +768,16 @@ WiFi Mesh extiende cobertura.
 }
 \end{frame}
 
-\begin{frame}{Redes Mesh - ESP-MESH \footcite{espmesh2023}}
+\begin{frame}{Redes Mesh - ESP-MESH-LITE \footcite{espmesh2023}}
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \textbf{Caracteristicas:}
 \begin{itemize}
   \item \textbf{Autoorganizacion:} Seleccion automatica de padre optimo
   \item \textbf{Autocuracion:} Reconexion ante fallos
-  \item Topologia de arbol
+  \item Topologia de arbol, modo \textbf{AP-STA}
+  \item Cada nodo posee su propia pila \textbf{LwIP} (IP independiente)
   \item Hasta \num{6}+ niveles de profundidad
-  \item Cientos de nodos
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
@@ -787,9 +789,10 @@ WiFi Mesh extiende cobertura.
 \end{column}
 \end{columns}
 \note{
-ESP-MESH de Espressif: red autoorganizada donde los nodos eligen el mejor
-padre, se autocura ante fallos. Topología de árbol con hasta 6 niveles.
-Soporta cientos de nodos.
+ESP-MESH-LITE de Espressif: red autoorganizada donde los nodos eligen el
+mejor padre, se autocura ante fallos. Topología de árbol con hasta 6
+niveles. Cada nodo opera en modo AP-STA y tiene su propia pila LwIP,
+permitiendo peticiones HTTP independientes.
 }
 \end{frame}
 
