@@ -53,14 +53,156 @@
   \tableofcontents[hideallsubsections]
   \note{
     Presentar brevemente la estructura de la exposición. Mencionar que se
-    cubrirán 8 secciones principales.
+    cubrirán 9 secciones principales.
   }
 \end{frame}
 
 % ==============================================================================
-% Sección 1: Contexto Regional
+% Sección 1: Introducción
 % ==============================================================================
-\section{Contexto Regional}
+\section{Introduccion}
+
+\begin{frame}{Introduccion}
+\textbf{Conservacion de fauna silvestre y proteccion de areas naturales} representan desafios criticos en la actualidad.
+
+\vspace{0.5em}
+\begin{itemize}
+\item Monitoreo tradicional con camaras trampa: revision manual, sin alertas en tiempo real
+\item Nuevas tecnologias: \textbf{IoT} + \textbf{IA} ofrecen posibilidades para superar estas limitaciones
+\end{itemize}
+
+\vspace{0.5em}
+\begin{alertblock}{Propuesta}
+Diseño e implementacion de un \textbf{sistema de monitoreo y alerta temprana} para areas protegidas, integrando:
+\begin{itemize}
+\item Red de nodos de captura basados en ESP32 + \textbf{ESP-MESH-LITE}
+\item Servidor de procesamiento con IA (\textbf{SpeciesNet})
+\item Sistema de notificaciones via \textbf{Telegram}
+\end{itemize}
+\end{alertblock}
+\note{
+Presentar el contexto general: la conservación de fauna y áreas protegidas
+es un desafío crítico. Las cámaras trampa tradicionales tienen limitaciones.
+IoT e IA ofrecen nuevas soluciones. Nuestro proyecto integra ESP32 con red
+mesh, IA y alertas por Telegram.
+}
+\end{frame}
+
+% ==============================================================================
+% Sección 2: Antecedentes
+% ==============================================================================
+\section{Antecedentes}
+
+\begin{frame}{Trabajos Relacionados}
+\begin{description}
+\item[Barrero \& Schmunck (UNaM, 2023) \footcite{barrero2023microcamara}:] Microcamara de vigilancia para fauna - bases para soluciones de bajo costo
+
+\item[Whytock et al. (2023) \footcite{whytock2023iridium}:] Camaras trampa con IA + alertas satelitales Iridium - costos operativos muy altos
+
+\item[AiCatcher (Mallya, 2019) \footcite{mallya2019aicatcher}:] Raspberry Pi + LoRa + inferencia en borde - alto consumo energetico
+\end{description}
+
+\vspace{0.5em}
+\begin{alertblock}{Brecha identificada}
+Oportunidad para un sistema que combine \textbf{bajo costo}, \textbf{independencia de infraestructura celular}, y \textbf{alertas en tiempo real}.
+\end{alertblock}
+\note{
+Trabajo previo en UNaM sentó bases. Whytock usó satélite Iridium con
+costos altísimos. AiCatcher tiene alto consumo. Hay una brecha: bajo costo
++ independencia de celular + alertas en tiempo real.
+}
+\end{frame}
+
+\begin{frame}{Soluciones Comerciales Celulares}
+  \begin{columns}
+    \begin{column}{0.55\textwidth}
+      \textbf{Ejemplos:} Tactacam REVEAL \footcite{tactacam2024reveal}, Spypoint Flex \footcite{spypoint2024cellular}
+
+      \vspace{0.5em}
+      \textbf{Caracteristicas:}
+      \begin{itemize}
+        \item Envio via redes 3G/4G/LTE
+        \item App movil propietaria
+        \item Disparo rapido ($<$ \qty{0.5}{\second})
+        \item Vision nocturna IR
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      % TODO: Imagen camara celular comercial
+      \centering
+      \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+          [Camara celular comercial]
+      \vspace{2cm}}}
+    \end{column}
+  \end{columns}
+  \note{
+    Existen cámaras celulares comerciales como Tactacam y Spypoint que envían
+    imágenes por 3G/4G. Ofrecen alertas rápidas pero dependen de cobertura
+    celular.
+  }
+\end{frame}
+
+\begin{frame}{Limitaciones de Soluciones Comerciales}
+  \begin{block}{Dependencia de infraestructura}
+    \begin{itemize}
+      \item \textbf{Sin cobertura celular} en interior de reservas
+      \item En selva densa, la senal es inexistente
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Costos elevados}
+    \begin{itemize}
+      \item Alto costo de adquisicion por unidad
+      \item Suscripciones mensuales: \qtyrange{5}{15}{\$} USD por camara
+      \item Servicios en la nube propietarios
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Escalabilidad limitada}
+    \begin{itemize}
+      \item Costo prohibitivo para despliegues masivos
+      \item Especialmente en paises en vias de desarrollo
+    \end{itemize}
+  \end{block}
+  \note{
+Tres problemas: 1) Sin cobertura celular en selva, 2) Costos altos de
+adquisición y suscripciones, 3) No escalan para despliegues masivos en
+países con recursos limitados.
+}
+\end{frame}
+
+\begin{frame}{Analisis Comparativo}
+\begin{table}
+\scriptsize
+\centering
+\begin{tabular}{lcccc}
+\hline
+\textbf{Caracteristica} & \textbf{Tradicional} & \textbf{Celular} & \textbf{Satelital} & \textbf{LoRa} \\
+\hline
+Alertas tiempo real     & No                   & Si               & Si                 & Si            \\
+Infraestructura         & Ninguna              & Operador         & Satelite           & Gateway       \\
+Procesamiento IA        & Post-hoc             & No/Limitado      & Edge               & Edge          \\
+Costo adquisicion       & Bajo                 & Medio-Alto       & Muy alto           & Medio         \\
+Costo operativo         & Bajo                 & Alto             & Muy alto           & Bajo          \\
+Autonomia               & Muy alta             & Media            & Baja               & Baja          \\
+\hline
+\end{tabular}
+\end{table}
+
+\vspace{0.5em}
+\centering
+\textit{Las alertas inmediatas estan condicionadas por\\elevados costos o dependencia de terceros.}
+\note{
+Esta tabla resume las opciones disponibles. Ninguna combina bajo costo,
+independencia de infraestructura y alertas en tiempo real. Esa es la
+oportunidad que identificamos.
+}
+\end{frame}
+
+% ==============================================================================
+% Sección 3: Planteamiento del Problema
+% ==============================================================================
+\section{Planteamiento del Problema}
 
 \begin{frame}{El Bosque Atlántico}
   \begin{columns}
@@ -355,11 +497,6 @@
   }
 \end{frame}
 
-% ==============================================================================
-% Sección 2: Sistemas Actuales y Limitaciones
-% ==============================================================================
-\section{Sistemas Actuales}
-
 \begin{frame}{Camaras Trampa Tradicionales \footcite{steenweg2017scaling}}
   \begin{columns}
     \begin{column}{0.5\textwidth}
@@ -414,114 +551,8 @@
   }
 \end{frame}
 
-\begin{frame}{Soluciones Comerciales Celulares}
-  \begin{columns}
-    \begin{column}{0.55\textwidth}
-      \textbf{Ejemplos:} Tactacam REVEAL \footcite{tactacam2024reveal}, Spypoint Flex \footcite{spypoint2024cellular}
-
-      \vspace{0.5em}
-      \textbf{Caracteristicas:}
-      \begin{itemize}
-        \item Envio via redes 3G/4G/LTE
-        \item App movil propietaria
-        \item Disparo rapido ($<$ \qty{0.5}{\second})
-        \item Vision nocturna IR
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.45\textwidth}
-      % TODO: Imagen camara celular comercial
-      \centering
-      \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-          [Camara celular comercial]
-      \vspace{2cm}}}
-    \end{column}
-  \end{columns}
-  \note{
-    Existen cámaras celulares comerciales como Tactacam y Spypoint que envían
-    imágenes por 3G/4G. Ofrecen alertas rápidas pero dependen de cobertura
-    celular.
-  }
-\end{frame}
-
-\begin{frame}{Limitaciones de Soluciones Comerciales}
-  \begin{block}{Dependencia de infraestructura}
-    \begin{itemize}
-      \item \textbf{Sin cobertura celular} en interior de reservas
-      \item En selva densa, la senal es inexistente
-    \end{itemize}
-  \end{block}
-
-  \begin{block}{Costos elevados}
-    \begin{itemize}
-      \item Alto costo de adquisicion por unidad
-      \item Suscripciones mensuales: \qtyrange{5}{15}{\$} USD por camara
-      \item Servicios en la nube propietarios
-    \end{itemize}
-  \end{block}
-
-  \begin{block}{Escalabilidad limitada}
-    \begin{itemize}
-      \item Costo prohibitivo para despliegues masivos
-      \item Especialmente en paises en vias de desarrollo
-    \end{itemize}
-  \end{block}
-  \note{
-Tres problemas: 1) Sin cobertura celular en selva, 2) Costos altos de
-adquisición y suscripciones, 3) No escalan para despliegues masivos en
-países con recursos limitados.
-}
-\end{frame}
-
-\begin{frame}{Trabajos Relacionados}
-\begin{description}
-\item[Barrero \& Schmunck (UNaM, 2023) \footcite{barrero2023microcamara}:] Microcamara de vigilancia para fauna - bases para soluciones de bajo costo
-
-\item[Whytock et al. (2023) \footcite{whytock2023iridium}:] Camaras trampa con IA + alertas satelitales Iridium - costos operativos muy altos
-
-\item[AiCatcher (Mallya, 2019) \footcite{mallya2019aicatcher}:] Raspberry Pi + LoRa + inferencia en borde - alto consumo energetico
-\end{description}
-
-\vspace{0.5em}
-\begin{alertblock}{Brecha identificada}
-Oportunidad para un sistema que combine \textbf{bajo costo}, \textbf{independencia de infraestructura celular}, y \textbf{alertas en tiempo real}.
-\end{alertblock}
-\note{
-Trabajo previo en UNaM sentó bases. Whytock usó satélite Iridium con
-costos altísimos. AiCatcher tiene alto consumo. Hay una brecha: bajo costo
-+ independencia de celular + alertas en tiempo real.
-}
-\end{frame}
-
-\begin{frame}{Analisis Comparativo}
-\begin{table}
-\scriptsize
-\centering
-\begin{tabular}{lcccc}
-\hline
-\textbf{Caracteristica} & \textbf{Tradicional} & \textbf{Celular} & \textbf{Satelital} & \textbf{LoRa} \\
-\hline
-Alertas tiempo real     & No                   & Si               & Si                 & Si            \\
-Infraestructura         & Ninguna              & Operador         & Satelite           & Gateway       \\
-Procesamiento IA        & Post-hoc             & No/Limitado      & Edge               & Edge          \\
-Costo adquisicion       & Bajo                 & Medio-Alto       & Muy alto           & Medio         \\
-Costo operativo         & Bajo                 & Alto             & Muy alto           & Bajo          \\
-Autonomia               & Muy alta             & Media            & Baja               & Baja          \\
-\hline
-\end{tabular}
-\end{table}
-
-\vspace{0.5em}
-\centering
-\textit{Las alertas inmediatas estan condicionadas por\\elevados costos o dependencia de terceros.}
-\note{
-Esta tabla resume las opciones disponibles. Ninguna combina bajo costo,
-independencia de infraestructura y alertas en tiempo real. Esa es la
-oportunidad que identificamos.
-}
-\end{frame}
-
 % ==============================================================================
-% Sección 3: Motivación y Objetivos
+% Sección 4: Motivación y Objetivos
 % ==============================================================================
 \section{Motivacion y Objetivos}
 
@@ -659,7 +690,7 @@ significa minutos, no milisegundos.
 \end{frame}
 
 % ==============================================================================
-% Sección 4: Marco Teórico
+% Sección 5: Marco Teórico
 % ==============================================================================
 \section{Marco Teorico}
 
@@ -842,7 +873,7 @@ género y especie con niveles de confianza.
 \end{frame}
 
 % ==============================================================================
-% Sección 5: Arquitectura del Sistema
+% Sección 6: Arquitectura del Sistema
 % ==============================================================================
 \section{Arquitectura del Sistema}
 
@@ -1055,7 +1086,7 @@ taxonómicas. Comandos /start y /last para interacción.
 \end{frame}
 
 % ==============================================================================
-% Sección 6: Metodología
+% Sección 7: Metodología
 % ==============================================================================
 \section{Metodologia}
 
@@ -1159,7 +1190,7 @@ Cada uno tuvo su solución.
 \end{frame}
 
 % ==============================================================================
-% Sección 7: Pruebas y Resultados
+% Sección 8: Pruebas y Resultados
 % ==============================================================================
 \section{Pruebas y Resultados}
 
@@ -1353,7 +1384,7 @@ activaciones por movimiento de vegetación.
 \end{frame}
 
 % ==============================================================================
-% Sección 8: Conclusiones
+% Sección 9: Conclusiones
 % ==============================================================================
 \section{Conclusiones}
 
