@@ -48,161 +48,110 @@
 
 \maketitle
 
-\begin{frame}
-  \frametitle{Índice}
-  \tableofcontents[hideallsubsections]
-  \note{
-    Presentar brevemente la estructura de la exposición. Mencionar que se
-    cubrirán 9 secciones principales.
-  }
-\end{frame}
 
 % ==============================================================================
 % Sección 1: Introducción
 % ==============================================================================
-\section{Introduccion}
 
-\begin{frame}{Introduccion}
-\textbf{Conservacion de fauna silvestre y proteccion de areas naturales} representan desafios criticos en la actualidad.
-
-\vspace{0.5em}
-\begin{itemize}
-\item Monitoreo tradicional con camaras trampa: revision manual, sin alertas en tiempo real
-\item Nuevas tecnologias: \textbf{IoT} + \textbf{IA} ofrecen posibilidades para superar estas limitaciones
-\end{itemize}
-
-\vspace{0.5em}
-\begin{alertblock}{Propuesta}
-Diseño e implementacion de un \textbf{sistema de monitoreo y alerta temprana} para areas protegidas, integrando:
-\begin{itemize}
-\item Red de nodos de captura basados en ESP32 + \textbf{ESP-MESH-LITE}
-\item Servidor de procesamiento con IA (\textbf{SpeciesNet})
-\item Sistema de notificaciones via \textbf{Telegram}
-\end{itemize}
-\end{alertblock}
-\note{
-Presentar el contexto general: la conservación de fauna y áreas protegidas
-es un desafío crítico. Las cámaras trampa tradicionales tienen limitaciones.
-IoT e IA ofrecen nuevas soluciones. Nuestro proyecto integra ESP32 con red
-mesh, IA y alertas por Telegram.
-}
-\end{frame}
 
 % ==============================================================================
 % Sección 2: Antecedentes
 % ==============================================================================
-\section{Antecedentes}
 
-\begin{frame}{Trabajos Relacionados}
-\begin{description}
-\item[Barrero \& Schmunck (UNaM, 2023) \footcite{barrero2023microcamara}:] Microcamara de vigilancia para fauna - bases para soluciones de bajo costo
 
-\item[Whytock et al. (2023) \footcite{whytock2023iridium}:] Camaras trampa con IA + alertas satelitales Iridium - costos operativos muy altos
 
-\item[AiCatcher (Mallya, 2019) \footcite{mallya2019aicatcher}:] Raspberry Pi + LoRa + inferencia en borde - alto consumo energetico
-\end{description}
 
-\vspace{0.5em}
-\begin{alertblock}{Brecha identificada}
-Oportunidad para un sistema que combine \textbf{bajo costo}, \textbf{independencia de infraestructura celular}, y \textbf{alertas en tiempo real}.
-\end{alertblock}
-\note{
-Trabajo previo en UNaM sentó bases. Whytock usó satélite Iridium con
-costos altísimos. AiCatcher tiene alto consumo. Hay una brecha: bajo costo
-+ independencia de celular + alertas en tiempo real.
-}
-\end{frame}
-
-\begin{frame}{Soluciones Comerciales Celulares}
-  \begin{columns}
-    \begin{column}{0.55\textwidth}
-      \textbf{Ejemplos:} Tactacam REVEAL \footcite{tactacam2024reveal}, Spypoint Flex \footcite{spypoint2024cellular}
-
-      \vspace{0.5em}
-      \textbf{Caracteristicas:}
-      \begin{itemize}
-        \item Envio via redes 3G/4G/LTE
-        \item App movil propietaria
-        \item Disparo rapido ($<$ \qty{0.5}{\second})
-        \item Vision nocturna IR
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.45\textwidth}
-      % TODO: Imagen camara celular comercial
-      \centering
-      \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-          [Camara celular comercial]
-      \vspace{2cm}}}
-    \end{column}
-  \end{columns}
-  \note{
-    Existen cámaras celulares comerciales como Tactacam y Spypoint que envían
-    imágenes por 3G/4G. Ofrecen alertas rápidas pero dependen de cobertura
-    celular.
-  }
-\end{frame}
-
-\begin{frame}{Limitaciones de Soluciones Comerciales}
-  \begin{block}{Dependencia de infraestructura}
-    \begin{itemize}
-      \item \textbf{Sin cobertura celular} en interior de reservas
-      \item En selva densa, la senal es inexistente
-    \end{itemize}
-  \end{block}
-
-  \begin{block}{Costos elevados}
-    \begin{itemize}
-      \item Alto costo de adquisicion por unidad
-      \item Suscripciones mensuales: \qtyrange{5}{15}{\$} USD por camara
-      \item Servicios en la nube propietarios
-    \end{itemize}
-  \end{block}
-
-  \begin{block}{Escalabilidad limitada}
-    \begin{itemize}
-      \item Costo prohibitivo para despliegues masivos
-      \item Especialmente en paises en vias de desarrollo
-    \end{itemize}
-  \end{block}
-  \note{
-Tres problemas: 1) Sin cobertura celular en selva, 2) Costos altos de
-adquisición y suscripciones, 3) No escalan para despliegues masivos en
-países con recursos limitados.
-}
-\end{frame}
-
-\begin{frame}{Analisis Comparativo}
-\begin{table}
-\scriptsize
-\centering
-\begin{tabular}{lcccc}
-\hline
-\textbf{Caracteristica} & \textbf{Tradicional} & \textbf{Celular} & \textbf{Satelital} & \textbf{LoRa} \\
-\hline
-Alertas tiempo real     & No                   & Si               & Si                 & Si            \\
-Infraestructura         & Ninguna              & Operador         & Satelite           & Gateway       \\
-Procesamiento IA        & Post-hoc             & No/Limitado      & Edge               & Edge          \\
-Costo adquisicion       & Bajo                 & Medio-Alto       & Muy alto           & Medio         \\
-Costo operativo         & Bajo                 & Alto             & Muy alto           & Bajo          \\
-Autonomia               & Muy alta             & Media            & Baja               & Baja          \\
-\hline
-\end{tabular}
-\end{table}
-
-\vspace{0.5em}
-\centering
-\textit{Las alertas inmediatas estan condicionadas por\\elevados costos o dependencia de terceros.}
-\note{
-Esta tabla resume las opciones disponibles. Ninguna combina bajo costo,
-independencia de infraestructura y alertas en tiempo real. Esa es la
-oportunidad que identificamos.
-}
-\end{frame}
 
 % ==============================================================================
 % Sección 3: Planteamiento del Problema
 % ==============================================================================
-\section{Planteamiento del Problema}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% ==============================================================================
+% Sección 4: Motivación y Objetivos
+% ==============================================================================
+
+
+
+
+
+
+
+% ==============================================================================
+% Sección 5: Marco Teórico
+% ==============================================================================
+
+
+
+
+
+
+
+
+% ==============================================================================
+% Sección 6: Arquitectura del Sistema
+% ==============================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+% ==============================================================================
+% Sección 7: Metodología
+% ==============================================================================
+
+
+
+
+
+% ==============================================================================
+% Sección 8: Pruebas y Resultados
+% ==============================================================================
+
+
+
+
+
+
+
+
+% ==============================================================================
+% Sección 9: Conclusiones
+% ==============================================================================
+
+
+
+
+
+
+
+% ==============================================================================
+% Cierre
+% ==============================================================================
+
+% ==============================================================================
+% Sección 1: Motivación
+% ==============================================================================
+\section{Motivación}
 
 \begin{frame}{El Bosque Atlántico}
   \begin{columns}
@@ -497,37 +446,19 @@ oportunidad que identificamos.
   }
 \end{frame}
 
-\begin{frame}{Camaras Trampa Tradicionales \footcite{steenweg2017scaling}}
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \textbf{Componentes:}
-      \begin{itemize}
-        \item Sensor PIR (movimiento)
-        \item Camara digital
-        \item Almacenamiento SD
-        \item Iluminacion IR (nocturna)
-        \item Baterias AA
-      \end{itemize}
-
-      \textbf{Ventajas:}
-      \begin{itemize}
-        \item Alta autonomia
-        \item Bajo costo inicial
-        \item Robustez probada
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      % TODO: Foto camara trampa tradicional
-      \centering
-      \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-          [Foto camara trampa tradicional]
-      \vspace{2cm}}}
-    \end{column}
-  \end{columns}
+\begin{frame}{Contramedidas Tradicionales}
+  \textbf{Métodos actuales de vigilancia:}
+  \begin{itemize}
+    \item Patrullajes de guardaparques (a pie o vehículo)
+    \item Monitoreo por audio
+    \item Drones y radares
+    \item \textbf{Cámaras trampa pasivas} (el método más extendido)
+  \end{itemize}
   \note{
-    Las cámaras trampa tradicionales son la herramienta estándar. Sensor PIR
-    detecta movimiento, guarda en SD. Ventajas: alta autonomía y robustez.
-    Pero tienen limitaciones importantes.
+    Para combatir estas amenazas, se utilizan diversas contramedidas. Los
+    patrullajes son limitados por recursos. Se usan drones y monitoreo de
+    audio, pero el método más extendido por su costo-beneficio son las
+    cámaras trampa pasivas.
   }
 \end{frame}
 
@@ -543,7 +474,13 @@ oportunidad que identificamos.
 
   \vspace{0.5em}
   \centering
-  \textit{Para cuando se detecta una intrusion,\\los responsables ya estan lejos del area.}
+  \begin{alertblock}{El problema de la latencia}
+    ¿Cuánto tiempo tarda entre que se detecta un evento de interés y nos enteramos? \textbf{Mucho tiempo}.
+  \end{alertblock}
+
+  \vspace{0.5em}
+  \centering
+  \textit{Para cuando se detecta una intrusión,\\los responsables ya están lejos del área.}
   \note{
     Las brechas críticas: latencia de semanas/meses, sin alertas, \qty{80}{\percent} de
     imágenes vacías requieren revisión manual. Para vigilancia antifurtiva,
@@ -551,10 +488,49 @@ oportunidad que identificamos.
   }
 \end{frame}
 
+\begin{frame}{Aplicaciones de la IA en la Conservación}
+  \textbf{La Inteligencia Artificial ofrece nuevas herramientas:}
+  
+  \vspace{0.5em}
+  \begin{description}
+    \item[AiCatcher:] Raspberry Pi + LoRa para inferencia en borde (Mallya, 2019) \footcite{mallya2019aicatcher}.
+    \item[Microsoft WildLife:] Ecosistema de herramientas impulsadas por IA.
+    \item[YOLO:] Algoritmos de detección de objetos en tiempo real.
+    \item[MegaDetector / SpeciesNet:] Modelos específicos para fauna.
+  \end{description}
+  \note{
+    La IA está transformando la conservación. Proyectos como AiCatcher usan
+    Raspberry Pi y LoRa, aunque con alto consumo. Microsoft tiene su
+    iniciativa WildLife, y existen modelos robustos como YOLO, MegaDetector y
+    SpeciesNet que automatizan la revisión de imágenes.
+  }
+\end{frame}
+
 % ==============================================================================
-% Sección 4: Motivación y Objetivos
+% Sección 2: Objetivos (Nuestra Propuesta)
 % ==============================================================================
-\section{Motivacion y Objetivos}
+\section{Objetivos}
+
+\begin{frame}{Nuestra Propuesta}
+  \begin{alertblock}{Solución}
+    Diseño e implementación de un \textbf{Sistema de Monitoreo y Alerta Temprana basado en IA} para áreas protegidas.
+  \end{alertblock}
+  
+  \vspace{1em}
+  \textbf{Pilares del sistema:}
+  \begin{itemize}
+    \item \textbf{Barato y escalable} (hardware económico y open source)
+    \item \textbf{Reducción del tiempo de respuesta} (de semanas a minutos)
+    \item \textbf{Cobertura en zonas remotas} (red malla independiente)
+    \item \textbf{Eliminación de ruido} (IA para evitar falsos positivos)
+  \end{itemize}
+  \note{
+    Nuestra propuesta es un Sistema de Monitoreo y Alerta Temprana. Sus 4
+    pilares son: que sea barato y escalable, que reduzca drásticamente la
+    latencia, que funcione en zonas remotas sin celular, y que elimine los
+    falsos positivos usando IA.
+  }
+\end{frame}
 
 \begin{frame}{Motivacion del Proyecto}
 \textbf{Transformar el paradigma:}
@@ -670,215 +646,10 @@ real ni carcasas industriales.
 }
 \end{frame}
 
-\begin{frame}{Limitaciones Conocidas}
-\begin{description}
-\item[Operacion diurna:] Lente con filtro IR, sin vision nocturna
-\item[Sensor PIR:] Optimizado para humanos, puede no detectar fauna pequena
-\item[Resolucion:] VGA (640$\times$480), limitada por el balance entre calidad JPEG y tiempo de transmision
-\item[Consumo:] WiFi consume mas que camaras trampa comerciales optimizadas
-\item[Gestion de energia:] Nodos intermedios (Relay) deben mantener conectividad mesh permanente, limitando su autonomia
-\end{description}
-
-\vspace{0.5em}
-\begin{block}{Nota sobre ``tiempo real''}
-No es tiempo real deterministico (milisegundos), sino \textbf{operativo}: de dias/semanas a \textbf{minutos}.
-\end{block}
-\note{
-Transparencia sobre limitaciones: sin visión nocturna, PIR domótico,
-resolución VGA limitada por el balance compresión/transmisión.
-Nodos Relay deben mantener la red activa (Light Sleep), lo que reduce
-autonomía. Tiempo real significa minutos, no milisegundos.
-}
-\end{frame}
-
 % ==============================================================================
-% Sección 5: Marco Teórico
+% Sección 3: Desarrollo (Arquitectura)
 % ==============================================================================
-\section{Marco Teorico}
-
-\begin{frame}{Funcionamiento de Camaras Trampa}
-\textbf{Ciclo de operacion:}
-\begin{enumerate}
-\item \textbf{Reposo:} Solo sensor PIR activo (bajo consumo)
-\item \textbf{Deteccion:} Cambio en radiacion IR
-\item \textbf{Activacion:} Despertar camara (trigger time: \qtyrange{0.1}{2}{\second})
-\item \textbf{Captura:} Foto/video + metadatos
-\item \textbf{Almacenamiento:} Compresion JPEG, grabacion en SD
-\item \textbf{Retorno al reposo}
-\end{enumerate}
-
-% TODO: Diagrama del ciclo
-\centering
-\fbox{\parbox{0.6\textwidth}{\centering\vspace{1cm}
-[Diagrama ciclo operacion]
-\vspace{1cm}}}
-\note{
-Ciclo básico de una cámara trampa: reposo con PIR activo, detección de
-movimiento, captura, almacenamiento, retorno al reposo. Nuestro sistema
-agrega transmisión y procesamiento.
-}
-\end{frame}
-
-\begin{frame}{Internet de las Cosas (IoT)}
-\textbf{Arquitectura de tres capas:}
-
-% TODO: Diagrama arquitectura IoT
-\centering
-\fbox{\parbox{0.7\textwidth}{\centering\vspace{2cm}
-[Diagrama arquitectura IoT - 3 capas]
-\vspace{2cm}}}
-
-\begin{enumerate}
-\item \textbf{Percepcion:} Sensores, camaras $\rightarrow$ ESP32-CAM + PIR
-\item \textbf{Red:} Transmision de datos $\rightarrow$ ESP-MESH-LITE
-\item \textbf{Aplicacion:} Procesamiento, alertas $\rightarrow$ Django + SpeciesNet
-\end{enumerate}
-\note{
-Arquitectura IoT clásica de tres capas. Percepción: nuestros ESP32-CAM.
-Red: ESP-MESH-LITE. Aplicación: servidor Django con SpeciesNet. Esta
-estructura guía todo el diseño.
-}
-\end{frame}
-
-\begin{frame}{Protocolos de Comunicacion}
-\begin{table}
-\small
-\centering
-\begin{tabular}{lccc}
-\hline
-\textbf{Protocolo} & \textbf{Alcance} & \textbf{Ancho banda} & \textbf{Consumo} \\
-\hline
-BLE                & $\sim$\qty{100}{\metre}       & Bajo                 & Muy bajo         \\
-ZigBee             & $\sim$\qty{100}{\metre}       & Bajo                 & Bajo             \\
-LoRa               & km               & Muy bajo             & Bajo             \\
-WiFi               & $\sim$\qty{100}{\metre}       & \textbf{Alto}        & Alto             \\
-\hline
-\end{tabular}
-\end{table}
-
-\vspace{0.5em}
-\textbf{LoRa:} Excelente alcance, pero ancho de banda \textbf{insuficiente} para imagenes
-
-\vspace{0.5em}
-\textbf{WiFi Mesh:} Permite transmision de imagenes + extension de cobertura
-\note{
-Comparamos protocolos. LoRa tiene gran alcance pero poco ancho de banda para
-imágenes. WiFi tiene alto ancho de banda pero alcance limitado. Solución:
-WiFi Mesh extiende cobertura.
-}
-\end{frame}
-
-\begin{frame}{Redes Mesh - ESP-MESH-LITE \footcite{espmesh2023}}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{Caracteristicas:}
-\begin{itemize}
-  \item \textbf{Autoorganizacion:} Seleccion automatica de padre optimo
-  \item \textbf{Autocuracion:} Reconexion ante fallos
-  \item Topologia de arbol, modo \textbf{AP-STA}
-  \item Cada nodo posee su propia pila \textbf{LwIP} (IP independiente)
-  \item Hasta \num{6}+ niveles de profundidad
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-% TODO: Diagrama topologia mesh
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-    [Diagrama topologia mesh]
-\vspace{2cm}}}
-\end{column}
-\end{columns}
-\note{
-ESP-MESH-LITE de Espressif: red autoorganizada donde los nodos eligen el
-mejor padre, se autocura ante fallos. Topología de árbol con hasta 6
-niveles. Cada nodo opera en modo AP-STA y tiene su propia pila LwIP,
-permitiendo peticiones HTTP independientes.
-}
-\end{frame}
-
-\begin{frame}{Deteccion de Objetos con YOLO \footcite{redmon2016yolo}}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{You Only Look Once}
-\begin{itemize}
-  \item Deteccion en una sola pasada
-  \item Bounding boxes + probabilidades
-  \item Balance velocidad/precision
-  \item YOLOv5: PyTorch, multiples variantes \footcite{jocher2020yolov5}
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-% TODO: Ejemplo deteccion YOLO
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-    [Ejemplo deteccion YOLO\\con bounding boxes]
-\vspace{2cm}}}
-\end{column}
-\end{columns}
-\note{
-YOLO revolucionó la detección de objetos con una sola pasada por la imagen.
-Rápido y preciso. YOLOv5 en PyTorch es la base de MegaDetector que usamos.
-}
-\end{frame}
-
-\begin{frame}{MegaDetector \footcite{beery2019megadetector}}
-\textbf{Microsoft AI for Earth}
-
-\vspace{0.5em}
-Modelo especializado para camaras trampa que detecta:
-\begin{itemize}
-\item \textbf{Animales} (sin distincion de especie)
-\item \textbf{Personas}
-\item \textbf{Vehiculos}
-\end{itemize}
-
-\vspace{0.5em}
-\textbf{Ventajas:}
-\begin{itemize}
-\item Altamente robusto y generalizable
-\item Adoptado por \num{60}+ organizaciones de conservacion \footcite{velez2022platforms}
-\item Reduce hasta \qty{90}{\percent} el tiempo de procesamiento
-\end{itemize}
-\note{
-MegaDetector de Microsoft: detecta animales, personas y vehículos sin
-clasificar especies. Altamente robusto, usado por más de \num{60}
-organizaciones. Reduce \qty{90}{\percent} del tiempo de revisión.
-}
-\end{frame}
-
-\begin{frame}{SpeciesNet - Google \footcite{gadot2024crop}}
-\textbf{Pipeline de dos fases:}
-
-\begin{enumerate}
-\item \textbf{Deteccion:} Identifica regiones de interes (animales, personas, vehiculos)
-
-\item \textbf{Clasificacion taxonomica:} Para animales detectados
-\begin{itemize}
-  \item Familia
-  \item Genero
-  \item Especie
-\end{itemize}
-\end{enumerate}
-
-\vspace{0.5em}
-\textbf{Entrenado con millones de imagenes} de camaras trampa a nivel global
-
-% TODO: Ejemplo de clasificacion
-\centering
-\fbox{\parbox{0.5\textwidth}{\centering\vspace{1cm}
-[Ejemplo clasificacion taxonomica]
-\vspace{1cm}}}
-\note{
-SpeciesNet de Google va más allá: detecta Y clasifica taxonómicamente.
-Entrenado con millones de imágenes de cámaras trampa. Devuelve familia,
-género y especie con niveles de confianza.
-}
-\end{frame}
-
-% ==============================================================================
-% Sección 6: Arquitectura del Sistema
-% ==============================================================================
-\section{Arquitectura del Sistema}
+\section{Desarrollo}
 
 \begin{frame}{Vision General}
 % TODO: Diagrama arquitectura general
@@ -1183,112 +954,31 @@ para futuro fine-tuning del modelo.
 }
 \end{frame}
 
-% ==============================================================================
-% Sección 7: Metodología
-% ==============================================================================
-\section{Metodologia}
-
-\begin{frame}{Enfoque de Desarrollo}
-\textbf{Iterativo e incremental}
-
-\vspace{0.5em}
-\begin{itemize}
-\item Cada componente desarrollado, probado y refinado individualmente
-\item Identificacion temprana de problemas
-\item Metodologia agil \textbf{Kanban}
-\end{itemize}
+\begin{frame}{Limitaciones Conocidas}
+\begin{description}
+\item[Operacion diurna:] Lente con filtro IR, sin vision nocturna
+\item[Sensor PIR:] Optimizado para humanos, puede no detectar fauna pequena
+\item[Resolucion:] VGA (640$\times$480), limitada por el balance entre calidad JPEG y tiempo de transmision
+\item[Consumo:] WiFi consume mas que camaras trampa comerciales optimizadas
+\item[Gestion de energia:] Nodos intermedios (Relay) deben mantener conectividad mesh permanente, limitando su autonomia
+\end{description}
 
 \vspace{0.5em}
-\textbf{Control de versiones:} GitHub (3 repositorios)
-\begin{enumerate}
-\item Firmware nodos (camara + raiz + repetidor)
-\item Servidor de aplicacion (Django)
-\item Servidor de inferencia (SpeciesNet)
-\end{enumerate}
+\begin{block}{Nota sobre ``tiempo real''}
+No es tiempo real deterministico (milisegundos), sino \textbf{operativo}: de dias/semanas a \textbf{minutos}.
+\end{block}
 \note{
-Enfoque iterativo: cada componente se desarrolló y probó individualmente.
-Metodología Kanban para gestión ágil. 3 repositorios en GitHub: firmware
-unificado, servidor Django, y servicio de inferencia SpeciesNet.
-}
-\end{frame}
-
-\begin{frame}{Etapas del Desarrollo}
-% TODO: Diagrama Gantt simplificado
-\centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2cm}
-[Diagrama Gantt - etapas del desarrollo]
-\vspace{2cm}}}
-
-\begin{enumerate}
-\item Investigacion y diseno
-\item Desarrollo del firmware
-\item Desarrollo del servidor
-\item Diseno y fabricacion de hardware
-\item Integracion
-\item Pruebas y validacion
-\end{enumerate}
-\note{
-6 etapas principales: investigación, firmware, servidor, hardware 3D,
-integración y pruebas. El desarrollo fue paralelo cuando fue posible para
-optimizar tiempos.
-}
-\end{frame}
-
-\begin{frame}{Herramientas Utilizadas}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{Desarrollo:}
-\begin{itemize}
-  \item VS Code
-  \item ESP-IDF + ESP-MESH-LITE
-  \item Django
-  \item python-telegram-bot
-  \item Docker / Docker Compose
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-\textbf{Diseno 3D:}
-\begin{itemize}
-  \item Autodesk Fusion 360
-  \item PrusaSlicer
-  \item Impresora Creality Ender 3
-\end{itemize}
-\end{column}
-\end{columns}
-\note{
-Herramientas: VS Code, ESP-IDF + ESP-MESH-LITE para firmware, Django para
-servidor, Docker para despliegue. Diseño 3D con Fusion 360, slicing con
-PrusaSlicer, impresión en Ender 3.
-}
-\end{frame}
-
-\begin{frame}{Desafios Enfrentados}
-\begin{alertblock}{Desafio 1: Balance calidad/transmision}
-Imagenes JPEG de \qtyrange{30}{35}{\kilo\byte} requieren ajuste de compresion para balancear calidad visual y tiempo de transmision inalambrica.
-\end{alertblock}
-
-\begin{alertblock}{Desafio 2: Gestion de energia dual}
-Nodos Relay deben mantener conectividad mesh (Light Sleep) vs.\ Leaf con Deep Sleep + ULP. Equilibrar autonomia con cobertura de red.
-\end{alertblock}
-
-\begin{alertblock}{Desafio 3: Estabilidad de red mesh}
-Reconexiones por degradacion de RSSI en vegetacion densa $\rightarrow$ tuning de timeout a \qty{60}{s} y umbral RSSI a \qty{-75}{dBm}.
-\end{alertblock}
-
-\begin{alertblock}{Desafio 4: Inferencia sin GPU}
-SpeciesNet ejecutado exclusivamente en CPU $\rightarrow$ tiempos aceptables pero superiores a GPU.
-\end{alertblock}
-\note{
-Desafíos principales: 1) Compresión JPEG para 30-35 KB, 2) Gestión
-dual de energía Relay vs Leaf, 3) Estabilidad mesh en vegetación densa,
-4) Inferencia en CPU sin GPU dedicada.
+Transparencia sobre limitaciones: sin visión nocturna, PIR domótico,
+resolución VGA limitada por el balance compresión/transmisión.
+Nodos Relay deben mantener la red activa (Light Sleep), lo que reduce
+autonomía. Tiempo real significa minutos, no milisegundos.
 }
 \end{frame}
 
 % ==============================================================================
-% Sección 8: Pruebas y Resultados
+% Sección 4: Resultados
 % ==============================================================================
-\section{Pruebas y Resultados}
+\section{Resultados}
 
 \begin{frame}{Configuracion de Pruebas}
 \begin{columns}
@@ -1495,8 +1185,21 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 }
 \end{frame}
 
+\begin{frame}{Live Demo del Sistema}
+  \centering
+  \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
+      [Espacio para demostración en vivo]\\
+      (Activación de cámara $\rightarrow$ Mesh $\rightarrow$ Telegram)
+  \vspace{3cm}}}
+  \note{
+    En este punto realizamos la demostración en vivo. Activamos una cámara,
+    la petición viaja por la red mesh al servidor local, procesa la imagen
+    y llega la notificación al bot de Telegram.
+  }
+\end{frame}
+
 % ==============================================================================
-% Sección 9: Conclusiones
+% Sección 5: Conclusiones
 % ==============================================================================
 \section{Conclusiones}
 
@@ -1621,10 +1324,6 @@ repetidor), servidor Django, y servicio de inferencia SpeciesNet.
 Carcasa 3D en Printables.
 }
 \end{frame}
-
-% ==============================================================================
-% Cierre
-% ==============================================================================
 
 \begin{frame}{Agradecimientos}
 \begin{itemize}
