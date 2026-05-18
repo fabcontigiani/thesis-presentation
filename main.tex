@@ -937,76 +937,57 @@ para futuro fine-tuning del modelo.
 % ==============================================================================
 \section{Resultados}
 
-\begin{frame}{Configuracion de Pruebas}
+\begin{frame}{Pruebas de Campo}
 \begin{columns}
 \begin{column}{0.5\textwidth}
-\textbf{Hardware:}
+\textbf{Lugar:} Jardin botanico
+
+\vspace{0.3em}
+\textbf{Condiciones:}
 \begin{itemize}
-\item 3 nodos de camara (ESP32-CAM)
-\item 1 nodo raiz (ESP32 DevKit)
-\item Baterias 18650 (2S, \qty{3500}{mAh})
-\item Router WiFi domestico
+\item Duracion: \qty{5}{h} de operacion continua
+\item 3 nodos desplegados
+\item Distancia entre nodos: \qty{15}{m}
+\item Condiciones climaticas: soleado
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Detecciones exitosas:}
+\begin{itemize}
+\item Personas (intrusos)
+\item Vehiculos
+\item Aves silvestres (conf. 0.74-0.90)
+\item Gato domestico (conf. 0.96)
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
-\textbf{Software:}
-\begin{itemize}
-\item ESP-IDF v5 + ESP-MESH-LITE
-\item Docker containers
-\item SpeciesNet + LitServe
-\item PostgreSQL 15
-\end{itemize}
+% TODO: Foto despliegue campo y capturas reales
+\centering
+\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+[Foto nodo desplegado en campo y ejemplos de capturas]
+\vspace{2cm}}}
 \end{column}
 \end{columns}
-
-% TODO: Foto setup
-\centering
-\fbox{\parbox{0.5\textwidth}{\centering\vspace{1cm}
-[Foto setup de pruebas]
-\vspace{1cm}}}
 \note{
-Configuración de pruebas: 3 nodos cámara ESP32-CAM, 1 nodo raíz ESP32
-DevKit, baterías 18650 2S de 3500 mAh, router doméstico. Software:
-ESP-IDF v5 + ESP-MESH-LITE, Docker, SpeciesNet con LitServe, PostgreSQL 15.
-Inferencia exclusivamente en CPU.
+Arrancamos los resultados demostrando que el sistema funciona en la realidad. 
+Pruebas de campo en jardín botánico: 5 horas, soleado, 3 nodos a 15 m
+entre sí. Detecciones exitosas de personas, vehículos, aves silvestres
+(confianza 0.74-0.90) y gato doméstico (0.96). Falsas activaciones por
+movimiento de vegetación fueron filtradas por la lógica de umbrales.
 }
 \end{frame}
 
-\begin{frame}{Pruebas de Laboratorio}
-\textbf{Validaciones realizadas:}
-
-\begin{itemize}
-\item Captura de imagen: inicializacion, calidad, tamano
-\item Sensor PIR: distancia, tiempo de respuesta, falsas activaciones
-\item Transmision mesh: conexion, latencia, perdida de paquetes
-\item Clasificacion: deteccion de animales/personas/vehiculos
-\item Alertas: recepcion en Telegram, contenido correcto
-\end{itemize}
-\note{
-Pruebas de laboratorio cubrieron cada componente: captura de imagen, sensor
-PIR, transmisión mesh, clasificación con IA, y recepción de alertas en
-Telegram.
-}
-\end{frame}
-
-\begin{frame}{Resultados - Captura de Imagen}
-% TODO: Ejemplo imagen capturada
-\centering
-\fbox{\parbox{0.6\textwidth}{\centering\vspace{2cm}
-[Ejemplo imagen capturada 640x480]
-\vspace{2cm}}}
-
-\begin{itemize}
-\item Resolucion: 640x480 (VGA)
-\item Formato: JPEG comprimido
-\item Tamano tipico: \qtyrange{30}{35}{\kilo\byte}
-\item Ciclo completo (deteccion $\rightarrow$ envio): $\sim$\qty{1.27}{s} en LAN
-\end{itemize}
-\note{
-Resultados de captura: resolución VGA suficiente para clasificación.
-Imágenes JPEG de 30-35 KB. Ciclo completo desde detección PIR hasta
-confirmación de envío: 1.27 segundos en red local.
-}
+\begin{frame}{Live Demo del Sistema}
+  \centering
+  \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
+      [Espacio para demostración en vivo o video]\\
+      (Activación de cámara $\rightarrow$ Mesh $\rightarrow$ Telegram)
+  \vspace{3cm}}}
+  \note{
+    Aquí realizamos la demostración en vivo. Activamos una cámara,
+    la petición viaja por la red mesh al servidor local, procesa la imagen
+    y llega la notificación al bot de Telegram frente a todos.
+  }
 \end{frame}
 
 \begin{frame}{Resultados - Red Mesh}
@@ -1038,8 +1019,8 @@ latencia promedio de 40 s. Distancia máxima: 15-18 m en línea de vista,
 \begin{column}{0.5\textwidth}
 \textbf{Deteccion binaria} (\num{94} imagenes):
 \begin{table}
-\centering
-\scriptsize
+\normalsize
+\renewcommand{\arraystretch}{1.3}
 \begin{tabular}{lc}
 \hline
 \textbf{Metrica} & \textbf{Valor} \\
@@ -1077,57 +1058,78 @@ compensa estos errores y genera datos para fine-tuning.
 
 % El frame de Consumo Energético fue movido a la Sección 3 (Diseño y Energía)
 
-\begin{frame}{Pruebas de Campo}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{Lugar:} Jardin botanico
-
-\vspace{0.3em}
-\textbf{Condiciones:}
-\begin{itemize}
-\item Duracion: \qty{5}{h} de operacion continua
-\item 3 nodos desplegados
-\item Distancia entre nodos: \qty{15}{m}
-\item Condiciones climaticas: soleado
-\end{itemize}
-
-\vspace{0.3em}
-\textbf{Detecciones exitosas:}
-\begin{itemize}
-\item Personas (intrusos)
-\item Vehiculos
-\item Aves silvestres (conf. 0.74-0.90)
-\item Gato domestico (conf. 0.96)
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-% TODO: Foto despliegue campo
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-[Foto nodo desplegado en campo]
-\vspace{2cm}}}
-\end{column}
-\end{columns}
-\note{
-Pruebas de campo en jardín botánico: 5 horas, soleado, 3 nodos a 15 m
-entre sí. Detecciones exitosas de personas, vehículos, aves silvestres
-(confianza 0.74-0.90) y gato doméstico (0.96). Falsas activaciones por
-movimiento de vegetación fueron filtradas por la lógica de umbrales.
-}
-\end{frame}
-
-\begin{frame}{Live Demo del Sistema}
-  \centering
-  \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
-      [Espacio para demostración en vivo]\\
-      (Activación de cámara $\rightarrow$ Mesh $\rightarrow$ Telegram)
-  \vspace{3cm}}}
-  \note{
-    En este punto realizamos la demostración en vivo. Activamos una cámara,
-    la petición viaja por la red mesh al servidor local, procesa la imagen
-    y llega la notificación al bot de Telegram.
-  }
-\end{frame}
+% TODO: MOVER A ANEXOS LOS SIGUIENTES 3 FRAMES (Pruebas de Lab y Config)
+% \begin{frame}{Configuracion de Pruebas}
+% \begin{columns}
+% \begin{column}{0.5\textwidth}
+% \textbf{Hardware:}
+% \begin{itemize}
+% \item 3 nodos de camara (ESP32-CAM)
+% \item 1 nodo raiz (ESP32 DevKit)
+% \item Baterias 18650 (2S, \qty{3500}{mAh})
+% \item Router WiFi domestico
+% \end{itemize}
+% \end{column}
+% \begin{column}{0.5\textwidth}
+% \textbf{Software:}
+% \begin{itemize}
+% \item ESP-IDF v5 + ESP-MESH-LITE
+% \item Docker containers
+% \item SpeciesNet + LitServe
+% \item PostgreSQL 15
+% \end{itemize}
+% \end{column}
+% \end{columns}
+% 
+% % TODO: Foto setup
+% \centering
+% \fbox{\parbox{0.5\textwidth}{\centering\vspace{1cm}
+% [Foto setup de pruebas]
+% \vspace{1cm}}}
+% \note{
+% Configuración de pruebas: 3 nodos cámara ESP32-CAM, 1 nodo raíz ESP32
+% DevKit, baterías 18650 2S de 3500 mAh, router doméstico. Software:
+% ESP-IDF v5 + ESP-MESH-LITE, Docker, SpeciesNet con LitServe, PostgreSQL 15.
+% Inferencia exclusivamente en CPU.
+% }
+% \end{frame}
+% 
+% \begin{frame}{Pruebas de Laboratorio}
+% \textbf{Validaciones realizadas:}
+% 
+% \begin{itemize}
+% \item Captura de imagen: inicializacion, calidad, tamano
+% \item Sensor PIR: distancia, tiempo de respuesta, falsas activaciones
+% \item Transmision mesh: conexion, latencia, perdida de paquetes
+% \item Clasificacion: deteccion de animales/personas/vehiculos
+% \item Alertas: recepcion en Telegram, contenido correcto
+% \end{itemize}
+% \note{
+% Pruebas de laboratorio cubrieron cada componente: captura de imagen, sensor
+% PIR, transmisión mesh, clasificación con IA, y recepción de alertas en
+% Telegram.
+% }
+% \end{frame}
+% 
+% \begin{frame}{Resultados - Captura de Imagen}
+% % TODO: Ejemplo imagen capturada
+% \centering
+% \fbox{\parbox{0.6\textwidth}{\centering\vspace{2cm}
+% [Ejemplo imagen capturada 640x480]
+% \vspace{2cm}}}
+% 
+% \begin{itemize}
+% \item Resolucion: 640x480 (VGA)
+% \item Formato: JPEG comprimido
+% \item Tamano tipico: \qtyrange{30}{35}{\kilo\byte}
+% \item Ciclo completo (deteccion $\rightarrow$ envio): $\sim$\qty{1.27}{s} en LAN
+% \end{itemize}
+% \note{
+% Resultados de captura: resolución VGA suficiente para clasificación.
+% Imágenes JPEG de 30-35 KB. Ciclo completo desde detección PIR hasta
+% confirmación de envío: 1.27 segundos en red local.
+% }
+% \end{frame}
 
 % ==============================================================================
 % Sección 5: Conclusiones
