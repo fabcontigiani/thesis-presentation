@@ -340,29 +340,49 @@
   }
 \end{frame}
 
-\begin{frame}{Limitaciones de Camaras Tradicionales}
-  \begin{alertblock}{Brechas criticas}
-    \begin{description}
-      \item[Latencia:] Imagenes almacenadas localmente por semanas/meses
-      \item[Sin alertas:] Informacion fluye solo hacia centros de analisis
-      \item[Manual:] \qty{80}{\percent}+ de imagenes son vacias o irrelevantes \footcite{tabak2019machine}
-      \item[Mantenimiento:] Visitas periodicas para baterias y tarjetas
-    \end{description}
-  \end{alertblock}
+\begin{frame}{Uso de Cámaras Trampa}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{¿Cómo funcionan?}
+      \begin{itemize}
+        \item Se activan mediante sensores de movimiento (PIR).
+        \item Capturan imágenes al detectar presencia (fauna o intrusos).
+      \end{itemize}
 
-  \vspace{0.5em}
-  \centering
-  \begin{alertblock}{El problema de la latencia}
-    ¿Cuánto tiempo tarda entre que se detecta un evento de interés y nos enteramos? \textbf{Mucho tiempo}.
-  \end{alertblock}
-
-  \vspace{0.5em}
-  \centering
-  \textit{Para cuando se detecta una intrusión,\\los responsables ya están lejos del área.}
+      \vspace{0.5em}
+      \textbf{Modalidades de operación:}
+      \begin{itemize}
+        \item \textbf{Pasivas:} Almacenan las imágenes en una tarjeta SD local (requiere recolección manual).
+        \item \textbf{Activas (Comerciales):} Utilizan redes 3G/4G o conexiones satelitales para transmitir datos al instante.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      % TODO: Foto camara trampa
+      \centering
+      \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
+          [Foto cámara trampa]
+      \vspace{2cm}}}
+    \end{column}
+  \end{columns}
   \note{
-    Las brechas críticas: latencia de semanas/meses, sin alertas, \qty{80}{\percent} de
-    imágenes vacías requieren revisión manual. Para vigilancia antifurtiva,
-    esto es inaceptable.
+    Las cámaras trampa son el método más utilizado. Se activan por movimiento y toman una foto. Existen dos modalidades: las pasivas que guardan la foto en una tarjeta SD, y las activas que la envían usando infraestructura de telecomunicaciones.
+  }
+\end{frame}
+
+\begin{frame}{Limitaciones del Monitoreo Actual}
+  \begin{block}{Cámaras Pasivas: El problema de la latencia}
+    ¿Cuánto tiempo tarda entre que ocurre una intrusión y nos enteramos? \textbf{Mucho tiempo}. Pueden pasar semanas hasta recolectar la memoria SD. Para entonces, el daño ya está hecho.
+  \end{block}
+
+  \begin{block}{Cámaras Activas: Infraestructura y Costos}
+    \begin{itemize}
+      \item \textbf{Dependencia celular:} En la selva profunda la señal es inexistente.
+      \item \textbf{Altos costos operativos:} Suscripciones mensuales o hardware satelital excesivamente caro.
+      \item \textbf{Baja escalabilidad:} Económicamente inviable para despliegues masivos en grandes extensiones.
+    \end{itemize}
+  \end{block}
+  \note{
+    Las pasivas tienen una latencia inaceptable: la información llega tarde. Las activas resuelven la latencia pero dependen de infraestructura que no hay en la selva, además de ser muy caras e imposibles de escalar masivamente.
   }
 \end{frame}
 
