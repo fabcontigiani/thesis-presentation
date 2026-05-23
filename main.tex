@@ -43,7 +43,16 @@
 \institute{Tutor: Dr. Ing. Sergio Moya} % institute already in titlegraphic
 \date{\today}
 \titlegraphic{\includegraphics[height=1.7cm]{img/logo_unam.png}\hfill\includegraphics[height=1.7cm]{img/logo_fio.png}}
+% Paquetes añadidos para diagramas vectoriales nativos (TikZ/PGFPlots)
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.symbols, arrows.meta, positioning, fit, backgrounds, calc, babel}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{subcaption}
+\usepackage{tabularray}
+
 \begin{document}
+
 
 \maketitle
 
@@ -523,12 +532,8 @@
 \section{Desarrollo}
 
 \begin{frame}{Vision General}
-% TODO: Diagrama arquitectura general
 \centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{3cm}
-[Diagrama arquitectura general del sistema]\\
-Nodos camara $\rightarrow$ Red Mesh $\rightarrow$ Nodo Raiz $\rightarrow$ Servidor $\rightarrow$ Telegram
-\vspace{3cm}}}
+\includegraphics[width=0.95\textwidth]{bachelor-thesis/img/arquitecturaGeneralH.jpg}
 \note{
 Visión general del sistema: nodos de cámara capturan imágenes, las envían por
 red mesh al nodo raíz, que las reenvía al servidor para procesamiento con IA
@@ -552,11 +557,8 @@ y notificación por Telegram.
 \textbf{Resolucion:} \num{640} x \num{480} (VGA)
 \end{column}
 \begin{column}{0.5\textwidth}
-% TODO: Foto del nodo ensamblado
 \centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-    [Foto nodo camara ensamblado]
-\vspace{2cm}}}
+\includegraphics[width=0.9\textwidth]{bachelor-thesis/img/nodoEnsamblado.jpg}
 \end{column}
 \end{columns}
 \note{
@@ -570,10 +572,7 @@ VGA suficiente para clasificación.
 
 % Fila 1: Render / Esquematico horizontal
 \centering
-% TODO: Reemplazar el fbox con \includegraphics[width=0.8\textwidth]{ruta_imagen}
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{1.5cm}
-    [Render carcasa o Esquemático KiCad Horizontal]
-\vspace{1.5cm}}}
+\includegraphics[width=0.85\textwidth]{bachelor-thesis/img/modelo3D.png}
 
 \vspace{1em}
 
@@ -655,11 +654,8 @@ viendo la IP, sin involucrar a su capa de aplicación.
 \end{description}
 \end{column}
 \begin{column}{0.5\textwidth}
-% TODO: Diagrama Mesh Tree Topology (de User_Guide.md)
 \centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-    [Diagrama Mesh-Lite Tree Topology]
-\vspace{2cm}}}
+\includegraphics[width=0.95\textwidth]{img/mesh-tree-topology.png}
 \end{column}
 \end{columns}
 \note{
@@ -697,21 +693,79 @@ RSSI con el router principal.
 
 
 \begin{frame}{Servidor de Aplicacion}
-\textbf{Arquitectura containerizada con Docker Compose:}
-
-\vspace{0.5em}
-\begin{description}
-\item[Django:] Backend web, recepcion de imagenes
-\item[SpeciesNet:] Servicio de inferencia (LitServe)
-\item[PostgreSQL:] Base de datos
-\item[Telegram Bot:] Notificaciones
-\end{description}
-
-% TODO: Diagrama Docker Compose
 \centering
-\fbox{\parbox{0.6\textwidth}{\centering\vspace{1.5cm}
-[Diagrama Docker Compose]
-\vspace{1.5cm}}}
+\scalebox{0.6}{
+  \begin{tikzpicture}[
+      scale=0.8,
+      font=\sffamily,
+      >=Latex,
+      node distance=14mm and 22mm,
+      service/.style={
+        draw=black!70,
+        rounded corners=2pt,
+        fill=blue!3,
+        minimum width=22mm,
+        minimum height=9mm,
+        align=center,
+        line width=0.9pt
+      },
+      volume/.style={
+        draw=black!70,
+        cylinder,
+        shape border rotate=90,
+        aspect=0.28,
+        minimum height=9mm,
+        minimum width=18mm,
+        align=center,
+        fill={rgb,255:red,253;green,250;blue,228},
+        draw={rgb,255:red,134;green,122;blue,34},
+        line width=0.9pt
+      },
+      bindmount/.style={
+        draw=black!70,
+        diamond,
+        aspect=2,
+        inner xsep=2pt,
+        inner ysep=1.5pt,
+        fill={rgb,255:red,253;green,250;blue,228},
+        draw={rgb,255:red,134;green,122;blue,34},
+        line width=0.9pt,
+        font=\ttfamily\footnotesize,
+        align=center
+      },
+      app/.style={-{Latex[length=2.2mm,width=1.6mm]}, draw=black!70, line width=0.95pt},
+      mount/.style={Latex-Latex, draw=black!65, dashed, line width=0.95pt}
+    ]
+
+    % Service nodes
+    \node[service] (web) {web (Django)};
+    \node[service, left=of web] (bot) {bot (Telegram)};
+    \node[service, right=of web] (db) {db (PostgreSQL)};
+    \node[service, below=of web] (speciesnet) {speciesnet (Inferencia)};
+
+    % Volume and bind mount nodes
+    \node[bindmount, above left=12mm and 12mm of web] (Vstatic) {./static};
+    \node[bindmount, above=of web] (Vmonitorstatic) {./monitor/static};
+    \node[volume, left=24mm of speciesnet] (Vmediavolume) {media\_volume};
+    \node[volume, below=of speciesnet] (Vspeciesnetcache) {speciesnet\_cache};
+    \node[volume, below=of db] (Vdbdata) {db\_data};
+
+    % Inter-service communication
+    \draw[app] (bot) -- (web);
+    \draw[app] (web) -- (db);
+    \draw[app] (web) -- (speciesnet);
+
+    % Volume mounts / bind mounts
+    \draw[mount] (Vstatic) -- (web);
+    \draw[mount] (Vmonitorstatic) -- (web);
+    \draw[mount] (Vmediavolume) -- (web);
+    \draw[mount] (Vmediavolume) -- (bot);
+    \draw[mount] (Vspeciesnetcache) -- (speciesnet);
+    \draw[mount] (Vmediavolume) -- (speciesnet);
+    \draw[mount] (Vdbdata) -- (db);
+
+  \end{tikzpicture}
+}
 \note{
 Servidor containerizado con Docker Compose: Django para backend,
 SpeciesNet para inferencia con LitServe, PostgreSQL para datos, bot de
@@ -720,25 +774,50 @@ Telegram para notificaciones. Fácil de desplegar.
 \end{frame}
 
 \begin{frame}{Servicio de Deteccion (SpeciesNet)}
-\textbf{Pipeline de procesamiento en contenedor Docker:}
-
-\vspace{0.5em}
-\begin{enumerate}
-\item \textbf{Deteccion:} MegaDetector (YOLOv5) identifica regiones de interes
-\begin{itemize}
-  \item Genera bounding boxes: animal, persona o vehiculo
-\end{itemize}
-
-\item \textbf{Clasificacion:} Modelos SpeciesNet analizan recortes de animales
-\begin{itemize}
-  \item Prediccion de familia, genero y especie
-\end{itemize}
-
-\item \textbf{Anotacion visual:} Genera copia con bounding boxes dibujados
-\end{enumerate}
-
-\vspace{0.3em}
-\textbf{API REST:} Endpoint \texttt{/predict} recibe ruta de imagen, retorna JSON con detecciones
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Pipeline de procesamiento:}
+      \begin{enumerate}
+        \item \textbf{Deteccion:} MegaDetector (YOLOv5) identifica regiones de interes (animal, persona, vehiculo).
+        \item \textbf{Clasificacion:} Modelos SpeciesNet analizan recortes y predicen familia, genero y especie.
+        \item \textbf{Anotacion:} Genera copia con bounding boxes.
+      \end{enumerate}
+      \vspace{0.5em}
+      \textbf{API REST:} Endpoint \texttt{/predict} expuesto mediante LitServe.
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering
+      \scalebox{0.5}{
+        \begin{tikzpicture}[
+            node distance=1.0cm and 1.5cm,
+            box/.style={rectangle, draw, rounded corners, fill=blue!10, text width=3.8cm, text centered, minimum height=1.2cm, font=\sffamily\small},
+            io/.style={trapezium, trapezium left angle=70, trapezium right angle=110, draw, fill=green!10, text width=3.2cm, text centered, minimum height=1.0cm, font=\sffamily\small},
+            process/.style={rectangle, draw, fill=orange!10, text width=3.8cm, text centered, minimum height=1.2cm, font=\sffamily\small},
+            arrow/.style={thick, -Latex}
+          ]
+  
+          % Nodos
+          \node (request) [io] {HTTP POST \texttt{/predict}};
+          \node (read) [process, below=of request] {Lectura de Imagen};
+          \node (detect) [box, below=of read] {Deteccion\\(MegaDetector)};
+          \node (classify) [box, below=of detect] {Clasificacion\\(SpeciesNet)};
+          \node (draw) [process, below=of classify] {Anotacion de Imagen};
+          \node (save) [process, below=of draw] {Guardado de Imagen};
+          \node (response) [io, below=of save] {Respuesta JSON};
+  
+          % Conexiones
+          \draw [arrow] (request) -- (read);
+          \draw [arrow] (read) -- (detect);
+          \draw [arrow] (detect) -- node[anchor=east, font=\scriptsize] {Recortes} (classify);
+          \draw [arrow] (classify) -- node[anchor=east, font=\scriptsize] {Clases} (draw);
+          \draw [arrow] (draw) -- (save);
+          \draw [arrow] (save) -- (response);
+          \draw [arrow] (detect.east) -- ++(1.0,0) |- (draw.east);
+  
+        \end{tikzpicture}
+      }
+    \end{column}
+  \end{columns}
 \note{
 Pipeline de 3 fases dentro del contenedor SpeciesNet: MegaDetector detecta
 y localiza objetos, clasificador taxonómico identifica especies, y se
@@ -789,11 +868,8 @@ Cada notificacion incluye:
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
-% TODO: Screenshot Telegram
 \centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2.5cm}
-    [Screenshot notificacion Telegram]
-\vspace{2.5cm}}}
+\includegraphics[width=0.7\textwidth]{bachelor-thesis/img/notificacionTelegramLab.png}
 \end{column}
 \end{columns}
 \note{
@@ -837,11 +913,20 @@ para futuro fine-tuning del modelo.
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
-% TODO: Foto despliegue campo y capturas reales
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-[Foto nodo desplegado en campo y ejemplos de capturas]
-\vspace{2cm}}}
+  \centering
+  \begin{figure}
+    \begin{subfigure}[b]{0.9\textwidth}
+      \centering
+      \includegraphics[height=3.3cm]{bachelor-thesis/img/nodoCampo1.jpg}
+      \caption{Despliegue en Campo}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}[b]{0.9\textwidth}
+      \centering
+      \includegraphics[height=3.3cm]{bachelor-thesis/img/capturaIntrusoProcesada.png}
+      \caption{Deteccion de Intruso}
+    \end{subfigure}
+  \end{figure}
 \end{column}
 \end{columns}
 \note{
@@ -916,12 +1001,21 @@ Recall      & \qty{69.8}{\percent}  \\
   \item Vehiculos: \qty{100}{\percent}
 \end{itemize}
 \end{column}
-\begin{column}{0.5\textwidth}
-% TODO: Matrices de confusion
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-[Matrices de confusion]
-\vspace{2cm}}}
+\begin{column}{0.55\textwidth}
+  \centering
+  \begin{figure}
+    \begin{subfigure}[b]{0.48\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{bachelor-thesis/img/confusion_matrix_binary.png}
+      \caption{Binaria}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{bachelor-thesis/img/confusion_matrix.png}
+      \caption{Multiclase}
+    \end{subfigure}
+  \end{figure}
 \end{column}
 \end{columns}
 \note{
@@ -1100,11 +1194,8 @@ sido posible sin su apoyo.
 \appendix
 
 \begin{frame}{Esquemático del Hardware}
-% TODO: Esquematico KiCad
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
-[Esquematico KiCad del nodo]
-\vspace{3cm}}}
+\includegraphics[width=0.9\textwidth]{bachelor-thesis/img/kicad-capstone-project.pdf}
 \note{
 Backup: Esquemático completo del nodo cámara diseñado en KiCad. Muestra
 conexiones entre ESP32-CAM, sensor PIR, buck converter y baterías.
@@ -1112,11 +1203,16 @@ conexiones entre ESP32-CAM, sensor PIR, buck converter y baterías.
 \end{frame}
 
 \begin{frame}{Planos de la Carcasa}
-% TODO: Planos 2D
-\centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
-[Planos 2D de la carcasa]
-\vspace{3cm}}}
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \centering
+    \includegraphics[height=0.75\textheight]{bachelor-thesis/img/ESP3-CAM Drawing Main Case.pdf}
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    \centering
+    \includegraphics[height=0.75\textheight]{bachelor-thesis/img/ESP3-CAM Drawing Base.pdf}
+  \end{column}
+\end{columns}
 \note{
 Backup: Planos 2D de la carcasa con dimensiones exactas. Permite
 fabricación con otros métodos además de impresión 3D.
@@ -1164,15 +1260,65 @@ Recupero en año \num{4}. Proyecto económicamente viable.
 \end{frame}
 
 \begin{frame}{Sensibilidad Económica}
-% TODO: Graficos de sensibilidad
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}
-[Graficos de análisis de sensibilidad]
-\vspace{2.5cm}}}
+\scalebox{0.7}{
+  \begin{tikzpicture}
+    \begin{axis}[
+        name=left axis,
+        width=0.8\textwidth,
+        height=5cm,
+        xlabel={Suscripciones anuales},
+        ylabel={VAN (USD)},
+        axis y line*=left,
+        grid=major,
+        xmin=18, xmax=32,
+        ymin=-8000, ymax=12000,
+        xtick={20,22,24,26,28,30},
+        scaled ticks=false,
+        mark size=3pt,
+        legend style={at={(0.02,0.98)}, anchor=north west},
+      ]
+      \addplot[blue, thick, mark=*] coordinates {
+        (20, -6373.04)
+        (22, -2900.39)
+        (24, 572.26)
+        (26, 4044.90)
+        (28, 7517.55)
+        (30, 10990.20)
+      };
+      \addplot[gray, dashed, thick] coordinates {(18,0) (32,0)};
+      \legend{VAN, VAN = 0}
+    \end{axis}
+    \begin{axis}[
+        width=0.8\textwidth,
+        height=5cm,
+        axis y line*=right,
+        axis x line=none,
+        ylabel={TIR (\%)},
+        ylabel near ticks,
+        xmin=18, xmax=32,
+        ymin=-100, ymax=50,
+        mark size=3pt,
+        legend style={at={(0.98,0.02)}, anchor=south east},
+      ]
+      \addplot[red, thick, mark=square*] coordinates {
+        (20, -80)
+        (22, -35)
+        (24, -11)
+        (26, 8)
+        (28, 25)
+        (30, 41)
+      };
+      \addplot[orange, dashed, thick] coordinates {(18,15) (32,15)};
+      \legend{TIR, TREMA (15\%)}
+    \end{axis}
+  \end{tikzpicture}
+}
 
 \begin{itemize}
-\item Punto de equilibrio: \num{24} suscripciones/ano
-\item Precio minimo viable: \qty{40}{\$} USD/mes
+  \scriptsize
+  \item Punto de equilibrio: \num{24} suscripciones/ano
+  \item Precio minimo viable: \qty{40}{\$} USD/mes
 \end{itemize}
 \note{
 Backup: Análisis de sensibilidad. Punto de equilibrio en \num{24} suscripciones
@@ -1257,11 +1403,8 @@ y Deep Sleep completo. Cada nodo hace HTTP POST estándar, no hay Mwifi.
 \textit{Disponible en Printables}
 \end{column}
 \begin{column}{0.5\textwidth}
-% TODO: Render/foto carcasa
 \centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-    [Render/foto carcasa 3D]
-\vspace{2cm}}}
+\includegraphics[width=0.85\textwidth]{bachelor-thesis/img/carcasaNodo.jpg}
 \end{column}
 \end{columns}
 \note{
@@ -1290,11 +1433,8 @@ en Printables para que cualquiera pueda fabricarla.
 \end{itemize}
 \end{column}
 \begin{column}{0.45\textwidth}
-% TODO: Diagrama flujo nodo raiz
 \centering
-\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-    [Diagrama nodo raiz]
-\vspace{2cm}}}
+\includegraphics[width=0.95\textwidth]{bachelor-thesis/img/Diagramas Tesis-Diagra de Flujo nodo Root.jpg}
 \end{column}
 \end{columns}
 \note{
@@ -1326,11 +1466,8 @@ Reporta estado de la red cada 10 segundos. No usa modos de bajo consumo.
 \end{column}
 \end{columns}
 
-% TODO: Foto setup
 \centering
-\fbox{\parbox{0.5\textwidth}{\centering\vspace{1cm}
-[Foto setup de pruebas]
-\vspace{1cm}}}
+\includegraphics[width=0.65\textwidth]{bachelor-thesis/img/lab1.png}
 \note{
 Configuración de pruebas: 3 nodos cámara ESP32-CAM, 1 nodo raíz ESP32
 DevKit, baterías 18650 2S de 3500 mAh, router doméstico. Software:
