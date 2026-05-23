@@ -179,18 +179,20 @@
 
 \section*{Amenazas a la Conservación}
 \begin{frame}{Amenazas a la Conservación}
-  % TODO: Imagen ilustrativa de las amenazas
-  \centering
-  \fbox{\parbox{0.6\textwidth}{\centering\vspace{1.5cm}
-      [Imagen amenazas a la conservacion]
-  \vspace{1.5cm}}}
-
-  \begin{itemize}
-    \item Deforestacion y fragmentacion del habitat
-    \item Caza furtiva y trafico de fauna
-    \item Intrusion en areas protegidas
-    \item Recursos limitados para vigilancia
-  \end{itemize}
+  \begin{columns}
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item Deforestacion y fragmentacion del habitat
+        \item Caza furtiva y trafico de fauna
+        \item Intrusion en areas protegidas
+        \item Recursos limitados para vigilancia
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/fragmentacion_habitat_consecuencia.png}
+    \end{column}
+  \end{columns}
   \note{
     Estas son las principales amenazas que enfrentan las áreas protegidas. La
     combinación de estas presiones hace urgente contar con sistemas de
@@ -214,11 +216,11 @@
       \textbf{2025:} Reduccion del \qty{18}{\percent} respecto al promedio historico \footcite{ecologiamisiones2025deforestacion}
     \end{column}
     \begin{column}{0.5\textwidth}
-      % TODO: Grafico/mapa de deforestacion
       \centering
-      \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-          [Mapa deforestacion\\o grafico temporal]
-      \vspace{2cm}}}
+      \includegraphics[width=0.95\textwidth]{img/perdida_corredor_verde.png}
+      
+      \vspace{0.2em}
+      {\tiny Fuente: \href{https://sobrelatierra.agro.uba.ar/desmonte-sin-pausa-en-misiones-bosques-mas-chicos-y-fragmentados/}{Sobre La Tierra (FAUBA)}}
     \end{column}
   \end{columns}
   \note{
@@ -234,7 +236,7 @@
       \item Poblaciones aisladas geneticamente
       \item Desplazamiento por areas no protegidas
       \item Conflictos con actividades humanas
-      \item Atropellamientos en rutas
+      \item Atropellamientos en rutas \footnote{\tiny \url{https://www.vidasilvestre.org.ar/?26580/Atropellamiento-una-seria-amenaza-para-la-fauna-misionera}}
     \end{itemize}
   \end{alertblock}
 
