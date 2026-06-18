@@ -443,21 +443,58 @@ Ejercicio
   }
 \end{frame}
 
+\begin{frame}{Desafíos de Detección en Selva Densa}
+  \begin{itemize}
+    \item \textbf{Densidad del dosel:} La densa selva misionera bloquea la vista de los drones, forzando la vigilancia a nivel del suelo. Bajo el dosel, la vegetación impide líneas de visión amplias para las cámaras trampa.
+    \item \textbf{Área de cobertura reducida:} Cada cámara vigila una zona estrecha de pocos metros en línea recta, facilitando que los intrusos las esquiven.
+  \end{itemize}
+  \note{Cámaras trampa son el método más utilizado. La selva misionera presenta desafíos únicos: el dosel denso bloquea la vista de drones y la vegetación reduce el área de cobertura de las cámaras, haciendo que sea fácil para los intrusos evadirlas.}
+\end{frame}
+
 \section*{El Rol de la Tecnología}
-\begin{frame}{Aplicaciones de la IA en la Conservación}
-  \textbf{La Inteligencia Artificial ofrece nuevas herramientas:}
+
+\begin{frame}{Avances en Hardware y Sensores de Campo}
+  \textbf{Dispositivos de captura autónomos y procesamiento local:}
   
   \vspace{0.5em}
-  \begin{description}
-    \item[AiCatcher:] Raspberry Pi + LoRa para inferencia en borde (Mallya, 2019) \footcite{mallya2019aicatcher}.
-    \item[Microsoft WildLife:] Ecosistema de herramientas impulsadas por IA.
-    \item[YOLO:] Algoritmos de detección de objetos en tiempo real.
-    \item[MegaDetector:] Modelos pre-entrenados para detección de fauna.
-  \end{description}
+  \begin{itemize}
+    \item \textbf{Cómputo en el Borde (Edge Computing):} Microcomputadoras y microcontroladores de bajo costo capaces de procesar datos localmente en el nodo sensor.
+    \item \textbf{Cámaras Trampa Modernas:} Dispositivos con sensores de movimiento PIR optimizados, flash infrarrojo invisible y alta eficiencia energética para operación continua por meses.
+    \item \textbf{Sistemas Autónomos Integrados:} Prototipos académicos (ej. \textit{AiCatcher} \footcite{mallya2019aicatcher}) orientados a la inferencia y captura automatizada.
+  \end{itemize}
+  
   \note{
-    La IA está transformando la conservación. Proyectos como AiCatcher usan
-    Raspberry Pi y LoRa, aunque con alto consumo. Microsoft tiene su
-    iniciativa WildLife, y existen modelos robustos como YOLO y MegaDetector que automatizan la revisión de imágenes.
+    Resumir los avances físicos: microcomputadoras minúsculas de bajo costo y consumo en el borde, mejoras críticas en las cámaras trampa tradicionales para capturar imágenes sin alertar a la fauna, y el desarrollo de prototipos integrados autónomos.
+  }
+\end{frame}
+
+\begin{frame}{Avances en Conectividad e Internet de las Cosas (IoT)}
+  \textbf{Comunicación y transmisión de datos en áreas sin cobertura comercial:}
+  
+  \vspace{0.5em}
+  \begin{itemize}
+    \item \textbf{Redes Autoorganizadas (Mesh):} Redes descentralizadas basadas en protocolos como WiFi o Bluetooth, donde cada sensor actúa como repetidor para extender la cobertura.
+    \item \textbf{Protocolos de Largo Alcance (LoRaWAN):} Tecnologías de modulación de radio de bajo consumo que enlazan sensores a kilómetros de distancia con un ancho de banda mínimo.
+    \item \textbf{Telemetría Satelital Híbrida:} Integración de módulos satelitales compactos (ej. red Iridium) para transmitir alertas críticas en tiempo real desde selvas densas o aisladas.
+  \end{itemize}
+  
+  \note{
+    Explicar la evolución de las telecomunicaciones aplicadas a la conservación: redes mesh para autoorganizarse en terreno difícil, protocolos de largo alcance como LoRa para enviar datos a gran distancia con baterías chicas, y soluciones satelitales híbridas.
+  }
+\end{frame}
+
+\begin{frame}{Avances en Software y Visión Computacional}
+  \textbf{Automatización y procesamiento masivo de datos ecológicos:}
+  
+  \vspace{0.5em}
+  \begin{itemize}
+    \item \textbf{Ecosistemas en la Nube:} Plataformas globales como \textit{Microsoft WildLife} (e iniciativas derivadas de \textit{AI for Earth}) que centralizan datos geoespaciales y facilitan herramientas de computación a investigadores de todo el mundo.
+    \item \textbf{Detección en Tiempo Real (YOLO):} Modelos de redes neuronales convolucionales aplicados a video y fotografía que permiten clasificar e identificar múltiples objetos (fauna, vehículos, personas) de forma simultánea e instantánea.
+    \item \textbf{Modelos Pre-entrenados (MegaDetector):} Algoritmos abiertos especializados en el filtrado masivo de imágenes de cámaras trampa; automatizan la eliminación de falsos positivos (como movimiento de vegetación o sombras) para aislar la actividad biológica relevante.
+  \end{itemize}
+
+  \note{
+    Explicar el salto cualitativo en el procesamiento: la IA resuelve el cuello de botella de analizar millones de fotos o videos. Modelos como YOLO permiten la detección inmediata de objetos, mientras que herramientas específicas de conservación como MegaDetector limpian de forma automatizada las ráfagas de fotos vacías causadas por el viento o la luz.
   }
 \end{frame}
 
@@ -466,7 +503,7 @@ Ejercicio
 % ==============================================================================
 \section{Objetivos}
 
-\begin{frame}{Nuestra Propuesta}
+\begin{frame}{Escenario Objetivo}
   \begin{alertblock}{Solución}
     Diseño e implementación de un \textbf{Sistema de Monitoreo y Alerta Temprana basado en IA} para áreas protegidas.
   \end{alertblock}
@@ -487,91 +524,72 @@ Ejercicio
   }
 \end{frame}
 
-% \begin{frame}{Motivacion del Proyecto}
-% \textbf{Transformar el paradigma:}
+\begin{frame}{Oportunidad Tecnológica}
+\textbf{Convergencia de tres desarrollos:}
 
-% \begin{center}
-% Monitoreo \textbf{pasivo} $\longrightarrow$ Vigilancia \textbf{activa e inteligente}
-% \end{center}
+\vspace{0.5em}
+\begin{block}{1. Microcontroladores de bajo costo}
+ESP32: WiFi, Bluetooth, bajo consumo. Costo: $<$ \qty{10}{\$} USD
+\end{block}
 
-% \vspace{1em}
-% \textbf{Un sistema que:}
-% \begin{itemize}
-% \item No solo capture imagenes, sino que las \textbf{transmita en tiempo real}
-% \item Las \textbf{analice automaticamente} mediante IA
-% \item Genere \textbf{alertas inmediatas} ante eventos de interes
-% \item Sea \textbf{accesible y de bajo costo}
-% \item Use \textbf{hardware economico} y \textbf{software de codigo abierto}
-% \end{itemize}
-% \note{
-% Nuestra motivación: pasar del monitoreo pasivo (revisar fotos semanas
-% después) a vigilancia activa con alertas inmediatas. Un sistema accesible,
-% de bajo costo, con código abierto.
-% }
-% \end{frame}
+\begin{block}{2. Redes mesh autoorganizadas}
+ESP-MESH-LITE: Extension de cobertura sin infraestructura celular
+\end{block}
 
-% \begin{frame}{Oportunidad Tecnologica}
-% \textbf{Convergencia de tres desarrollos:}
+\begin{block}{3. IA para vision por computadora}
+SpeciesNet, MegaDetector: Modelos de codigo abierto para clasificacion automatica de fauna
+\end{block}
+\note{
+Tres tecnologías convergen: ESP32 a menos de \num{10} dólares con WiFi integrado,
+redes mesh que extienden cobertura sin infraestructura, y modelos de IA de
+código abierto como SpeciesNet.
+}
+\end{frame}
 
-% \vspace{0.5em}
-% \begin{block}{1. Microcontroladores de bajo costo}
-% ESP32: WiFi, Bluetooth, bajo consumo. Costo: $<$ \qty{10}{\$} USD
-% \end{block}
+\begin{frame}{Objetivo General}
+\begin{alertblock}{Objetivo}
+Demostrar la \textbf{viabilidad tecnica} de un sistema de monitoreo de \textbf{bajo costo} para areas protegidas, basado en:
+\begin{itemize}
+\item Nodos de camara con conectividad \textbf{mesh}
+\item Clasificacion automatica de imagenes mediante \textbf{IA}
+\end{itemize}
+\end{alertblock}
 
-% \begin{block}{2. Redes mesh autoorganizadas}
-% ESP-MESH-LITE: Extension de cobertura sin infraestructura celular
-% \end{block}
+\vspace{1em}
+\textbf{Reduccion del tiempo de procesamiento:}
+\begin{center}
+\textbf{Dias/semanas} $\longrightarrow$ \textbf{Minutos}
+\end{center}
+\note{
+El objetivo central es demostrar viabilidad técnica. No comercialización,
+sino prueba de concepto funcional. El cambio clave: reducir el tiempo de
+procesamiento de días a minutos.
+}
+\end{frame}
 
-% \begin{block}{3. IA para vision por computadora}
-% SpeciesNet, MegaDetector: Modelos de codigo abierto para clasificacion automatica de fauna
-% \end{block}
-% \note{
-% Tres tecnologías convergen: ESP32 a menos de \num{10} dólares con WiFi integrado,
-% redes mesh que extienden cobertura sin infraestructura, y modelos de IA de
-% código abierto como SpeciesNet.
-% }
-% \end{frame}
+\begin{frame}{Objetivos Específicos}
+\begin{enumerate}
+\item Disenar e implementar un \textbf{nodo de camara autonomo} basado en ESP32
 
-% \begin{frame}{Objetivo General}
-% \begin{alertblock}{Objetivo}
-% Demostrar la \textbf{viabilidad tecnica} de un sistema de monitoreo de \textbf{bajo costo} para areas protegidas, basado en:
-% \begin{itemize}
-% \item Nodos de camara con conectividad \textbf{mesh}
-% \item Clasificacion automatica de imagenes mediante \textbf{IA}
-% \end{itemize}
-% \end{alertblock}
+\item Desarrollar una \textbf{red mesh autoorganizada} con ESP-MESH-LITE
 
-% \vspace{1em}
-% \textbf{Reduccion del tiempo de procesamiento:}
-% \begin{center}
-% \textbf{Dias/semanas} $\longrightarrow$ \textbf{Minutos}
-% \end{center}
-% \note{
-% El objetivo central es demostrar viabilidad técnica. No comercialización,
-% sino prueba de concepto funcional. El cambio clave: reducir el tiempo de
-% procesamiento de días a minutos.
-% }
-% \end{frame}
+\item Implementar un \textbf{servidor de procesamiento} con IA
 
-% \begin{frame}{Objetivos Especificos}
-% \begin{enumerate}
-% \item Disenar e implementar un \textbf{nodo de camara autonomo} basado en ESP32
+\item Integrar \textbf{SpeciesNet/MegaDetector} para clasificacion
 
-% \item Desarrollar una \textbf{red mesh autoorganizada} con ESP-MESH-LITE
+\item \textbf{Validar el funcionamiento} en condiciones reales
+\end{enumerate}
+\note{
+Cinco objetivos específicos que abarcan hardware, red, servidor, IA y
+validación. Cada uno corresponde a un componente del sistema que
+desarrollamos.
+}
+\end{frame}
 
-% \item Implementar un \textbf{servidor de procesamiento} con IA
 
-% \item Integrar \textbf{SpeciesNet/MegaDetector} para clasificacion
+\begin{frame}{Alcance y Limitaciones}
 
-% \item \textbf{Validar el funcionamiento} en condiciones reales
-% \end{enumerate}
-% \note{
-% Cinco objetivos específicos que abarcan hardware, red, servidor, IA y
-% validación. Cada uno corresponde a un componente del sistema que
-% desarrollamos.
-% }
-% \end{frame}
-
+\end{frame}
 
 % ==============================================================================
 % Sección 3: Desarrollo (Arquitectura)
