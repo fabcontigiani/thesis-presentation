@@ -1214,26 +1214,112 @@ viendo la IP, sin involucrar a su capa de aplicación.
 \end{frame}
 
 \begin{frame}{Red Malla - Robustez (Self-Healing)}
-\textbf{Auto-recuperacion ante fallos (Self-Healing):}
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \textbf{Auto-recuperación (Self-Healing):}
+      \vspace{1em}
+      
+      \only<1>{
+        \textbf{1. Estado Normal}
+        \begin{itemize}
+          \item Estructura jerárquica activa.
+          \item El nodo Leaf C envía datos a través del Relay A.
+        \end{itemize}
+      }
+      \only<2>{
+        \textbf{2. Pérdida de Enlace}
+        \begin{itemize}
+          \item El nodo Relay A falla o se apaga.
+          \item C detecta la pérdida del enlace y queda desconectado.
+        \end{itemize}
+      }
+      \only<3>{
+        \textbf{3. Re-escaneo}
+        \begin{itemize}
+          \item C realiza un escaneo activo del entorno de radio.
+          \item Busca balizas e identifica al Relay B como nuevo padre potencial.
+        \end{itemize}
+      }
+      \only<4>{
+        \textbf{4. Conexión Restablecida}
+        \begin{itemize}
+          \item C se asocia con el Relay B.
+          \item La red se reestructura automáticamente.
+        \end{itemize}
+      }
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
+      \centering
+      \begin{tikzpicture}[
+          font=\sffamily,
+          >=Latex,
+          every node/.style={align=center},
+          node_ok/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.75cm, thick},
+          node_fail/.style={circle, draw=red!80!black, fill=red!10, minimum size=0.75cm, thick, dashed},
+          node_root/.style={circle, draw=orange!80!black, fill=orange!15, minimum size=0.75cm, thick, line width=1.2pt},
+          link_ok/.style={draw=teal!80!black, <-, line width=1.2pt},
+          link_scan/.style={draw=orange!80, <->, dotted, line width=1.2pt},
+          link_new/.style={draw=green!60!black, <-, line width=1.5pt}
+        ]
+        
+        % Nodos
+        \node[node_root] (R) at (2.0, 0) {R};
+        \only<1>{\node[node_ok] (A) at (0.5, 0.9) {A};}
+        \only<2->{\node[node_fail] (A) at (0.5, 0.9) {A};}
+        \node[node_ok] (B) at (0.5, -0.9) {B};
+        \node[node_ok] (C) at (-1.0, 0.5) {C};
 
-\vspace{0.5em}
-\begin{itemize}
-\item Si un nodo Relay se desconecta o queda sin bateria, los nodos hijos \textbf{re-escanean} el entorno y seleccionan un nuevo padre disponible, reparando la red en $< \qty{45}{s}$.
-\item Prevencion de bucles (Loop Prevention) interna.
-\end{itemize}
+        % Enlaces
+        \draw[link_ok] (R) -- (B);
+        
+        \only<1>{
+          \draw[link_ok] (R) -- (A);
+          \draw[link_ok] (A) -- (C);
+        }
+        \only<2>{
+          \draw[draw=red!70, dashed, <-, line width=1.2pt] (R) -- (A);
+          \draw[draw=red!70, dashed, <-, line width=1.2pt] (A) -- (C) node[midway, above, sloped, font=\tiny\bfseries, text=red] {Fallo};
+        }
+        \only<3>{
+          % Círculo de escaneo alrededor de C
+          \draw[draw=orange!50, fill=orange!10, fill opacity=0.15, dashed] (C) circle (2.2cm);
+          \draw[link_scan] (B) -- (C) node[midway, below, sloped, font=\tiny\bfseries, text=orange] {Escaneo};
+        }
+        \only<4>{
+          \draw[link_new] (B) -- (C) node[midway, below, sloped, font=\tiny\bfseries, text=green!50!black] {Healed};
+        }
+        
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+  \note{
+    Esta secuencia muestra el mecanismo de self-healing.
+    Paso 1: Red funcionando normalmente.
+    Paso 2: El nodo A falla. Los enlaces asociados se caen y el nodo C queda huérfano.
+    Paso 3: C detecta la falla del padre y escanea canales de radio buscando balizas de otros padres.
+    Paso 4: C selecciona al nodo B (el más cercano/con mejor señal) y se asocia con él, restableciendo la conectividad en pocos segundos.
+  }
+\end{frame}
 
-\vspace{0.5em}
-\textbf{Seleccion automatica del Root Node:}
-\begin{itemize}
-\item Multiples nodos Root evaluan su senal \textbf{RSSI} respecto al Router.
-\item El nodo con mejor senal asume el rol de Root y los demas se convierten en nodos secundarios. Evita cuellos de botella.
-\end{itemize}
-\note{
-La robustez es crítica en la selva. MESH-LITE nos da self-healing: si un
-nodo intermedio se cae, los hijos buscan automáticamente otro padre.
-Además, la elección del nodo raíz es dinámica basada en la mejor señal
-RSSI con el router principal.
-}
+\begin{frame}{Red Malla - Selección de Root Node}
+  \textbf{Selección automática del Root Node:}
+  
+  \vspace{1.1em}
+  \begin{itemize}
+    \setlength{\itemsep}{1em}
+    \item Múltiples nodos candidatos evalúan su señal \textbf{RSSI} respecto al router de salida.
+    \item El nodo con mejor relación de señal asume automáticamente el rol de \textbf{Root}.
+    \item Los demás nodos candidatos se reconfiguran como secundarios/relays para evitar cuellos de botella y bucles.
+  \end{itemize}
+  
+  \vspace{1.1em}
+  \begin{block}{Prevención de Bucles}
+    El protocolo mantiene un control interno (Loop Prevention) para evitar reenvíos infinitos durante la reestructuración de la topología.
+  \end{block}
+  \note{
+    Además del self-healing de nodos hijos, la elección del nodo raíz (Root) es dinámica. Si hay varios nodos cerca del router de salida, comparan su señal RSSI y el que tenga mejor enlace se designa como Root, lo que asegura el camino más óptimo hacia el exterior.
+  }
 \end{frame}
 
 
