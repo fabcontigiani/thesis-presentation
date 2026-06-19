@@ -1631,30 +1631,6 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
   }
 \end{frame}
 
-% \begin{frame}{Resultados - Red Mesh}
-% \begin{table}
-% \centering
-% \begin{tabular}{lc}
-% \hline
-% \textbf{Metrica}               & \textbf{Valor} \\
-% \hline
-% Latencia LAN (\qty{12.9}{\kilo\byte})  & $\sim$\qty{463}{ms}   \\
-% Ciclo completo nodo (LAN)     & $\sim$\qty{1.27}{s}   \\
-% Latencia campo (hotspot)      & \qtyrange{20}{60}{s} (prom. \qty{40}{s}) \\
-% Distancia max (linea de vista) & \qtyrange{15}{18}{m}  \\
-% Distancia max (vegetacion)     & $\sim$\qty{12}{m}     \\
-% Distancia max (interior)       & $\sim$\qty{10}{m}     \\
-% \hline
-% \end{tabular}
-% \end{table}
-% \note{
-% Métricas de red: en LAN, transmisión HTTP de 463 ms para 12.9 KB, ciclo
-% completo de 1.27 s. En campo con hotspot celular (cobertura deficiente),
-% latencia promedio de 40 s. Distancia máxima: 15-18 m en línea de vista,
-% 12 m con vegetación, 10 m en interior.
-% }
-% \end{frame}
-
 \begin{frame}{Resultados - Red Mesh}
   \begin{columns}[t]
     \begin{column}{0.55\textwidth}
@@ -1817,44 +1793,6 @@ compensa estos errores y genera datos para fine-tuning.
     de alta calidad para futuro fine-tuning del modelo con imágenes del ecosistema local.
   }
 \end{frame}
-
-% 
-% \begin{frame}{Pruebas de Laboratorio}
-% \textbf{Validaciones realizadas:}
-% 
-% \begin{itemize}
-% \item Captura de imagen: inicializacion, calidad, tamano
-% \item Sensor PIR: distancia, tiempo de respuesta, falsas activaciones
-% \item Transmision mesh: conexion, latencia, perdida de paquetes
-% \item Clasificacion: deteccion de animales/personas/vehiculos
-% \item Alertas: recepcion en Telegram, contenido correcto
-% \end{itemize}
-% \note{
-% Pruebas de laboratorio cubrieron cada componente: captura de imagen, sensor
-% PIR, transmisión mesh, clasificación con IA, y recepción de alertas en
-% Telegram.
-% }
-% \end{frame}
-% 
-% \begin{frame}{Resultados - Captura de Imagen}
-% % TODO: Ejemplo imagen capturada
-% \centering
-% \fbox{\parbox{0.6\textwidth}{\centering\vspace{2cm}
-% [Ejemplo imagen capturada 640x480]
-% \vspace{2cm}}}
-% 
-% \begin{itemize}
-% \item Resolucion: 640x480 (VGA)
-% \item Formato: JPEG comprimido
-% \item Tamano tipico: \qtyrange{30}{35}{\kilo\byte}
-% \item Ciclo completo (deteccion $\rightarrow$ envio): $\sim$\qty{1.27}{s} en LAN
-% \end{itemize}
-% \note{
-% Resultados de captura: resolución VGA suficiente para clasificación.
-% Imágenes JPEG de 30-35 KB. Ciclo completo desde detección PIR hasta
-% confirmación de envío: 1.27 segundos en red local.
-% }
-% \end{frame}
 
 % ==============================================================================
 % Sección 5: Conclusiones
