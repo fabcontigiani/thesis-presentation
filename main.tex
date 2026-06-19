@@ -253,10 +253,13 @@ Ejercicio
     \end{column}
     \begin{column}{0.45\textwidth}
       % TODO: Collage de fauna emblematica
-      \centering
-      \fbox{\parbox{0.9\textwidth}{\centering\vspace{2.5cm}
-          [Collage fauna emblematica]
-      \vspace{2.5cm}}}
+      % \centering
+      % \fbox{\parbox{0.9\textwidth}{\centering\vspace{2.5cm}
+      %     [Collage fauna emblematica]
+      % \vspace{2.5cm}}}
+      \begin{figure}
+        \includegraphics[width=\textwidth]{./img/collage.png}
+      \end{figure}
     \end{column}
   \end{columns}
   \note{
@@ -357,38 +360,72 @@ Ejercicio
   }
 \end{frame}
 
+
 \section*{Conservación y sus Desafíos}
-\begin{frame}{Desafios de la Vigilancia}
-  \textbf{\num{780000} hectareas} distribuidas en \textbf{\num{106}+ areas protegidas}
 
-  \vspace{0.5em}
-  \begin{description}
-    \item[Extension:] Terreno accidentado, vegetacion densa, acceso limitado
-    \item[Comunicaciones:] Sin cobertura celular en zonas interiores
-    \item[Latencia:] Semanas/meses entre captura de evento y descubrimiento
-    \item[Volumen:] Miles de imagenes requieren clasificacion manual
-  \end{description}
-
-  % TODO: Foto de terreno/vegetacion densa
+\begin{frame}{Desafíos de la Vigilancia}
+  \begin{table}[]
+    \centering
+    \setlength{\tabcolsep}{1.5em}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{ll}
+      \textbullet~\textbf{Extensión} & \textbullet~\textbf{Comunicación} \\
+      \textbullet~\textbf{Latencia}  & \textbullet~\textbf{Volumen}     
+    \end{tabular}
+  \end{table}
   \centering
-  \fbox{\parbox{0.5\textwidth}{\centering\vspace{1.2cm}
-      [Foto vegetacion densa]
-  \vspace{1.2cm}}}
+  \includegraphics[width=\textwidth]{img/yaboti.jpg}
+  
+  \vspace{0.2em}
+  {\tiny Fuente: \href{https://ecologia.misiones.gob.ar/con-94-areas-naturales-protegidas-misiones-es-ejemplo-internacional-en-materia-de-conservacion/}{Ministerio de Ecología de Misiones}}
+
   \note{
-    \num{780000} hectáreas en más de \num{100} áreas protegidas. Sin cobertura celular,
-    con terreno difícil y miles de imágenes que clasificar manualmente. Estos
-    desafíos motivan nuestra propuesta tecnológica.
+    Solo en la reserva de la biosfera yabotí hay mas de 200 mil hectáreas.
+    Sin covertura celular -> Alta latencia entre captura y descubrimiento.
+    Alto volumen de imágenes si dejamos camaras.
   }
 \end{frame}
 
+% \begin{frame}{Desafios de la Vigilancia}
+%   \textbf{\num{780000} hectareas} distribuidas en \textbf{\num{106}+ areas protegidas}
+
+%   \vspace{0.5em}
+%   \begin{description}
+%     \item[Extension:] Terreno accidentado, vegetacion densa, acceso limitado
+%     \item[Comunicaciones:] Sin cobertura celular en zonas interiores
+%     \item[Latencia:] Semanas/meses entre captura de evento y descubrimiento
+%     \item[Volumen:] Miles de imagenes requieren clasificacion manual
+%   \end{description}
+
+%   % TODO: Foto de terreno/vegetacion densa
+%   \centering
+%   \fbox{\parbox{0.5\textwidth}{\centering\vspace{1.2cm}
+%       [Foto vegetacion densa]
+%   \vspace{1.2cm}}}
+%   \note{
+%     \num{780000} hectáreas en más de \num{100} áreas protegidas. Sin cobertura celular,
+%     con terreno difícil y miles de imágenes que clasificar manualmente. Estos
+%     desafíos motivan nuestra propuesta tecnológica.
+%   }
+% \end{frame}
+
 \begin{frame}{Contramedidas Tradicionales}
-  \textbf{Métodos actuales de vigilancia:}
-  \begin{itemize}
-    \item Patrullajes de guardaparques (a pie o vehículo)
-    \item Monitoreo por audio
-    \item Drones y radares
-    \item \textbf{Cámaras trampa pasivas} (el método más extendido)
-  \end{itemize}
+  % \textbf{Métodos actuales de vigilancia:}
+  % \vspace{0.5em}
+
+  \begin{columns}[c]
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \setlength{\itemsep}{1em}
+        \item \textbf{Monitoreo acústico:} Sensores de audio pasivos para registrar ruidos (motosierras, disparos).
+        \item \textbf{Drones y satélites:} Vigilancia aérea y detección de deforestación e incendios.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/contramedida.png}
+    \end{column}
+  \end{columns}
   \note{
     Para combatir estas amenazas, se utilizan diversas contramedidas. Los
     patrullajes son limitados por recursos. Se usan drones y monitoreo de
@@ -400,55 +437,65 @@ Ejercicio
 \begin{frame}{Uso de Cámaras Trampa}
   \begin{columns}
     \begin{column}{0.5\textwidth}
-      \textbf{¿Cómo funcionan?}
+      \textbf{Funcionamiento:}
       \begin{itemize}
-        \item Se activan mediante sensores de movimiento (PIR).
-        \item Capturan imágenes al detectar presencia (fauna o intrusos).
+        \item Activación por sensor \textbf{PIR}
+        \item Captura al detectar presencia
       \end{itemize}
 
       \vspace{0.5em}
-      \textbf{Modalidades de operación:}
+      \textbf{Modalidades:}
       \begin{itemize}
-        \item \textbf{Pasivas:} Almacenan las imágenes en una tarjeta SD local (requiere recolección manual).
-        \item \textbf{Activas (Comerciales):} Utilizan redes 3G/4G o conexiones satelitales para transmitir datos al instante.
+        \item \textbf{Pasivas:} Almacenamiento local (tarjeta SD)
+        \item \textbf{Activas:} Transmisión (celular o satelital)
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
-      % TODO: Foto camara trampa
       \centering
-      \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}
-          [Foto cámara trampa]
-      \vspace{2cm}}}
+      \includegraphics[width=\textwidth]{img/camaraTrampa.png}
     \end{column}
   \end{columns}
   \note{
-    Las cámaras trampa son el método más utilizado. Se activan por movimiento y toman una foto. Existen dos modalidades: las pasivas que guardan la foto en una tarjeta SD, y las activas que la envían usando infraestructura de telecomunicaciones.
+    Las cámaras trampa se activan por movimiento mediante sensores PIR y capturan imágenes al detectar presencia (fauna o intrusos).
+    Existen dos modalidades:
+    - Pasivas: Guardan fotos localmente en tarjeta SD (requieren recolección manual, lo que genera alta latencia).
+    - Activas: Transmiten fotos al instante usando redes 3G/4G o satelitales (pero requieren infraestructura costosa o inexistente en selva profunda).
   }
 \end{frame}
 
 \begin{frame}{Limitaciones del Monitoreo Actual}
   \begin{block}{Cámaras Pasivas: El problema de la latencia}
-    ¿Cuánto tiempo tarda entre que ocurre una intrusión y nos enteramos? \textbf{Mucho tiempo}. Pueden pasar semanas hasta recolectar la memoria SD. Para entonces, el daño ya está hecho.
+    ¿Cuánto tiempo transcurre entre una intrusión y su detección?
   \end{block}
 
   \begin{block}{Cámaras Activas: Infraestructura y Costos}
     \begin{itemize}
-      \item \textbf{Dependencia celular:} En la selva profunda la señal es inexistente.
-      \item \textbf{Altos costos operativos:} Suscripciones mensuales o hardware satelital excesivamente caro.
-      \item \textbf{Baja escalabilidad:} Económicamente inviable para despliegues masivos en grandes extensiones.
+      \item \textbf{Dependencia celular:} Sin señal en selva profunda.
+      \item \textbf{Costos elevados:} Suscripciones satelitales y hardware costoso.
+      \item \textbf{Escasa escalabilidad:} Inviable para despliegues masivos.
     \end{itemize}
   \end{block}
   \note{
-    Las pasivas tienen una latencia inaceptable: la información llega tarde. Las activas resuelven la latencia pero dependen de infraestructura que no hay en la selva, además de ser muy caras e imposibles de escalar masivamente.
+    Las cámaras pasivas tienen el gran problema de la latencia. Ante la pregunta: ¿Cuánto tiempo transcurre entre una intrusión y su detección?, la respuesta es: semanas o meses, hasta recolectar la tarjeta SD de forma manual. Para entonces, el daño ya está hecho.
+
+    Las cámaras activas resuelven la latencia pero fallan en la práctica por:
+    1. Falta de señal celular en zonas interiores.
+    2. Costo prohibitivo de planes satelitales y de hardware especial.
+    3. Imposibilidad de escalar a decenas o cientos de nodos por presupuesto.
   }
 \end{frame}
 
 \begin{frame}{Desafíos de Detección en Selva Densa}
   \begin{itemize}
-    \item \textbf{Densidad del dosel:} La densa selva misionera bloquea la vista de los drones, forzando la vigilancia a nivel del suelo. Bajo el dosel, la vegetación impide líneas de visión amplias para las cámaras trampa.
-    \item \textbf{Área de cobertura reducida:} Cada cámara vigila una zona estrecha de pocos metros en línea recta, facilitando que los intrusos las esquiven.
+    \setlength{\itemsep}{1.5em}
+    \item \textbf{Densidad del dosel:} Bloquea vista aérea (drones) y reduce la línea de visión terrestre.
+    \item \textbf{Cobertura reducida:} Zonas estrechas de detección, fáciles de esquivar por intrusos.
   \end{itemize}
-  \note{Cámaras trampa son el método más utilizado. La selva misionera presenta desafíos únicos: el dosel denso bloquea la vista de drones y la vegetación reduce el área de cobertura de las cámaras, haciendo que sea fácil para los intrusos evadirlas.}
+  \note{
+    La selva misionera presenta desafíos físicos muy particulares:
+    1. Densidad del dosel (copa de los árboles): impide el uso de drones ya que no ven bajo las copas. En el suelo, la vegetación espesa limita la visibilidad.
+    2. Área de cobertura reducida: el sensor PIR y la lente de la cámara cubren apenas unos metros en línea recta, por lo que es fácil que una intrusión ocurra fuera de su campo de visión o que los intrusos las eviten.
+  }
 \end{frame}
 
 \section*{El Rol de la Tecnología}
