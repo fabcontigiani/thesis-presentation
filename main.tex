@@ -872,10 +872,177 @@ desarrollamos.
 \section{Desarrollo}
 
 \begin{frame}{Vision General}
-\centering
-\includegraphics[width=0.95\textwidth]{bachelor-thesis/img/arquitecturaGeneralH.jpg}
-\note{
-Visión general del sistema: nodos de cámara capturan imágenes, las envían por
+  \makebox[\textwidth][c]{
+  \scalebox{0.65}{
+  \begin{tikzpicture}[
+      font=\sffamily,
+      >=Latex,
+      every node/.style={align=center},
+      mesh/.style={draw=black!80, ->, >=Latex, line width=1.2pt},
+      rtlink/.style={draw=black!80, <->, >=Latex, line width=1.2pt},
+      link/.style={draw=black!80, <->, >=Latex, line width=1.3pt},
+      flow/.style={draw=black!80, ->, >=Latex, line width=1.3pt}
+    ]
+    
+    % --- Nodo C1 ---
+    \begin{scope}[shift={(-6.0, 1.2)}]
+      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
+      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
+      \fill[black!30] (0,0) circle (0.13);
+      \fill[white] (-0.06,0.06) circle (0.04);
+      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
+      \fill[black!90] (-0.48,0) circle (1.5pt);
+      \node (c1) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
+    \end{scope}
+
+    % --- Nodo C2 ---
+    \begin{scope}[shift={(-7.2, -0.2)}]
+      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
+      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
+      \fill[black!30] (0,0) circle (0.13);
+      \fill[white] (-0.06,0.06) circle (0.04);
+      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
+      \fill[black!90] (-0.48,0) circle (1.5pt);
+      \node (c2) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
+      % Ondas wifi para C2
+      \draw[draw=black, line width=1pt] (-0.68, 0.1) to[out=135, in=225] (-0.68, -0.1);
+      \draw[draw=black, line width=1pt] (-0.80, 0.22) to[out=135, in=225] (-0.80, -0.22);
+      \draw[draw=black, line width=1pt] (0.68, 0.1) to[out=45, in=-45] (0.68, -0.1);
+      \draw[draw=black, line width=1pt] (0.80, 0.22) to[out=45, in=-45] (0.80, -0.22);
+    \end{scope}
+
+    % --- Nodo C3 ---
+    \begin{scope}[shift={(-7.2, -1.5)}]
+      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
+      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
+      \fill[black!30] (0,0) circle (0.13);
+      \fill[white] (-0.06,0.06) circle (0.04);
+      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
+      \fill[black!90] (-0.48,0) circle (1.5pt);
+      \node (c3) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
+    \end{scope}
+
+    % --- Nodo C4 ---
+    \begin{scope}[shift={(-4.8, -1.0)}]
+      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
+      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
+      \fill[black!30] (0,0) circle (0.13);
+      \fill[white] (-0.06,0.06) circle (0.04);
+      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
+      \fill[black!90] (-0.48,0) circle (1.5pt);
+      \node (c4) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
+    \end{scope}
+
+    % --- Nodo C5 ---
+    \begin{scope}[shift={(-3.5, 0.2)}]
+      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
+      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
+      \fill[black!30] (0,0) circle (0.13);
+      \fill[white] (-0.06,0.06) circle (0.04);
+      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
+      \fill[black!90] (-0.48,0) circle (1.5pt);
+      \node (c5) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
+    \end{scope}
+
+    % --- Gateway / Router ---
+    \begin{scope}[shift={(-1.5,-0.4)}]
+      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.45,-0.2) rectangle (0.45,0.25);
+      \draw[draw=black, line width=1.4pt] (-0.35,0.25) -- (-0.55,0.65);
+      \draw[draw=black, line width=1.4pt] (0.35,0.25) -- (0.55,0.65);
+      \fill[black] (0,-0.1) circle (1.5pt);
+      \draw[draw=black, line width=0.8pt] (-0.12,-0.02) to[out=45, in=135] (0.12,-0.02);
+      \draw[draw=black, line width=0.8pt] (-0.2,0.06) to[out=45, in=135] (0.2,0.06);
+      \node (rt) at (0,0.02) [minimum width=1cm, minimum height=0.7cm] {};
+    \end{scope}
+
+    % Enlaces MESH
+    \draw[mesh] (c1) -- (c5);
+    \draw[mesh] (c2) -- (c4);
+    \draw[mesh] (c3) -- (c4);
+    \draw[mesh] (c4) -- (c5);
+    \draw[rtlink] (c5) -- (rt);
+
+    % Caja de fondo para Red Mesh
+    \begin{scope}[on background layer]
+      \node[draw=green!60!black, fill=green!10!white, fill opacity=0.4, rounded corners=6pt, line width=1.2pt, fit={(c1) (c2) (c3) (rt)}, inner sep=15pt] (meshbox) {};
+    \end{scope}
+    \node[above right, font=\bfseries\sffamily\small, text=black] at ($(meshbox.north west) + (0.1, 0.05)$) {Red MESH};
+
+    % --- Internet (Nube) ---
+    \node[cloud, draw=blue!70!black, fill=white, minimum width=1.8cm, minimum height=1.2cm, cloud puffs=9, font=\sffamily\bfseries\small, line width=1.2pt] (internet) at (1.5, -0.4) {Internet};
+    
+    % Enlace Gateway a Internet
+    \draw[link] (rt) -- (internet);
+
+    % --- Servidor (Backend) ---
+    \begin{scope}[shift={(4.8,-0.4)}]
+      \draw[draw=black!80, fill=gray!20, line width=1.2pt] (-0.3,-0.5) rectangle (0.3,0.5);
+      \draw[draw=black!80, fill=gray!40, line width=1.1pt] (-0.3,0.5) -- (-0.1,0.65) -- (0.5,0.65) -- (0.3,0.5) -- cycle;
+      \draw[draw=black!80, fill=gray!30, line width=1.1pt] (0.3,-0.5) -- (0.5,-0.35) -- (0.5,0.65) -- (0.3,0.5) -- cycle;
+      \draw[draw=black!70, fill=black!80, line width=0.6pt] (-0.2,0.25) rectangle (0.2,0.32);
+      \draw[draw=black!70, fill=black!80, line width=0.6pt] (-0.2,0.05) rectangle (0.2,0.12);
+      \draw[draw=black!70, fill=black!80, line width=0.6pt] (-0.2,-0.15) rectangle (0.2,-0.08);
+      \fill[green!80!black] (-0.15,-0.35) circle (1.5pt);
+      \fill[red!80!black] (0,-0.35) circle (1.5pt);
+      \node (server) at (0.1,0.07) [minimum width=0.8cm, minimum height=1.2cm] {};
+    \end{scope}
+
+    % Red Neuronal (superpuesta levemente)
+    \begin{scope}[shift={(4.8,-0.5)}, scale=0.18]
+      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-0-0) at (0,0) {};
+      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-0-1) at (0,1.5) {};
+      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-1-0) at (1.2,0.75) {};
+      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-1-1) at (1.2,-0.75) {};
+      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-2-0) at (2.4,0) {};
+      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-2-1) at (2.4,1.5) {};
+      
+      \draw[draw=black, line width=0.6pt] (n-0-0) -- (n-1-0) (n-0-0) -- (n-1-1);
+      \draw[draw=black, line width=0.6pt] (n-0-1) -- (n-1-0) (n-0-1) -- (n-1-1);
+      \draw[draw=black, line width=0.6pt] (n-1-0) -- (n-2-0) (n-1-0) -- (n-2-1);
+      \draw[draw=black, line width=0.6pt] (n-1-1) -- (n-2-0) (n-1-1) -- (n-2-1);
+    \end{scope}
+
+    % --- Telegram Bot Icon ---
+    \begin{scope}[shift={(7.0,-0.4)}]
+      \fill[black] (0,0) circle (0.35);
+      \fill[white] (-0.18,0.06) -- (0.2,0.14) -- (-0.05,-0.12) -- (-0.09,-0.02) -- cycle;
+      \fill[gray!40] (-0.09,-0.02) -- (-0.05,-0.12) -- (-0.05,-0.2) -- cycle;
+      \node (tg) at (0,0) [minimum width=0.7cm, minimum height=0.7cm] {};
+    \end{scope}
+
+    % Conexión servidor -> Telegram
+    \draw[flow] (server) -- (tg);
+
+    % Caja de fondo para Backend
+    \begin{scope}[on background layer]
+      \node[draw=orange!60!black, fill=orange!15!white, fill opacity=0.4, rounded corners=6pt, line width=1.2pt, fit={(server) (tg)}, inner sep=15pt] (backendbox) {};
+    \end{scope}
+    \node[above right, font=\bfseries\sffamily\small, text=black] at ($(backendbox.north west) + (0.1, 0.05)$) {Backend};
+
+    % Conexión Internet -> Backend
+    \draw[link] (internet) -- (backendbox.west);
+
+    % --- Usuario (Smartphone) ---
+    \begin{scope}[shift={(9.8,-0.4)}]
+      \draw[draw=black, fill=white, rounded corners=4pt, line width=1.3pt] (-0.35,-0.65) rectangle (0.35,0.65);
+      \draw[draw=black, fill=white, line width=0.8pt] (-0.28,-0.5) rectangle (0.28,0.5);
+      \fill[black] (0,-0.57) circle (1.5pt);
+      \fill[black] (-0.08,0.56) rectangle (0.08,0.59);
+      \draw[draw=black!70, fill=gray!10, line width=0.6pt] (-0.23,-0.43) rectangle (0.23,0.43);
+      \fill[gray!60] (-0.2, -0.4) -- (-0.05, -0.15) -- (0.1, -0.4) -- cycle;
+      \fill[gray!40] (-0.05, -0.4) -- (0.1, -0.2) -- (0.2, -0.4) -- cycle;
+      \fill[orange!80] (0.12, 0.22) circle (3.5pt);
+      \node (phone) at (0,0) [minimum width=0.7cm, minimum height=1.3cm] {};
+    \end{scope}
+    \node[above=0.2cm of phone, font=\bfseries\sffamily\small, text=black] {Usuario};
+
+    % Conexión Backend -> Usuario
+    \draw[flow] (backendbox.east) -- (phone.west);
+  \end{tikzpicture}
+  }
+  }
+  \note{
+    Visión general del sistema: nodos de cámara capturan imágenes, las envían por
 red mesh al nodo raíz, que las reenvía al servidor para procesamiento con IA
 y notificación por Telegram.
 }
