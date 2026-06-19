@@ -1631,29 +1631,95 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
   }
 \end{frame}
 
+% \begin{frame}{Resultados - Red Mesh}
+% \begin{table}
+% \centering
+% \begin{tabular}{lc}
+% \hline
+% \textbf{Metrica}               & \textbf{Valor} \\
+% \hline
+% Latencia LAN (\qty{12.9}{\kilo\byte})  & $\sim$\qty{463}{ms}   \\
+% Ciclo completo nodo (LAN)     & $\sim$\qty{1.27}{s}   \\
+% Latencia campo (hotspot)      & \qtyrange{20}{60}{s} (prom. \qty{40}{s}) \\
+% Distancia max (linea de vista) & \qtyrange{15}{18}{m}  \\
+% Distancia max (vegetacion)     & $\sim$\qty{12}{m}     \\
+% Distancia max (interior)       & $\sim$\qty{10}{m}     \\
+% \hline
+% \end{tabular}
+% \end{table}
+% \note{
+% Métricas de red: en LAN, transmisión HTTP de 463 ms para 12.9 KB, ciclo
+% completo de 1.27 s. En campo con hotspot celular (cobertura deficiente),
+% latencia promedio de 40 s. Distancia máxima: 15-18 m en línea de vista,
+% 12 m con vegetación, 10 m en interior.
+% }
+% \end{frame}
+
 \begin{frame}{Resultados - Red Mesh}
-\begin{table}
-\centering
-\begin{tabular}{lc}
-\hline
-\textbf{Metrica}               & \textbf{Valor} \\
-\hline
-Latencia LAN (\qty{12.9}{\kilo\byte})  & $\sim$\qty{463}{ms}   \\
-Ciclo completo nodo (LAN)     & $\sim$\qty{1.27}{s}   \\
-Latencia campo (hotspot)      & \qtyrange{20}{60}{s} (prom. \qty{40}{s}) \\
-Distancia max (linea de vista) & \qtyrange{15}{18}{m}  \\
-Distancia max (vegetacion)     & $\sim$\qty{12}{m}     \\
-Distancia max (interior)       & $\sim$\qty{10}{m}     \\
-\hline
-\end{tabular}
-\end{table}
-\note{
-Métricas de red: en LAN, transmisión HTTP de 463 ms para 12.9 KB, ciclo
-completo de 1.27 s. En campo con hotspot celular (cobertura deficiente),
-latencia promedio de 40 s. Distancia máxima: 15-18 m en línea de vista,
-12 m con vegetación, 10 m en interior.
-}
+  \begin{columns}[t]
+    \begin{column}{0.55\textwidth}
+      \textbf{Latencia de Transmisión}
+      \vspace{0.3em}
+      \begin{table}
+        \centering
+        \scriptsize
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{lcc}
+          \hline
+          \textbf{Métrica}  & \textbf{LAN} & \textbf{Campo} \\
+          \hline
+          Transmisión (\qty{12.9}{\kilo\byte})  & $\sim$\qty{463}{ms} & \qtyrange{20}{60}{s} \\
+          Ciclo completo    & $\sim$\qty{1.27}{s} & --- \\
+          \hline
+        \end{tabular}
+      \end{table}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \textbf{Alcance Máximo}
+      \vspace{0.3em}
+      \begin{table}
+        \centering
+        \scriptsize
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{lc}
+          \hline
+          \textbf{Escenario}  & \textbf{Distancia} \\
+          \hline
+          Línea de vista      & \qtyrange{15}{18}{m} \\
+          Con vegetación      & $\sim$\qty{12}{m} \\
+          Interior            & $\sim$\qty{10}{m} \\
+          \hline
+        \end{tabular}
+      \end{table}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.5em}
+  {\footnotesize\textit{Nota: La prueba de campo se realizó sobre un hotspot celular
+  con cobertura limitada y ancho de banda compartido, representando
+  un escenario de conectividad adverso.}}
+
+  \note{
+    En condiciones controladas de laboratorio (red LAN local, servidor en la
+    misma subred), el sistema logra una latencia de transmisión HTTP de 463~ms
+    para una imagen de 12.9~KB, con un ciclo completo wake-up-to-sleep de solo
+    1.27~s, lo cual valida la eficiencia del firmware.
+
+    La prueba de campo se realizó intencionalmente en condiciones de
+    conectividad adversas: un hotspot de celular con señal débil,
+    compartido simultáneamente entre los nodos mesh, la computadora
+    ejecutando el servidor HTTP, el bot de Telegram y otros servicios.
+    Esta saturación del canal inalámbrico y la alta latencia del uplink
+    celular explican la diferencia de dos órdenes de magnitud respecto
+    a la prueba LAN. El valor de 40~s promedio refleja las limitaciones
+    del enlace de salida (backhaul), no del protocolo mesh ni del firmware.
+
+    En un despliegue real con un router WiFi dedicado (o incluso un
+    hotspot con mejor cobertura), se esperaría un rendimiento
+    significativamente más cercano al obtenido en laboratorio.
+  }
 \end{frame}
+
 
 \begin{frame}{Resultados - Deteccion}
 \begin{columns}
