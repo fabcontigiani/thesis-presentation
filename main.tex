@@ -524,6 +524,135 @@ Ejercicio
   }
 \end{frame}
 
+\begin{frame}{Escenario de Despliegue Objetivo}
+  % \hspace{-0.7cm}
+  \makebox[\textwidth][c]{% forces horizontal centering regardless of size
+  \begin{tikzpicture}[
+      font=\sffamily,
+      >=Latex,
+      every node/.style={align=center},
+      % Estilos
+      camera/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.6cm, inner sep=0pt, thick},
+      root/.style={circle, draw=orange!80!black, fill=orange!15, minimum size=0.6cm, inner sep=0pt, thick, line width=1.2pt},
+      fov/.style={fill=yellow!60!orange!70, draw=yellow!90!orange!80, opacity=0.35, dashed, line width=0.6pt},
+      mesh/.style={draw=teal!70!black, <->, line width=1.1pt},
+      alertflow/.style={draw=red!80, -Latex, line width=1.2pt, dotted},
+      extlink/.style={draw=orange!80!black, ->, line width=1.2pt},
+      tree/.style={circle, draw=green!40!black, fill=green!20!white, minimum size=0.4cm, inner sep=0pt}
+    ]
+
+    % 1. DIBUJAR LA ZONA DE INTERÉS (PICADA / CAMINO)
+    % Definimos la picada como una banda rellena
+    \fill[brown!15] (0, 1.8) to[out=15, in=195] (4, 2.3) to[out=15, in=165] (8.5, 1.8) -- 
+                    (8.5, 3.2) to[out=165, in=15] (4, 3.7) to[out=195, in=15] (0, 3.2) -- cycle;
+    
+    % Bordes de la picada
+    \draw[brown!60!black, dashed, line width=1pt] (0, 1.8) to[out=15, in=195] (4, 2.3) to[out=15, in=165] (8.5, 1.8);
+    \draw[brown!60!black, dashed, line width=1pt] (0, 3.2) to[out=15, in=195] (4, 3.7) to[out=15, in=165] (8.5, 3.2);
+    %\node[text=brown!80!black, font=\scriptsize\bfseries\itshape, rotate=8] at (2.2, 2.7) {Picada / Sendero};
+
+    % 2. VEGETACIÓN / SELVA (Árboles decorativos) - Estirados verticalmente
+    \foreach \x/\y in {0.5/5.0, 1.2/5.2, 2.0/5.3, 3.5/5.1, 4.8/5.2, 6.0/5.0, 7.2/5.3, 8.0/5.1,
+                        0.3/0.5, 1.5/0.4, 2.8/0.6, 4.2/0.4, 5.5/0.5, 6.8/0.3, 7.8/0.5} {
+        \node[tree] at (\x,\y) {};
+        \node[tree, minimum size=0.3cm, fill=green!30!white] at (\x+0.15,\y-0.1) {};
+    }
+    \node[text=red!40!black, font=\small\bfseries\itshape] at (4, 6.2) {Zona de Interés};
+    \node[text=blue!40!black, font=\small\bfseries\itshape] at (11.0, 6.2) {Monitoreo\\Remoto};
+
+    % 3. CAMPOS DE VISIÓN (FOV) DE LAS CÁMARAS - Dibujados sobre el camino pero detrás de las cámaras
+    % Node 1 FOV (points down-right)
+    \fill[fov] (1.0, 5.2) -- +(320:3.0cm) arc (320:260:3.0cm) -- cycle;
+    % Node 2 FOV (points up-right)
+    \fill[fov] (3.0, 0.5) -- +(50:3.0cm) arc (50:110:3.0cm) -- cycle;
+    % Node 3 FOV (points down-right)
+    \fill[fov] (5.5, 5.0) -- +(270:3.0cm) arc (270:330:3.0cm) -- cycle;
+    % Node 4 FOV (points up-left)
+    \fill[fov] (7.8, 0.2) -- +(110:3.0cm) arc (110:170:3.0cm) -- cycle;
+    
+    % 4. EVENTO / INTRUSO
+    \node[circle, fill=red!80, minimum size=0.15cm, inner sep=0pt] (evento) at (1.3, 2.3) {};
+    \draw[red!80!black, thick] (evento) circle (5pt);
+    % \node[above=0.2cm of evento, text=red!80!black, font=\tiny\bfseries] {Intruso /\\Evento};
+
+    % 5. NODOS DE CÁMARA
+    % Cámara 1 (Leaf)
+    \node[camera] (c1) at (1.0, 5.2) {C1};
+    \node[above=0.05cm of c1, font=\scriptsize\bfseries] {Nodo Hoja};
+    
+    % Cámara 2 (Relay)
+    \node[camera] (c2) at (3.0, 0.5) {C2};
+    \node[below=0.05cm of c2, font=\scriptsize\bfseries] {Nodo Retransmisor};
+    
+    % Cámara 3 (Relay)
+    \node[camera] (c3) at (5.5, 5) {C3};
+    \node[above=0.05cm of c3, font=\scriptsize\bfseries] {Nodo Retransmisor};
+    
+    % Cámara 4 (Relay) - Anteriormente Root
+    \node[camera] (c4) at (7.8, 0.2) {C4};
+    \node[below=0.05cm of c4, font=\scriptsize\bfseries] {Nodo Retransmisor};
+
+    % Dibujar pequeños lentes para indicar hacia dónde apuntan
+    \draw[fill=teal!80!black] ($(c1) + (290:0.3)$) circle (1.5pt);
+    \draw[fill=teal!80!black] ($(c2) + (80:0.3)$) circle (1.5pt);
+    \draw[fill=teal!80!black] ($(c3) + (300:0.3)$) circle (1.5pt);
+    \draw[fill=teal!80!black] ($(c4) + (140:0.3)$) circle (1.5pt);
+
+    % 6. ENLACES MESH (ESP-MESH-LITE)
+    \draw[mesh, ->] (c1) -- (c2);
+    \draw[mesh, ->] (c1) -- (c3);
+    \draw[mesh] (c2) -- (c3);
+    \draw[mesh] (c2) -- (c4);
+    \draw[mesh] (c3) -- (c4);
+
+    % 7. LÍMITE DE COBERTURA
+    \draw[gray!60, dashed, line width=1.5pt] (8.7, 0.0) -- (8.7, 5.8);
+    %\node[rotate=90, text=gray!80!black, font=\scriptsize\bfseries] at (8.9, 4.5) {Límite Selva / Señal Móvil};
+
+    % 8. MUNDO EXTERIOR
+    % Nodo Raíz / Gateway (Círculo)
+    \node[root] (raiz) at (9.5, 1.5) {R};
+    \node[below=0.05cm of raiz, font=\scriptsize\bfseries\color{orange!80!black}] {Nodo Raíz};
+
+    % Nube de Internet (Arriba)
+    \node[cloud, draw=blue!70!black, fill=blue!5, minimum width=1.5cm, minimum height=1.0cm, cloud puffs=9, font=\scriptsize\bfseries] (cloud) at (11.0, 4.4) {Internet};
+
+    % Servidor de Aplicación (Centro)
+    \node[draw=orange!80!black, fill=orange!5, rounded corners=2pt, minimum width=1.4cm, minimum height=0.9cm, font=\scriptsize\bfseries] (server) at (11.0, 2.2) {Servidor\\Remoto};
+
+    % Usuario Final / Operador (Abajo)
+    \node[draw=teal!80!black, fill=teal!5, rounded corners=2pt, minimum width=1.4cm, minimum height=0.9cm, font=\scriptsize\bfseries] (user) at (11.0, 0.4) {Usuario\\Final};
+
+    % 9. FLUJO DE ALERTA Y CONEXIONES EXTERNAS
+    % Enlace C4 a Gateway en la malla
+    \draw[mesh] (c4) -- (raiz);
+    \draw[mesh] (c3) -- (raiz);
+    % De Nodo Raíz a Internet (Con texto 4G/WiFi/LoRa)
+    \draw[extlink] (raiz) to[out=90, in=130] node[above, sloped, font=\scriptsize\bfseries\color{orange!80!black}] {4G / WiFi / LoRa / etc.} (cloud);
+    % De Internet a Servidor
+    \draw[extlink] (cloud) -- node[right, font=\scriptsize\bfseries\color{orange!80!black}]
+    {Imágen}(server);
+    % De Servidor a Usuario Final
+    \draw[extlink] (server) -- node[right, font=\scriptsize\bfseries\color{orange!80!black}] {Alerta} (user);
+
+    % Brackets para destacar los aportes y desarrollos principales del proyecto
+    \draw[teal!80!black, line width=1.1pt, rounded corners=2pt] (0.2, -0.6) -- (0.2, -0.8) -- (8.2, -0.8) -- (8.2, -0.6);
+    \node[below=0.05cm, font=\scriptsize\bfseries\color{teal!80!black}] at (4.2, -0.8) {Red Malla y Sensado Local};
+
+    \draw[teal!80!black, line width=1.1pt, rounded corners=2pt] (10.0, -0.6) -- (10.0, -0.8) -- (12.0, -0.8) -- (12.0, -0.6);
+    \node[below=0.05cm, font=\scriptsize\bfseries\color{teal!80!black}] at (11.0, -0.8) {Servidor de\\Inferencia y Alertas};
+
+    % Notas del flujo en el diagrama
+    %\node[text=red!80!black, font=\tiny\bfseries, anchor=west] at (0.2, 5.6) {1. Captura e Inferencia (MegaDetector)};
+    %\node[text=teal!80!black, font=\tiny\bfseries, anchor=west] at (0.2, -0.1) {2. Envío a través de Saltos Mesh};
+    %\node[text=orange!80!black, font=\tiny\bfseries, anchor=west] at (5.0, -0.1) {3. Transmisión al Servidor};
+  \end{tikzpicture}
+  }
+  \note{
+    Representación gráfica de nuestra red. Las cámaras capturan eventos (por ejemplo, el intruso marcado en rojo), realizan inferencia local o lo pasan a través de saltos mesh inalámbricos (WiFi/ESP-MESH-LITE) hasta llegar al nodo raíz en la frontera del bosque. De allí se transmite por 4G o internet satelital hacia el servidor e internet, donde se corre la clasificación avanzada y se envía la alerta.
+  }
+\end{frame}
+
 \begin{frame}{Oportunidad Tecnológica}
 \textbf{Convergencia de tres desarrollos:}
 
