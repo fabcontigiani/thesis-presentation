@@ -1616,53 +1616,70 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 \end{frame}
 
 
-\begin{frame}{Resultados - Detección}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{Detección binaria} (\num{94} imágenes):
-\begin{tblr}{
-  width = 0.9\linewidth,
-  colspec = {X[l] c},
-  row{1} = {font=\bfseries, bg=blue!10},
-  hline{1,2,Z} = {0.8pt, gray!50},
-}
-  Métrica & Valor \\
-  Exactitud   & \qty{77.7}{\percent}  \\
-  Precisión   & \qty{78.9}{\percent}  \\
-  Recall      & \qty{69.8}{\percent}  \\
-\end{tblr}
+\begin{frame}{Resultados - Detección Binaria}
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \textbf{Detección binaria} (\num{94} imágenes):
+      
+      \vspace{0.5em}
+      \begin{tblr}{
+        width = \linewidth,
+        colspec = {X[l] c},
+        row{1} = {font=\bfseries, bg=blue!10},
+        hline{1,2,Z} = {0.8pt, gray!50},
+      }
+        Métrica & Valor \\
+        Exactitud   & \qty{77.7}{\percent}  \\
+        Precisión   & \qty{78.9}{\percent}  \\
+        Recall      & \qty{69.8}{\percent}  \\
+      \end{tblr}
+      
+      \vspace{0.8em}
+      \begin{itemize}
+        \item \textbf{MegaDetector:} Filtro de falsos positivos (viento, ramas).
+        \item \textbf{Sensibilidad:} Priorización de alertas operativas.
+      \end{itemize}
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/matriz_confusion.png}
+    \end{column}
+  \end{columns}
+  \note{
+    Resultados de la clasificación binaria (Vacío vs. Objeto de interés) sobre 94 imágenes de campo. La exactitud es del 77.7\% y la precisión de 78.9\%. De las 43 imágenes vacías en la realidad, el sistema detectó correctamente 30, filtrando 30 posibles falsas alertas por movimiento de vegetación (verdaderos negativos).
+    El modelo binario (MegaDetector) demuestra un desempeño robusto para discernir entre presencia de objetos y falsos positivos (viento, ramas). El recall del \qty{69.8}{\percent} refleja un equilibrio operativo aceptable.
+  }
+\end{frame}
 
-\vspace{0.3em}
-\textbf{Recall por clase:}
-\begin{itemize}
-  \item Animales: \qty{52.9}{\percent}
-  \item Personas: \qty{77.3}{\percent}
-  \item Vehículos: \qty{100}{\percent}
-\end{itemize}
-\end{column}
-\begin{column}{0.55\textwidth}
-  \centering
-  \begin{figure}
-    \begin{subfigure}[b]{0.48\textwidth}
+\begin{frame}{Resultados - Detección Multiclase}
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \textbf{Recall por clase (SpeciesNet):}
+      \vspace{0.8em}
+      \begin{itemize}
+        \setlength{\itemsep}{0.8em}
+        \item \textbf{Vehículos:} \qty{100}{\percent} (\num{2}/\num{2})
+        \item \textbf{Personas:} \qty{77.3}{\percent} (\num{17}/\num{22})
+        \item \textbf{Animales:} \qty{52.9}{\percent} (\num{9}/\num{17})
+      \end{itemize}
+
+      \vspace{0.8em}
+      \begin{itemize}
+        \item \textbf{Fauna pequeña:} Dificultad por camuflaje y escala.
+        \item \textbf{HITL:} Corrección y auditoría desde el bot.
+      \end{itemize}
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{bachelor-thesis/img/confusion_matrix_binary.png}
-      \caption{Binaria}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.48\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{bachelor-thesis/img/confusion_matrix.png}
-      \caption{Multiclase}
-    \end{subfigure}
-  \end{figure}
-\end{column}
-\end{columns}
-\note{
-Resultados sobre 94 imágenes de campo. Exactitud general 77.7\%.
-Animales es la clase más difícil (52.9\% recall) por fauna pequeña que
-se confunde con el fondo. Personas 77.3\%. El enfoque Human-in-the-loop
-compensa estos errores y genera datos para fine-tuning.
-}
+      \includegraphics[width=\textwidth]{img/matriz_confusion_speciesnet.png}
+    \end{column}
+  \end{columns}
+  \note{
+    Resultados de la clasificación multiclase (Vacío, Animales, Personas, Vehículos) con SpeciesNet. La clase vehículos tiene 100\% de acierto. Personas alcanza un 77.3\% (importante para detectar intrusos). Los animales son los más difíciles de identificar (52.9\%) debido a especies pequeñas o camufladas, justificando la intervención humana (HITL) para corregir etiquetas desde Telegram.
+    Los animales pequeños y el camuflaje natural en el follaje explican el menor recall. El mecanismo \textit{Human-in-the-loop} permite subsanar estos errores y auditar los registros en el servidor.
+  }
 \end{frame}
 
 % El frame de Consumo Energético fue movido a la Sección 3 (Diseño y Energía)
@@ -1673,28 +1690,28 @@ compensa estos errores y genera datos para fine-tuning.
     \textbf{Paso 1:} Clasificación errónea inicial en el panel web
 
     \vspace{0.5em}
-    \includegraphics[height=0.7\textheight]{bachelor-thesis/img/clasificacionErroneaAntes.png}
+    \includegraphics[height=0.7\textheight]{img/pajaroSinCorregir.jpg}
   }
   \only<2>{
     \centering
     \textbf{Paso 2:} El usuario indica el error desde el bot de Telegram
 
     \vspace{0.5em}
-    \includegraphics[height=0.7\textheight]{bachelor-thesis/img/seleccionClasificacionErronea.png}
+    \includegraphics[height=0.7\textheight]{img/botSinCorregir.jpg}
   }
   \only<3>{
     \centering
     \textbf{Paso 3:} Selección de la etiqueta correcta (\textit{human})
 
     \vspace{0.5em}
-    \includegraphics[height=0.7\textheight]{bachelor-thesis/img/seleccionHuman.png}
+    \includegraphics[height=0.7\textheight]{img/botCorreccion.jpg}
   }
   \only<4>{
     \centering
     \textbf{Paso 4:} Registro actualizado y auditado en el panel web
 
     \vspace{0.5em}
-    \includegraphics[height=0.7\textheight]{bachelor-thesis/img/clasificacionCorregida.png}
+    \includegraphics[height=0.7\textheight]{img/pajaroCorregido.jpg}
   }
   \note{
     Este flujo demuestra el mecanismo Human-in-the-loop en acción.
