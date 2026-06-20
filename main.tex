@@ -1112,9 +1112,9 @@ viendo la IP, sin involucrar a su capa de aplicación.
           font=\sffamily,
           >=Latex,
           every node/.style={align=center},
-          node_ok/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.75cm, thick},
-          node_fail/.style={circle, draw=red!80!black, fill=red!10, minimum size=0.75cm, thick, dashed},
-          node_root/.style={circle, draw=orange!80!black, fill=orange!15, minimum size=0.75cm, thick, line width=1.2pt},
+          node_ok/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=1.0cm, thick},
+          node_fail/.style={circle, draw=red!80!black, fill=red!10, minimum size=1.0cm, thick, dashed},
+          node_root/.style={circle, draw=orange!80!black, fill=orange!15, minimum size=1.0cm, thick, line width=1.2pt},
           link_ok/.style={draw=teal!80!black, <-, line width=1.2pt},
           link_scan/.style={draw=orange!80, <->, dotted, line width=1.2pt},
           link_new/.style={draw=green!60!black, <-, line width=1.5pt}
@@ -1185,9 +1185,9 @@ viendo la IP, sin involucrar a su capa de aplicación.
           font=\sffamily,
           >=Latex,
           every node/.style={align=center},
-          node_root/.style={circle, draw=orange!80!black, fill=orange!15, minimum size=0.75cm, thick, line width=1.2pt, font=\scriptsize\bfseries},
-          node_relay/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.75cm, thick, font=\scriptsize\bfseries},
-          node_leaf/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.75cm, thick, font=\scriptsize\bfseries},
+          node_root/.style={circle, draw=orange!80!black, fill=orange!15, minimum size=1.0cm, thick, line width=1.2pt, font=\scriptsize\bfseries},
+          node_relay/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=1.0cm, thick, font=\scriptsize\bfseries},
+          node_leaf/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=1.0cm, thick, font=\scriptsize\bfseries},
           link_root/.style={draw=orange!80!black, <->, line width=1.2pt},
           link_weak/.style={draw=black!40, dashed, line width=1pt},
           link_mesh/.style={draw=teal!80!black, ->, line width=1.2pt}
@@ -1205,9 +1205,13 @@ viendo la IP, sin involucrar a su capa de aplicación.
         \end{scope}
         \node[below=0.4cm of router, font=\tiny\bfseries, text=black!70] {Router\\(Salida)};
 
+        \begin{scope}[on background layer]
+          \draw[draw=blue!30, fill=blue!5, fill opacity=0.15, dashed, line width=1pt] (2.2, 0.0) -- ++(120:2.45cm) arc (120:240:2.45cm) -- cycle;
+        \end{scope}
+
         % Nodos candidatos
-        \node[node_root] (A) at (0.4, 0.9) {Root};
-        \node[node_relay] (B) at (0.4, -0.9) {Relay};
+        \node[node_root] (A) at (0.7, 0.9) {Root};
+        \node[node_relay] (B) at (0.2, -0.9) {Relay};
         \node[node_leaf] (C) at (-1.0, 0.0) {Leaf};
 
         % Enlaces de evaluación RSSI
