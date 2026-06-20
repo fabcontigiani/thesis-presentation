@@ -189,7 +189,7 @@ Ejercicio
         \item Originalmente: \num{1.3} millones de \unit{\km\squared} \footcite{ribeiro2009atlantic}
         \item Brasil (\qty{92}{\percent}), Paraguay (\qty{6}{\percent}), Argentina (\qty{2}{\percent})
         \item Hoy: solo \qtyrange{12}{17}{\percent} de su extensión original
-        \item Uno de los \textbf{hotspots de biodiversidad} más amenazados del planeta \footcite{wwf2024atlantic}
+        \item Uno de los \textbf{focos de biodiversidad} más amenazados del planeta \footcite{wwf2024atlantic}
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
@@ -201,7 +201,7 @@ Ejercicio
     \end{column}
   \end{columns}
   \note{
-    Arrancamos con el contexto global. El Bosque Atlántico es uno de los hotspots más amenazados del planeta, habiéndose perdido más del 80\% de su cobertura original. Si miran la imagen del proceso de deforestación, el pequeño remanente continuo que sobrevive en la frontera de Argentina es Misiones. Por eso, en la siguiente diapositiva, hacemos foco en esta selva.
+    Arrancamos con el contexto global. El Bosque Atlántico es uno de los focos de biodiversidad más amenazados del planeta, habiéndose perdido más del 80\% de su cobertura original. Si miran la imagen del proceso de deforestación, el pequeño remanente continuo que sobrevive en la frontera de Argentina es Misiones. Por eso, en la siguiente diapositiva, hacemos foco en esta selva.
   }
 \end{frame}
 
@@ -799,20 +799,18 @@ Ejercicio
   }
 \end{frame}
 
-\begin{frame}{Oportunidad Tecnológica}
-\textbf{Convergencia de tres desarrollos:}
+\begin{frame}{Ejes principales del proyecto}
 
-\vspace{0.5em}
-\begin{block}{1. Microcontroladores de bajo costo}
-ESP32: WiFi, Bluetooth, bajo consumo. Costo: $<$ \qty{10}{\$} USD
+\begin{block}{1. Sensado local de bajo costo}
+Basado en MCUs con cámara y sensor PIR, priorizando escalabilidad.
 \end{block}
 
-\begin{block}{2. Redes mesh autoorganizadas}
-ESP-MESH-LITE: Extension de cobertura sin infraestructura celular
+\begin{block}{2. Red malla auto-organizada}
+Capaz de extender la cobertura sin requerir infraestructura extra.
 \end{block}
 
-\begin{block}{3. IA para vision por computadora}
-SpeciesNet, MegaDetector: Modelos de codigo abierto para clasificacion automatica de fauna
+\begin{block}{3. Visión por computadora}
+Redes neuronales pre-entrenadas para detección y clasificación.
 \end{block}
 \note{
 Tres tecnologías convergen: ESP32 a menos de \num{10} dólares con WiFi integrado,
@@ -822,19 +820,20 @@ código abierto como SpeciesNet.
 \end{frame}
 
 \begin{frame}{Objetivo General}
-\begin{alertblock}{Objetivo}
-Demostrar la \textbf{viabilidad tecnica} de un sistema de monitoreo de \textbf{bajo costo} para areas protegidas, basado en:
+\begin{block}{Objetivo}
+Demostrar la \textbf{viabilidad técnica} de un sistema de monitoreo de bajo costo para áreas protegidas, basado en:
 \begin{itemize}
-\item Nodos de camara con conectividad \textbf{mesh}
-\item Clasificacion automatica de imagenes mediante \textbf{IA}
+\item Nodos de cámara con \textbf{conectividad en malla}
+\item \textbf{Clasificación automática} de imágenes mediante IA
 \end{itemize}
-\end{alertblock}
+\end{block}
 
-\vspace{1em}
-\textbf{Reduccion del tiempo de procesamiento:}
+\begin{block}{Meta}
+Reducir el tiempo de procesamiento de las imágenes:
 \begin{center}
-\textbf{Dias/semanas} $\longrightarrow$ \textbf{Minutos}
+\textbf{Días/semanas} $\longrightarrow$ \textbf{Minutos}
 \end{center}
+\end{block}
 \note{
 El objetivo central es demostrar viabilidad técnica. No comercialización,
 sino prueba de concepto funcional. El cambio clave: reducir el tiempo de
@@ -843,16 +842,13 @@ procesamiento de días a minutos.
 \end{frame}
 
 \begin{frame}{Objetivos Específicos}
-\begin{enumerate}
-\item Disenar e implementar un \textbf{nodo de camara autonomo} basado en ESP32
-
-\item Desarrollar una \textbf{red mesh autoorganizada} con ESP-MESH-LITE
-
-\item Implementar un \textbf{servidor de procesamiento} con IA
-
-\item Integrar \textbf{SpeciesNet/MegaDetector} para clasificacion
-
-\item \textbf{Validar el funcionamiento} en condiciones reales
+  \begin{enumerate}
+    \setlength{\itemsep}{1.5em}
+    \item Diseñar y construir un \textbf{nodo de cámara autónomo} basado en microcontrolador con cámara y sensor de movimiento
+    \item Implementar una \textbf{red malla auto-organizada} para interconectar estos nodos
+    \item Desarrollar un \textbf{servidor de procesamiento} capaz de procesar las imágenes y emitir alertas a usuarios finales
+    \item Integrar modelos de \textbf{visión por computadora} para detección y clasificación
+    \item \textbf{Validar el funcionamiento} en condiciones controladas
 \end{enumerate}
 \note{
 Cinco objetivos específicos que abarcan hardware, red, servidor, IA y
@@ -863,261 +859,76 @@ desarrollamos.
 
 
 \begin{frame}{Alcance y Limitaciones}
-
+  \begin{itemize}
+    \setlength{\itemsep}{1.5em}
+    \item \textbf{Hardware:} Operación exclusivamente diurna (filtro IR integrado) y autonomía energética limitada por baterías utilizadas.
+    \item \textbf{Transmisión:} Ancho de banda y rango acorde a MCU; el envío de paquetes grandes añade complicaciones extra en estas redes malla.
+    \item \textbf{Despliegue Físico:} No se contempla el diseño de carcasas con grado de protección IP, ni el despliegue permanente en campo.
+    \item \textbf{Modelos de IA:} Se utilizan modelos preentrenados; no se incluye el entrenamiento de un modelo específico para la fauna local, aunque si se tiene en cuenta esta posibilidad a futuro.
+  \end{itemize}
+  \note{
+    Es importante explicitar las limitaciones técnicas del prototipo al priorizar el bajo costo:
+    1. La cámara no tiene visión nocturna sin modificarla físicamente (filtro IR).
+    2. La autonomía es menor a las cámaras comerciales preparadas para meses de uso.
+    3. Al ser prueba de concepto, no hay certificación IP ni pruebas en selva profunda.
+    4. La IA usa bases de datos globales, lo que puede afectar la precisión a nivel especie local.
+  }
 \end{frame}
 
 % ==============================================================================
-% Sección 3: Desarrollo (Arquitectura)
+% Sección 3: Desarrollo
 % ==============================================================================
 \section{Desarrollo}
 
-\begin{frame}{Vision General}
-  \makebox[\textwidth][c]{
-  \scalebox{0.65}{
-  \begin{tikzpicture}[
-      font=\sffamily,
-      >=Latex,
-      every node/.style={align=center},
-      mesh/.style={draw=black!80, ->, >=Latex, line width=1.2pt},
-      rtlink/.style={draw=black!80, <->, >=Latex, line width=1.2pt},
-      link/.style={draw=black!80, <->, >=Latex, line width=1.3pt},
-      flow/.style={draw=black!80, ->, >=Latex, line width=1.3pt}
-    ]
+\begin{frame}{Nodo de Cámara - Hardware}
+  \begin{columns}[t]
+    \begin{column}{0.45\textwidth}
+      \begin{block}{Captura de Imagen y Conectividad}
+        \begin{itemize}
+          \item MCU: ESP32-CAM (AI-Thinker)
+          \item Cámara: OV2640 (\num{2}~MP)
+          \item Resolución: \num{640}x\num{480}
+          \item Conectividad: Wi-Fi
+        \end{itemize}
+      \end{block}
+
+      \begin{block}{Detección de Movimiento}
+        \begin{itemize}
+          \item Sensor PIR: HC-SR501
+          \item Disparo de captura de imagen por interrupción
+        \end{itemize}
+      \end{block}
+    \end{column}
     
-    % --- Nodo C1 ---
-    \begin{scope}[shift={(-6.0, 1.2)}]
-      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
-      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
-      \fill[black!30] (0,0) circle (0.13);
-      \fill[white] (-0.06,0.06) circle (0.04);
-      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
-      \fill[black!90] (-0.48,0) circle (1.5pt);
-      \node (c1) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
-    \end{scope}
+    \begin{column}{0.52\textwidth}
 
-    % --- Nodo C2 ---
-    \begin{scope}[shift={(-7.2, -0.2)}]
-      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
-      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
-      \fill[black!30] (0,0) circle (0.13);
-      \fill[white] (-0.06,0.06) circle (0.04);
-      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
-      \fill[black!90] (-0.48,0) circle (1.5pt);
-      \node (c2) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
-      % Ondas wifi para C2
-      \draw[draw=black, line width=1pt] (-0.68, 0.1) to[out=135, in=225] (-0.68, -0.1);
-      \draw[draw=black, line width=1pt] (-0.80, 0.22) to[out=135, in=225] (-0.80, -0.22);
-      \draw[draw=black, line width=1pt] (0.68, 0.1) to[out=45, in=-45] (0.68, -0.1);
-      \draw[draw=black, line width=1pt] (0.80, 0.22) to[out=45, in=-45] (0.80, -0.22);
-    \end{scope}
-
-    % --- Nodo C3 ---
-    \begin{scope}[shift={(-7.2, -1.5)}]
-      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
-      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
-      \fill[black!30] (0,0) circle (0.13);
-      \fill[white] (-0.06,0.06) circle (0.04);
-      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
-      \fill[black!90] (-0.48,0) circle (1.5pt);
-      \node (c3) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
-    \end{scope}
-
-    % --- Nodo C4 ---
-    \begin{scope}[shift={(-4.8, -1.0)}]
-      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
-      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
-      \fill[black!30] (0,0) circle (0.13);
-      \fill[white] (-0.06,0.06) circle (0.04);
-      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
-      \fill[black!90] (-0.48,0) circle (1.5pt);
-      \node (c4) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
-    \end{scope}
-
-    % --- Nodo C5 ---
-    \begin{scope}[shift={(-3.5, 0.2)}]
-      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.35,-0.5) rectangle (0.35,0.5);
-      \draw[draw=black, fill=black!80, line width=1.2pt] (0,0) circle (0.24);
-      \fill[black!30] (0,0) circle (0.13);
-      \fill[white] (-0.06,0.06) circle (0.04);
-      \draw[draw=black, fill=white, rounded corners=1pt, line width=1pt] (-0.55,-0.2) rectangle (-0.35,0.2);
-      \fill[black!90] (-0.48,0) circle (1.5pt);
-      \node (c5) at (0,0) [minimum width=1.1cm, minimum height=1.1cm] {};
-    \end{scope}
-
-    % --- Gateway / Router ---
-    \begin{scope}[shift={(-1.5,-0.4)}]
-      \draw[draw=black, fill=white, rounded corners=2pt, line width=1.2pt] (-0.45,-0.2) rectangle (0.45,0.25);
-      \draw[draw=black, line width=1.4pt] (-0.35,0.25) -- (-0.55,0.65);
-      \draw[draw=black, line width=1.4pt] (0.35,0.25) -- (0.55,0.65);
-      \fill[black] (0,-0.1) circle (1.5pt);
-      \draw[draw=black, line width=0.8pt] (-0.12,-0.02) to[out=45, in=135] (0.12,-0.02);
-      \draw[draw=black, line width=0.8pt] (-0.2,0.06) to[out=45, in=135] (0.2,0.06);
-      \node (rt) at (0,0.02) [minimum width=1cm, minimum height=0.7cm] {};
-    \end{scope}
-
-    % Enlaces MESH
-    \draw[mesh] (c1) -- (c5);
-    \draw[mesh] (c2) -- (c4);
-    \draw[mesh] (c3) -- (c4);
-    \draw[mesh] (c4) -- (c5);
-    \draw[rtlink] (c5) -- (rt);
-
-    % Caja de fondo para Red Mesh
-    \begin{scope}[on background layer]
-      \node[draw=green!60!black, fill=green!10!white, fill opacity=0.4, rounded corners=6pt, line width=1.2pt, fit={(c1) (c2) (c3) (rt)}, inner sep=15pt] (meshbox) {};
-    \end{scope}
-    \node[above right, font=\bfseries\sffamily\small, text=black] at ($(meshbox.north west) + (0.1, 0.05)$) {Red MESH};
-
-    % --- Internet (Nube) ---
-    \node[cloud, draw=blue!70!black, fill=white, minimum width=1.8cm, minimum height=1.2cm, cloud puffs=9, font=\sffamily\bfseries\small, line width=1.2pt] (internet) at (1.5, -0.4) {Internet};
-    
-    % Enlace Gateway a Internet
-    \draw[link] (rt) -- (internet);
-
-    % --- Servidor (Backend) ---
-    \begin{scope}[shift={(4.8,-0.4)}]
-      \draw[draw=black!80, fill=gray!20, line width=1.2pt] (-0.3,-0.5) rectangle (0.3,0.5);
-      \draw[draw=black!80, fill=gray!40, line width=1.1pt] (-0.3,0.5) -- (-0.1,0.65) -- (0.5,0.65) -- (0.3,0.5) -- cycle;
-      \draw[draw=black!80, fill=gray!30, line width=1.1pt] (0.3,-0.5) -- (0.5,-0.35) -- (0.5,0.65) -- (0.3,0.5) -- cycle;
-      \draw[draw=black!70, fill=black!80, line width=0.6pt] (-0.2,0.25) rectangle (0.2,0.32);
-      \draw[draw=black!70, fill=black!80, line width=0.6pt] (-0.2,0.05) rectangle (0.2,0.12);
-      \draw[draw=black!70, fill=black!80, line width=0.6pt] (-0.2,-0.15) rectangle (0.2,-0.08);
-      \fill[green!80!black] (-0.15,-0.35) circle (1.5pt);
-      \fill[red!80!black] (0,-0.35) circle (1.5pt);
-      \node (server) at (0.1,0.07) [minimum width=0.8cm, minimum height=1.2cm] {};
-    \end{scope}
-
-    % Red Neuronal (superpuesta levemente)
-    \begin{scope}[shift={(4.8,-0.5)}, scale=0.18]
-      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-0-0) at (0,0) {};
-      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-0-1) at (0,1.5) {};
-      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-1-0) at (1.2,0.75) {};
-      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-1-1) at (1.2,-0.75) {};
-      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-2-0) at (2.4,0) {};
-      \node[circle, fill=black, minimum size=3pt, inner sep=0] (n-2-1) at (2.4,1.5) {};
-      
-      \draw[draw=black, line width=0.6pt] (n-0-0) -- (n-1-0) (n-0-0) -- (n-1-1);
-      \draw[draw=black, line width=0.6pt] (n-0-1) -- (n-1-0) (n-0-1) -- (n-1-1);
-      \draw[draw=black, line width=0.6pt] (n-1-0) -- (n-2-0) (n-1-0) -- (n-2-1);
-      \draw[draw=black, line width=0.6pt] (n-1-1) -- (n-2-0) (n-1-1) -- (n-2-1);
-    \end{scope}
-
-    % --- Telegram Bot Icon ---
-    \begin{scope}[shift={(7.0,-0.4)}]
-      \fill[black] (0,0) circle (0.35);
-      \fill[white] (-0.18,0.06) -- (0.2,0.14) -- (-0.05,-0.12) -- (-0.09,-0.02) -- cycle;
-      \fill[gray!40] (-0.09,-0.02) -- (-0.05,-0.12) -- (-0.05,-0.2) -- cycle;
-      \node (tg) at (0,0) [minimum width=0.7cm, minimum height=0.7cm] {};
-    \end{scope}
-
-    % Conexión servidor -> Telegram
-    \draw[flow] (server) -- (tg);
-
-    % Caja de fondo para Backend
-    \begin{scope}[on background layer]
-      \node[draw=orange!60!black, fill=orange!15!white, fill opacity=0.4, rounded corners=6pt, line width=1.2pt, fit={(server) (tg)}, inner sep=15pt] (backendbox) {};
-    \end{scope}
-    \node[above right, font=\bfseries\sffamily\small, text=black] at ($(backendbox.north west) + (0.1, 0.05)$) {Backend};
-
-    % Conexión Internet -> Backend
-    \draw[link] (internet) -- (backendbox.west);
-
-    % --- Usuario (Smartphone) ---
-    \begin{scope}[shift={(9.8,-0.4)}]
-      \draw[draw=black, fill=white, rounded corners=4pt, line width=1.3pt] (-0.35,-0.65) rectangle (0.35,0.65);
-      \draw[draw=black, fill=white, line width=0.8pt] (-0.28,-0.5) rectangle (0.28,0.5);
-      \fill[black] (0,-0.57) circle (1.5pt);
-      \fill[black] (-0.08,0.56) rectangle (0.08,0.59);
-      \draw[draw=black!70, fill=gray!10, line width=0.6pt] (-0.23,-0.43) rectangle (0.23,0.43);
-      \fill[gray!60] (-0.2, -0.4) -- (-0.05, -0.15) -- (0.1, -0.4) -- cycle;
-      \fill[gray!40] (-0.05, -0.4) -- (0.1, -0.2) -- (0.2, -0.4) -- cycle;
-      \fill[orange!80] (0.12, 0.22) circle (3.5pt);
-      \node (phone) at (0,0) [minimum width=0.7cm, minimum height=1.3cm] {};
-    \end{scope}
-    \node[above=0.2cm of phone, font=\bfseries\sffamily\small, text=black] {Usuario};
-
-    % Conexión Backend -> Usuario
-    \draw[flow] (backendbox.east) -- (phone.west);
-  \end{tikzpicture}
-  }
-  }
+      \begin{block}{Alimentación Externa}
+        \begin{itemize}
+          \item Pack de baterías 18650 2S 
+          \item Voltaje nominal: \qty{7.4}{\volt}
+          \item Capacidad nominal: \qty{3500}{mAh}
+          \item Regulador: Módulo convertidor tipo \textit{Buck} LM2596
+          % \item Corte por caída de tensión del regulador a \qty{6.5}{\volt}
+          \item Capacidad utilizable: \qty{1400}{mAh} debido a la caída de tensión del regulador
+          \item Eficiencia (\qty{92}{\percent}) y versatilidad de tensión de entrada (\qty{40}{\volt})
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
   \note{
-    Visión general del sistema: nodos de cámara capturan imágenes, las envían por
-red mesh al nodo raíz, que las reenvía al servidor para procesamiento con IA
-y notificación por Telegram.
-}
+    
+  }
 \end{frame}
 
-\begin{frame}{Nodo de Camara - Hardware}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{Componentes:}
-\begin{itemize}
-  \item ESP32-CAM (AI-Thinker)
-  \item Camara OV2640 (\num{2}~MP)
-  \item Sensor PIR HC-SR501
-  \item Buck converter LM2596
-  \item Baterias 18650 (2S, \qty{7.4}{\volt})
-\end{itemize}
-
-\vspace{0.5em}
-\textbf{Resolucion:} \num{640} x \num{480} (VGA)
-\end{column}
-\begin{column}{0.5\textwidth}
+\begin{frame}{Render 3D}
 \centering
-\includegraphics[width=0.9\textwidth]{bachelor-thesis/img/nodoEnsamblado.jpg}
-\end{column}
-\end{columns}
+\includegraphics[width=\textwidth]{bachelor-thesis/img/modelo3D.png}
 \note{
-Hardware del nodo: ESP32-CAM de AI-Thinker con cámara OV2640, sensor PIR
-HC-SR501, buck converter para alimentación desde baterías 18650. Resolución
-VGA suficiente para clasificación.
+
 }
 \end{frame}
 
-\begin{frame}{Diseno y Energia}
-
-% Fila 1: Render / Esquematico horizontal
-\centering
-\includegraphics[width=0.85\textwidth]{bachelor-thesis/img/modelo3D.png}
-
-\vspace{1em}
-
-% Fila 2: Dos columnas
-\begin{columns}
-  \begin{column}{0.55\textwidth}
-  \textbf{Autonomia (Baterias 18650 2S \qty{3500}{mAh}):}
-  \begin{itemize}
-  \item Capacidad util: $\sim$\qty{1400}{mAh} (corte a \qty{6.5}{V} por dropout LM2596)
-  \item Autonomia medida (Relay): $\sim$\qty{5}{h}
-  \end{itemize}
-  \end{column}
-  
-  \begin{column}{0.45\textwidth}
-  \textbf{Consumo Energetico (\unit{\milli\ampere}):}
-  \begin{table}
-  \centering
-  \scriptsize
-  \begin{tabular}{lc}
-  \hline
-  \textbf{Estado} & \textbf{Consumo} \\
-  \hline
-  Modo ULP (Leaf, Deep Sleep) & $\sim$\num{13} \\
-  Promedio (Relay, Light Sleep) & $\sim$\num{180} \\
-  Captura y envio & $\sim$\num{200} \\
-  \hline
-  \end{tabular}
-  \end{table}
-  \end{column}
-\end{columns}
-\note{
-En el diseño físico protegimos los componentes con una carcasa 3D.
-El aspecto clave es la energía: usamos baterías 18650 2S.
-Como el LM2596 tiene una caída de voltaje, perdemos capacidad utilizable.
-El nodo Leaf usa el coprocesador ULP en Deep Sleep consumiendo solo 13mA.
-El nodo Relay debe mantener la red viva, consumiendo 180mA (5hs autonomía).
-}
-\end{frame}
+\section*{Red Malla}
 
 \begin{frame}{Red Malla - El Concepto}
 \textbf{¿Como sacamos la foto de la selva profunda?}
@@ -1369,8 +1180,7 @@ viendo la IP, sin involucrar a su capa de aplicación.
   }
 \end{frame}
 
-
-
+\section*{Servidor de Monitoreo Remoto}
 
 \begin{frame}{Servidor de Aplicacion}
 \centering
@@ -1562,7 +1372,18 @@ para futuro fine-tuning del modelo.
 }
 \end{frame}
 
-% Limitaciones Conocidas movido a la Sección 5
+% \begin{frame}{Live Demo del Sistema}
+%   \centering
+%   \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
+%       [Espacio para demostración en vivo o video]\\
+%       (Activación de cámara $\rightarrow$ Mesh $\rightarrow$ Telegram)
+%   \vspace{3cm}}}
+%   \note{
+%     Aquí realizamos la demostración en vivo. Activamos una cámara,
+%     la petición viaja por la red mesh al servidor local, procesa la imagen
+%     y llega la notificación al bot de Telegram frente a todos.
+%   }
+% \end{frame}
 
 % ==============================================================================
 % Sección 4: Resultados
@@ -1616,19 +1437,6 @@ entre sí. Detecciones exitosas de personas, vehículos, aves silvestres
 (confianza 0.74-0.90) y gato doméstico (0.96). Falsas activaciones por
 movimiento de vegetación fueron filtradas por la lógica de umbrales.
 }
-\end{frame}
-
-\begin{frame}{Live Demo del Sistema}
-  \centering
-  \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
-      [Espacio para demostración en vivo o video]\\
-      (Activación de cámara $\rightarrow$ Mesh $\rightarrow$ Telegram)
-  \vspace{3cm}}}
-  \note{
-    Aquí realizamos la demostración en vivo. Activamos una cámara,
-    la petición viaja por la red mesh al servidor local, procesa la imagen
-    y llega la notificación al bot de Telegram frente a todos.
-  }
 \end{frame}
 
 \begin{frame}{Resultados - Red Mesh}
@@ -1795,9 +1603,9 @@ compensa estos errores y genera datos para fine-tuning.
 \end{frame}
 
 % ==============================================================================
-% Sección 5: Conclusiones
+% Sección 5: Conclusión
 % ==============================================================================
-\section{Conclusiones}
+\section{Conclusión}
 
 \begin{frame}{Logros Alcanzados}
 \begin{itemize}
@@ -1887,7 +1695,45 @@ alcance entre nodos, TinyML, fine-tuning con datos del Human-in-the-loop.
 }
 \end{frame}
 
-% Recomendaciones y Repositorios movidos a Anexos
+\begin{frame}{Iniciativa de Código Abierto}
+\begin{itemize}
+\setlength{\itemsep}{0.8em}
+\item \textbf{Firmware nodos:} \\ \href{https://github.com/GabyDs/trapcam_mesh}{github.com/GabyDs/trapcam\_mesh}
+\item \textbf{Servidor de aplicación:} \\ \href{https://github.com/fabcontigiani/server-capstone-project}{github.com/fabcontigiani/server-capstone-project}
+\item \textbf{Servidor de inferencia:} \\ \href{https://github.com/fabcontigiani/wildlife-detection-capstone-project}{github.com/fabcontigiani/wildlife-detection-capstone-project}
+\item \textbf{Modelo 3D carcasa:} \\ \href{https://www.printables.com/model/1532349-case-for-esp32_cam-trail-camera-pir-sensor-buck-co}{printables.com/model/1532349}
+\item \textbf{Informe Final:} \\ \href{https://github.com/fabcontigiani/bachelor-thesis}{github.com/fabcontigiani/bachelor-thesis}
+\item \textbf{Presentación:} \\ \href{https://github.com/fabcontigiani/thesis-presentation}{github.com/fabcontigiani/thesis-presentation}
+\end{itemize}
+\note{
+Todo el código disponible en GitHub para uso por la comunidad.
+}
+\end{frame}
+
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture, overlay]
+    % Corner 1: Top-Left
+    \node[draw=white, line width=4pt, fill=white, inner sep=0pt, rotate=-5, anchor=center] at ($(current page.center)+(-3.2, 2.0)$) {
+      \includegraphics[width=4.2cm]{img/misiones5.jpg}
+    };
+    % Corner 2: Top-Right
+    \node[draw=white, line width=4pt, fill=white, inner sep=0pt, rotate=8, anchor=center] at ($(current page.center)+(3.0, 2.2)$) {
+      \includegraphics[width=4.5cm]{img/misiones4.jpg}
+    };
+    % Corner 3: Bottom-Left
+    \node[draw=white, line width=4pt, fill=white, inner sep=0pt, rotate=-10, anchor=center] at ($(current page.center)+(-2.8, -2.0)$) {
+      \includegraphics[width=4.8cm]{img/misiones2.jpg}
+    };
+    % Corner 4: Bottom-Right
+    \node[draw=white, line width=4pt, fill=white, inner sep=0pt, rotate=6, anchor=center] at ($(current page.center)+(3.2, -1.8)$) {
+      \includegraphics[width=4.6cm]{img/misiones3.jpg}
+    };
+    % Center: layered last
+    \node[draw=white, line width=5pt, fill=white, inner sep=0pt, rotate=2, anchor=center] at (current page.center) {
+      \includegraphics[width=5.2cm]{img/misiones6.png}
+    };
+  \end{tikzpicture}
+\end{frame}
 
 \begin{frame}{Agradecimientos}
 \begin{itemize}
@@ -1897,16 +1743,17 @@ alcance entre nodos, TinyML, fine-tuning con datos del Human-in-the-loop.
 \item A los docentes que contribuyeron a nuestra formación
 \item A nuestros compañeros de carrera
 \end{itemize}
-
-\vspace{1em}
-\centering
-\textit{¡Gracias a todos!}
 \note{
 Agradecer especialmente a las familias, al tutor Dr. Sergio Moya, a la
 Facultad de Ingeniería, docentes y compañeros. Este proyecto no hubiera
 sido posible sin su apoyo.
 }
 \end{frame}
+
+\begin{frame}[standout]
+¡Muchas gracias!
+\end{frame}
+
 
 \begin{frame}[standout]
 ¿Preguntas?
@@ -2237,21 +2084,6 @@ operativo, y todo disponible como código abierto en 3 repositorios.
 \end{enumerate}
 \note{
 Backup: Recomendaciones prácticas para implementadores.
-}
-\end{frame}
-
-\begin{frame}{Repositorios}
-\small
-\begin{description}
-\item[Firmware nodos:] \url{github.com/GabyDs/trapcam_mesh}
-\item[Servidor aplicacion:] \url{github.com/fabcontigiani/server-capstone-project}
-\item[Servidor inferencia:] \url{github.com/fabcontigiani/wildlife-detection-capstone-project}
-\end{description}
-
-\vspace{1em}
-\textbf{Modelo 3D carcasa:} Disponible en Printables
-\note{
-Backup: Todo el código disponible en GitHub.
 }
 \end{frame}
 
