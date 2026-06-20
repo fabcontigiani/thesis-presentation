@@ -421,18 +421,22 @@ Ejercicio
 % \end{frame}
 
 \begin{frame}{Contramedidas Tradicionales}
-  % \textbf{Métodos actuales de vigilancia:}
-  % \vspace{0.5em}
-
   \begin{columns}[c]
-    \begin{column}{0.55\textwidth}
-      \begin{itemize}
-        \setlength{\itemsep}{1em}
-        \item \textbf{Monitoreo acústico:} Sensores de audio pasivos para registrar ruidos (motosierras, disparos).
-        \item \textbf{Drones y satélites:} Vigilancia aérea y detección de deforestación e incendios.
-      \end{itemize}
+    \begin{column}{0.6\textwidth}
+      \begin{tblr}{
+        width = \linewidth,
+        colspec = {X[1.1,l] X[0.9,l] X[l]},
+        row{1} = {font=\bfseries\scriptsize, bg=blue!10},
+        cells = {font=\scriptsize},
+        hline{1,2,Z} = {0.8pt, gray!50},
+      }
+        Método & Ventaja & Limitación \\
+        Monitoreo acústico & Detección de audio & Alcance reducido \\
+        Drones y satélites & Gran cobertura & Bloqueo por dosel \\
+        Cámaras pasivas & Bajo costo & Alta latencia \\
+      \end{tblr}
     \end{column}
-    \begin{column}{0.45\textwidth}
+    \begin{column}{0.4\textwidth}
       \centering
       \includegraphics[width=\textwidth]{img/contramedida.png}
     \end{column}
@@ -1845,6 +1849,7 @@ Todo el código disponible en GitHub para uso por la comunidad.
 \item A la Facultad de Ingeniería de la UNaM
 \item A los docentes que contribuyeron a nuestra formación
 \item A nuestros compañeros de carrera
+\item A todo el equipo del Jardín Botánico
 \end{itemize}
 \note{
 Agradecer especialmente a las familias, al tutor Dr. Sergio Moya, a la
