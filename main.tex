@@ -872,41 +872,41 @@ desarrollamos.
 }
 \end{frame}
 
+% \begin{frame}{Alcance del Proyecto}
+% \begin{columns}
+% \begin{column}{0.5\textwidth}
+% \textbf{Dentro del alcance:}
+% \begin{itemize}
+%   \item Nodos ESP32-CAM + sensor PIR
+%   \item Red mesh funcional
+%   \item Servidor de recepción y clasificación
+%   \item Bot de Telegram para alertas
+%   \item Pruebas en laboratorio y campo
+% \end{itemize}
+% \end{column}
+% \begin{column}{0.5\textwidth}
+% \textbf{Fuera del alcance:}
+% \begin{itemize}
+%   \item Despliegue en selva densa
+%   \item Carcasas con grado IP
+%   \item Entrenamiento de modelos específicos
+%   \item Certificación comercial
+% \end{itemize}
+% \end{column}
+% \end{columns}
+% \note{
+% Definimos claramente qué sí y qué no incluye el proyecto. Prototipo
+% funcional para pruebas, no producto comercial. Sin despliegue en selva
+% real ni carcasas industriales.
+% }
+% \end{frame}
 
-\begin{frame}{Alcance del Proyecto}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{Dentro del alcance:}
-\begin{itemize}
-  \item Nodos ESP32-CAM + sensor PIR
-  \item Red mesh funcional
-  \item Servidor de recepción y clasificación
-  \item Bot de Telegram para alertas
-  \item Pruebas en laboratorio y campo
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-\textbf{Fuera del alcance:}
-\begin{itemize}
-  \item Despliegue en selva densa
-  \item Carcasas con grado IP
-  \item Entrenamiento de modelos específicos
-  \item Certificación comercial
-\end{itemize}
-\end{column}
-\end{columns}
-\note{
-Definimos claramente qué sí y qué no incluye el proyecto. Prototipo
-funcional para pruebas, no producto comercial. Sin despliegue en selva
-real ni carcasas industriales.
-}
-\end{frame}
-
-\begin{frame}{Limitaciones}
+\begin{frame}{Alcance y Limitaciones}
   \begin{itemize}
-    \setlength{\itemsep}{1.5em}
-    \item \textbf{Hardware:} Operación exclusivamente diurna (filtro IR integrado) y autonomía energética limitada por baterías utilizadas.
+    \setlength{\itemsep}{1.0em}
+    \item \textbf{Hardware:} Operación diurna o bajo luz visible (filtro IR integrado) y autonomía energética limitada por baterías utilizadas.
     \item \textbf{Transmisión:} Ancho de banda y rango acorde a MCU; el envío de paquetes grandes añade complicaciones extra en estas redes malla.
+    \item \textbf{Enlace de larga distancia:} No se implementa un nodo raíz con protocolo de comunicación de larga distancia (satelital/celular dedicada).
     \item \textbf{Despliegue Físico:} No se contempla el diseño de carcasas con grado de protección IP, ni el despliegue permanente en campo.
     \item \textbf{Modelos de IA:} Se utilizan modelos preentrenados; no se incluye el entrenamiento de un modelo específico para la fauna local, aunque si se tiene en cuenta esta posibilidad a futuro.
   \end{itemize}
@@ -914,8 +914,9 @@ real ni carcasas industriales.
     Es importante explicitar las limitaciones técnicas del prototipo al priorizar el bajo costo:
     1. La cámara no tiene visión nocturna sin modificarla físicamente (filtro IR).
     2. La autonomía es menor a las cámaras comerciales preparadas para meses de uso.
-    3. Al ser prueba de concepto, no hay certificación IP ni pruebas en selva profunda.
-    4. La IA usa bases de datos globales, lo que puede afectar la precisión a nivel especie local.
+    3. No se implementa comunicación de largo alcance (satelital o celular dedicada) en el nodo raíz por su complejidad.
+    4. Al ser prueba de concepto, no hay certificación IP ni pruebas en selva profunda.
+    5. La IA usa bases de datos globales, lo que puede afectar la precisión a nivel especie local.
   }
 \end{frame}
 
@@ -1460,7 +1461,7 @@ para futuro fine-tuning del modelo.
         width = \linewidth,
         colspec = {X[l] c},
         cells = {font=\small},
-        row{1} = {font=\bfseries\small, bg=blue!10},
+        row{1} = {font=\bfseries\normalsize, bg=blue!10},
         row{Z} = {font=\bfseries\normalsize, bg=blue!5},
         hline{1,2,7,Z} = {0.8pt, gray!50},
       }
@@ -1501,6 +1502,8 @@ para futuro fine-tuning del modelo.
     Dividimos el costo en dos partes: el nodo de cámara en sí, que suma 25 USD, y el pack de baterías y alimentación (incluyendo celdas 18650, caja estanca, holder y prensaestopas), que suma 20 USD, totalizando 45 USD.
   }
 \end{frame}
+
+\section*{Pruebas de Campo}
 
 \begin{frame}{Escenario de Prueba}
   \centering
