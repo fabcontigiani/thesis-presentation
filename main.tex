@@ -1336,107 +1336,150 @@ viendo la IP, sin involucrar a su capa de aplicación.
 
 \section*{Servidor de Monitoreo Remoto}
 
-\begin{frame}{Servidor de Aplicación}
-\centering
-\scalebox{0.6}{
-  \begin{tikzpicture}[
-      scale=0.8,
-      font=\sffamily,
-      >=Latex,
-      node distance=14mm and 22mm,
-      service/.style={
-        draw=black!70,
-        rounded corners=2pt,
-        fill=blue!3,
-        minimum width=22mm,
-        minimum height=9mm,
-        align=center,
-        line width=0.9pt
-      },
-      volume/.style={
-        draw=black!70,
-        cylinder,
-        shape border rotate=90,
-        aspect=0.28,
-        minimum height=9mm,
-        minimum width=18mm,
-        align=center,
-        fill={rgb,255:red,253;green,250;blue,228},
-        draw={rgb,255:red,134;green,122;blue,34},
-        line width=0.9pt
-      },
-      bindmount/.style={
-        draw=black!70,
-        diamond,
-        aspect=2,
-        inner xsep=2pt,
-        inner ysep=1.5pt,
-        fill={rgb,255:red,253;green,250;blue,228},
-        draw={rgb,255:red,134;green,122;blue,34},
-        line width=0.9pt,
-        font=\ttfamily\footnotesize,
-        align=center
-      },
-      app/.style={-{Latex[length=2.2mm,width=1.6mm]}, draw=black!70, line width=0.95pt},
-      mount/.style={Latex-Latex, draw=black!65, dashed, line width=0.95pt}
-    ]
+\begin{frame}{Arquitectura del Servidor}
+  \begin{columns}[c]
+    \begin{column}{0.45\textwidth}
+      \centering
+        \begin{tikzpicture}[
+            scale=0.8,
+            font=\sffamily\small,
+            >=Latex,
+            node distance=10mm and 12mm,
+            core/.style={
+              draw=teal!80!black,
+              rounded corners=2pt,
+              fill=teal!10,
+              minimum width=22mm,
+              minimum height=9mm,
+              align=center,
+              line width=0.9pt
+            },
+            interface/.style={
+              draw=cyan!80!black,
+              rounded corners=2pt,
+              fill=cyan!10,
+              minimum width=22mm,
+              minimum height=9mm,
+              align=center,
+              line width=0.9pt
+            },
+            database/.style={
+              draw=orange!85!black,
+              cylinder,
+              shape border rotate=90,
+              aspect=0.25,
+              fill=orange!10,
+              minimum width=20mm,
+              minimum height=11mm,
+              align=center,
+              line width=0.9pt
+            },
+            ai/.style={
+              draw=purple!80!black,
+              rounded corners=2pt,
+              fill=purple!10,
+              minimum width=22mm,
+              minimum height=9mm,
+              align=center,
+              line width=0.9pt
+            },
+            app/.style={{Latex[length=2.2mm,width=1.6mm]}-{Latex[length=2.2mm,width=1.6mm]}, draw=black!70, line width=0.95pt},
+            incoming/.style={-{Latex[length=2.2mm,width=1.6mm]}, draw=black!50, dashed, line width=0.95pt}
+          ]
 
-    % Service nodes
-    \node[service] (web) {web (Django)};
-    \node[service, left=of web] (bot) {bot (Telegram)};
-    \node[service, right=of web] (db) {db (PostgreSQL)};
-    \node[service, below=of web] (speciesnet) {speciesnet (Inferencia)};
+          % Service nodes
+          \node[interface] (bot) {Módulo de\\Notificación};
+          \node[database, right=of bot] (db) {Base de\\Datos};
+          \node[core] (web) at ($(bot)!0.5!(db) + (0,-2.5)$) {Orquestador\\Central};
+          \node[ai, below=of web] (speciesnet) {Módulo de\\Clasificación};
 
-    % Volume and bind mount nodes
-    \node[bindmount, above left=12mm and 12mm of web] (Vstatic) {./static};
-    \node[bindmount, above=of web] (Vmonitorstatic) {./monitor/static};
-    \node[volume, left=24mm of speciesnet] (Vmediavolume) {media\_volume};
-    \node[volume, below=of speciesnet] (Vspeciesnetcache) {speciesnet\_cache};
-    \node[volume, below=of db] (Vdbdata) {db\_data};
+          % Inter-service communication
+          \draw[app] (bot) -- (web);
+          \draw[app] (web) -- (db);
+          \draw[app] (web) -- (speciesnet);
 
-    % Inter-service communication
-    \draw[app] (bot) -- (web);
-    \draw[app] (web) -- (db);
-    \draw[app] (web) -- (speciesnet);
+          % External communication
+          \draw[incoming] ($(web.west)+(-2,0)$) -- node[above, font=\sffamily\small] {Red Mesh} (web.west);
 
-    % Volume mounts / bind mounts
-    \draw[mount] (Vstatic) -- (web);
-    \draw[mount] (Vmonitorstatic) -- (web);
-    \draw[mount] (Vmediavolume) -- (web);
-    \draw[mount] (Vmediavolume) -- (bot);
-    \draw[mount] (Vspeciesnetcache) -- (speciesnet);
-    \draw[mount] (Vmediavolume) -- (speciesnet);
-    \draw[mount] (Vdbdata) -- (db);
+        \end{tikzpicture}
+    \end{column}
+    
+    \begin{column}{0.55\textwidth}
+      \small
+      \textbf{Despliegue y Orquestación:}
+      \begin{itemize}
+        \setlength{\itemsep}{0.6em}
+        \item \textbf{Docker Compose:} Entorno containerizado y reproducible que encapsula el backend y sus dependencias.
+        \item \textbf{Red Aislada:} Los servicios se comunican privadamente dentro de una red interna gestionada por Docker.
+        \item \textbf{Puerto Expuesto:} Solo el Orquestador expone puertos al exterior para recibir imágenes de la malla.
+        \item \textbf{Volúmenes Compartidos:} Django, Telegram y SpeciesNet comparten directorios para acceder a las imágenes en disco.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \note{
+    La arquitectura del servidor se despliega mediante Docker Compose:
+    1. Aísla y estandariza la ejecución de los servicios (Django, PostgreSQL, bot de Telegram, SpeciesNet).
+    2. La red interna privada de Docker protege los servicios, permitiendo comunicación interna segura sin exponer bases de datos o APIs de IA.
+    3. Solo el puerto del servidor central está expuesto hacia la red mesh para recibir las peticiones POST de subida de imágenes.
+    4. Los volúmenes montados posibilitan que Django y SpeciesNet accedan al mismo directorio de imágenes compartidas.
+  }
+\end{frame}
 
-  \end{tikzpicture}
-}
-\note{
-Servidor containerizado con Docker Compose: Django para backend,
-SpeciesNet para inferencia con LitServe, PostgreSQL para datos, bot de
-Telegram para notificaciones. Fácil de desplegar.
-}
+\begin{frame}{Orquestador Central}
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \setlength{\itemsep}{0.5em}
+        \item \textbf{Python} 3.13 + \textbf{Django} 5.2.
+        \item \textbf{Recepción:} Endpoint HTTP POST \texttt{/upload/} para recibir las capturas desde la red mesh.
+        \item \textbf{Gestión de Archivos:} Almacena la imagen original e interactúa con el módulo de inferencia.
+        \item \textbf{Panel Web:} Interfaz de monitoreo que permite visualizar en tiempo real los eventos de captura y diagnósticos.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering
+      \scalebox{0.85}{
+        \begin{tikzpicture}[
+            node distance=0.6cm,
+            box/.style={rectangle, draw=black!70, rounded corners=2pt, fill=blue!5, text width=3.4cm, text centered, minimum height=0.7cm, font=\sffamily\small, line width=0.8pt},
+            io/.style={rectangle, draw=teal!80, rounded corners=2pt, fill=teal!5, text width=3.4cm, text centered, minimum height=0.7cm, font=\sffamily\small, line width=0.8pt},
+            process/.style={rectangle, draw=orange!80, rounded corners=2pt, fill=orange!5, text width=3.4cm, text centered, minimum height=0.7cm, font=\sffamily\small, line width=0.8pt},
+            decision/.style={diamond, draw=red!80, fill=red!5, text width=1.5cm, text centered, inner sep=0pt, font=\sffamily\small, line width=0.8pt},
+            arrow/.style={thick, -Latex}
+          ]
+          
+          \node (receive) [io] {1. HTTP POST \texttt{/upload/}};
+          \node (persist) [process, below=of receive] {2. Guardar imagen y\\metadatos};
+          \node (infer) [box, below=of persist] {3. Inferencia};
+          \node (decide) [decision, below=of infer, yshift=-0.15cm] {¿Alerta?};
+          \node (alert) [io, right=of decide, xshift=0.3cm, text width=2.0cm] {4. Alerta\\Telegram};
+          \node (end) [process, below=of decide, yshift=-0.15cm] {5. Registro Histórico};
+
+          \draw [arrow] (receive) -- (persist);
+          \draw [arrow] (persist) -- (infer);
+          \draw [arrow] (infer) -- (decide);
+          \draw [arrow] (decide) -- node[above, font=\sffamily\small] {Sí} (alert);
+          \draw [arrow] (decide) -- node[left, font=\sffamily\small] {No} (end);
+          \draw [arrow] (alert) |- (end);
+        \end{tikzpicture}
+      }
+    \end{column}
+  \end{columns}
+  \note{
+    El Orquestador Central está construido con Django y actúa como el núcleo del sistema. Recibe de forma asíncrona las capturas enviadas por la red mesh a través del endpoint de subida, almacena las imágenes originales en disco y delega la inferencia del modelo al contenedor SpeciesNet. Cuenta además con un panel de monitoreo web para los administradores.
+  }
 \end{frame}
 
 \begin{frame}{Servicio de Detección (SpeciesNet)}
   \begin{columns}
     \begin{column}{0.5\textwidth}
-      \textbf{Pipeline de procesamiento:}
-      \begin{enumerate}
-        \item \textbf{Detección:} MegaDetector (YOLOv5) identifica regiones de interés (animal, persona, vehículo).
-        \item \textbf{Clasificación:} Modelos SpeciesNet analizan recortes y predicen familia, género y especie.
-        \item \textbf{Anotación:} Genera copia con bounding boxes.
-      \end{enumerate}
-      \vspace{0.5em}
-      \textbf{API REST:} Endpoint \texttt{/predict} expuesto mediante LitServe.
-    \end{column}
-    \begin{column}{0.5\textwidth}
       \centering
-      \scalebox{0.5}{
+      \scalebox{0.85}{
         \begin{tikzpicture}[
-            node distance=1.0cm and 1.5cm,
-            box/.style={rectangle, draw, rounded corners, fill=blue!10, text width=3.8cm, text centered, minimum height=1.2cm, font=\sffamily\small},
-            io/.style={trapezium, trapezium left angle=70, trapezium right angle=110, draw, fill=green!10, text width=3.2cm, text centered, minimum height=1.0cm, font=\sffamily\small},
-            process/.style={rectangle, draw, fill=orange!10, text width=3.8cm, text centered, minimum height=1.2cm, font=\sffamily\small},
+            node distance=0.5cm and 1.2cm,
+            box/.style={rectangle, draw, rounded corners, fill=blue!10, text width=3.5cm, text centered, minimum height=0.7cm, font=\sffamily\small},
+            io/.style={rectangle, draw, fill=green!10, text width=3.5cm, text centered, minimum height=0.6cm, font=\sffamily\small},
+            process/.style={rectangle, draw, fill=orange!10, text width=3.5cm, text centered, minimum height=0.7cm, font=\sffamily\small},
             arrow/.style={thick, -Latex}
           ]
   
@@ -1452,14 +1495,22 @@ Telegram para notificaciones. Fácil de desplegar.
           % Conexiones
           \draw [arrow] (request) -- (read);
           \draw [arrow] (read) -- (detect);
-          \draw [arrow] (detect) -- node[anchor=east, font=\scriptsize] {Recortes} (classify);
-          \draw [arrow] (classify) -- node[anchor=east, font=\scriptsize] {Clases} (draw);
+          \draw [arrow] (detect) -- node[anchor=east, font=\small] {Recortes} (classify);
+          \draw [arrow] (classify) -- node[anchor=east, font=\small] {Clases} (draw);
           \draw [arrow] (draw) -- (save);
           \draw [arrow] (save) -- (response);
           \draw [arrow] (detect.east) -- ++(1.0,0) |- (draw.east);
   
         \end{tikzpicture}
       }
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{enumerate}
+        \item \textbf{Detección:} MegaDetector (YOLOv5) identifica regiones de interés (animal, persona, vehículo).
+        \item \textbf{Clasificación:} Modelos SpeciesNet analizan recortes y predicen familia, género y especie.
+        \item \textbf{Anotación:} Genera copia con bounding boxes.
+        \item \textbf{Respuesta:} JSON con detecciones (clases), clasificaciones (especie) y la ruta de la imagen anotada.
+      \end{enumerate}
     \end{column}
   \end{columns}
 \note{
@@ -1469,25 +1520,72 @@ genera una imagen anotada. Todo expuesto via API REST con LitServe.
 }
 \end{frame}
 
-\begin{frame}{Lógica de Umbrales de Detección}
-\textbf{Tres niveles de decisión para enviar alertas:}
+% \begin{frame}{Lógica de Umbrales de Detección}
+% \textbf{Tres niveles de decisión para enviar alertas:}
 
-\vspace{0.5em}
-\begin{description}
-\item[HIGH = 0{,}80:] Confianza $>$ \qty{80}{\percent} $\rightarrow$ alerta \textbf{inmediata}, sin importar clasificación
-\item[MID = 0{,}50:] Confianza entre \qty{50}{\percent} y \qty{80}{\percent} y clasificador dice ``vacío'' $\rightarrow$ alerta igualmente (posible animal pequeño)
-\item[LOW = 0{,}30:] Confianza $<$ \qty{30}{\percent} y clasificador ``vacío'' $\rightarrow$ se \textbf{descarta} (probable falso positivo del PIR)
-\end{description}
+% \vspace{0.5em}
+% \begin{description}
+% \item[HIGH = 0{,}80:] Confianza $>$ \qty{80}{\percent} $\rightarrow$ alerta \textbf{inmediata}, sin importar clasificación
+% \item[MID = 0{,}50:] Confianza entre \qty{50}{\percent} y \qty{80}{\percent} y clasificador dice ``vacío'' $\rightarrow$ alerta igualmente (posible animal pequeño)
+% \item[LOW = 0{,}30:] Confianza $<$ \qty{30}{\percent} y clasificador ``vacío'' $\rightarrow$ se \textbf{descarta} (probable falso positivo del PIR)
+% \end{description}
 
-\vspace{0.5em}
-\begin{alertblock}{Política}
-Sesgo hacia la \textbf{sensibilidad}: ante la duda, se transmite la imagen y se delega la decisión al operador humano.
-\end{alertblock}
-\note{
-Tres umbrales configurables: HIGH (80\%) envía siempre, MID (50\%) envía
-si el clasificador dice vacío (posible animal pequeño), LOW (30\%) descarta.
-Política conservadora: preferimos falsos positivos a perder eventos reales.
-}
+% \vspace{0.5em}
+% \begin{alertblock}{Política}
+% Sesgo hacia la \textbf{sensibilidad}: ante la duda, se transmite la imagen y se delega la decisión al operador humano.
+% \end{alertblock}
+% \note{
+% Tres umbrales configurables: HIGH (80\%) envía siempre, MID (50\%) envía
+% si el clasificador dice vacío (posible animal pequeño), LOW (30\%) descarta.
+% Política conservadora: preferimos falsos positivos a perder eventos reales.
+% }
+% \end{frame}
+
+\begin{frame}{Módulo de Notificación (Telegram)}
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \setlength{\itemsep}{0.4em}
+        \item \textbf{Desarrollo:} Basado en la biblioteca \texttt{python-telegram-bot} con ejecución asíncrona.
+        \item \textbf{Alertas Push:} Envío inmediato de un \textit{Media Group} con la imagen original y anotada al superar el umbral de confianza.
+        \item \textbf{Interactividad:} Teclados en el mensaje (\textit{inline keyboards}) que posibilitan la auditoría inmediata por operadores.
+        \item \textbf{Human-in-the-loop (HITL):} Permite corregir falsos positivos taxonómicos en tiempo real, curando el \textit{Ground Truth} para futuro reentrenamiento.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering
+      \scalebox{0.75}{
+        \begin{tikzpicture}[
+            node distance=0.6cm,
+            box/.style={rectangle, draw=black!70, rounded corners=2pt, fill=blue!5, text width=3.4cm, text centered, minimum height=0.7cm, font=\sffamily\small, line width=0.8pt},
+            io/.style={rectangle, draw=teal!80, rounded corners=2pt, fill=teal!5, text width=3.4cm, text centered, minimum height=0.7cm, font=\sffamily\small, line width=0.8pt},
+            process/.style={rectangle, draw=orange!80, rounded corners=2pt, fill=orange!5, text width=3.4cm, text centered, minimum height=0.7cm, font=\sffamily\small, line width=0.8pt},
+            decision/.style={diamond, draw=red!80, fill=red!5, text width=1.5cm, text centered, inner sep=0pt, font=\sffamily\small, line width=0.8pt},
+            arrow/.style={thick, -Latex}
+          ]
+          
+          \node (receive) [io] {1. Evento de Detección};
+          \node (send) [process, below=of receive] {2. Enviar Alerta\\(Media Group + Botones)};
+          \node (interact) [box, below=of send] {3. Interacción de\\Operador (Telegram)};
+          \node (decide) [decision, below=of interact, yshift=-0.15cm] {¿Correcto?};
+          \node (correct) [io, right=of decide, xshift=0.3cm, text width=2.0cm] {4b. Corregir\\Especie};
+          \node (confirm) [process, below=of decide, yshift=-0.15cm] {4a. Confirmar Clasificación};
+          \node (persist) [process, below=of confirm] {5. Actualizar BD\\(Lógica HITL)};
+
+          \draw [arrow] (receive) -- (send);
+          \draw [arrow] (send) -- (interact);
+          \draw [arrow] (interact) -- (decide);
+          \draw [arrow] (decide) -- node[above, font=\sffamily\small] {No} (correct);
+          \draw [arrow] (decide) -- node[left, font=\sffamily\small] {Sí} (confirm);
+          \draw [arrow] (confirm) -- (persist);
+          \draw [arrow] (correct) |- (persist);
+        \end{tikzpicture}
+      }
+    \end{column}
+  \end{columns}
+  \note{
+    El Módulo de Notificación implementa el bot de Telegram de forma asíncrona. Cuando SpeciesNet identifica un animal o intruso, el bot compone una alerta proactiva enviando tanto la foto original como la anotada con cajas delimitadoras y las probabilidades. Incluye botones interactivos inline que facilitan a los guardaparques validar o corregir la etiqueta taxonómica de forma simple en terreno.
+  }
 \end{frame}
 
 \begin{frame}{Sistema de Alertas}
