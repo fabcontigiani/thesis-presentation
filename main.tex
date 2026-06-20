@@ -859,7 +859,36 @@ desarrollamos.
 \end{frame}
 
 
-\begin{frame}{Alcance y Limitaciones}
+\begin{frame}{Alcance del Proyecto}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\textbf{Dentro del alcance:}
+\begin{itemize}
+  \item Nodos ESP32-CAM + sensor PIR
+  \item Red mesh funcional
+  \item Servidor de recepción y clasificación
+  \item Bot de Telegram para alertas
+  \item Pruebas en laboratorio y campo
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\textbf{Fuera del alcance:}
+\begin{itemize}
+  \item Despliegue en selva densa
+  \item Carcasas con grado IP
+  \item Entrenamiento de modelos específicos
+  \item Certificación comercial
+\end{itemize}
+\end{column}
+\end{columns}
+\note{
+Definimos claramente qué sí y qué no incluye el proyecto. Prototipo
+funcional para pruebas, no producto comercial. Sin despliegue en selva
+real ni carcasas industriales.
+}
+\end{frame}
+
+\begin{frame}{Limitaciones}
   \begin{itemize}
     \setlength{\itemsep}{1.5em}
     \item \textbf{Hardware:} Operación exclusivamente diurna (filtro IR integrado) y autonomía energética limitada por baterías utilizadas.
@@ -1965,34 +1994,6 @@ de ser rentable.
 }
 \end{frame}
 
-\begin{frame}{Alcance del Proyecto}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{Dentro del alcance:}
-\begin{itemize}
-  \item Nodos ESP32-CAM + sensor PIR
-  \item Red mesh funcional
-  \item Servidor de recepcion y clasificacion
-  \item Bot de Telegram para alertas
-  \item Pruebas en laboratorio y campo
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-\textbf{Fuera del alcance:}
-\begin{itemize}
-  \item Despliegue en selva densa
-  \item Carcasas con grado IP
-  \item Entrenamiento de modelos especificos
-  \item Certificacion comercial
-\end{itemize}
-\end{column}
-\end{columns}
-\note{
-Definimos claramente qué sí y qué no incluye el proyecto. Prototipo
-funcional para pruebas, no producto comercial. Sin despliegue en selva
-real ni carcasas industriales.
-}
-\end{frame}
 
 \begin{frame}{Nodo de Camara - Firmware}
 \textbf{Desarrollado con ESP-IDF + ESP-MESH-LITE}
