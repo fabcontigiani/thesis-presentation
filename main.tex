@@ -33,6 +33,7 @@
   \insertfootnotetext\par%
 }
 \addbibresource{bachelor-thesis/referencias.bib}
+\addbibresource{references.bib}
 
 % Links
 \usepackage{hyperref}
@@ -1421,6 +1422,8 @@ viendo la IP, sin involucrar a su capa de aplicación.
           \draw[app] (bot) -- (web);
           \draw[app] (web) -- (db);
           \draw[app] (web) -- (speciesnet);
+          \draw[app] (bot) -- (db);
+          \draw[app] (speciesnet.east) -| (db.south);
 
           % External communication
           \draw[incoming] ($(web.west)+(-2,0)$) -- node[above, font=\sffamily\small] {Red Mesh} (web.west);
@@ -1433,10 +1436,10 @@ viendo la IP, sin involucrar a su capa de aplicación.
       \textbf{Despliegue y Orquestación:}
       \begin{itemize}
         \setlength{\itemsep}{0.6em}
-        \item \textbf{Docker Compose:} Entorno containerizado y reproducible que encapsula el backend y sus dependencias.
-        \item \textbf{Red Aislada:} Los servicios se comunican privadamente dentro de una red interna gestionada por Docker.
-        \item \textbf{Puerto Expuesto:} Solo el Orquestador expone puertos al exterior para recibir imágenes de la malla.
-        \item \textbf{Volúmenes Compartidos:} Django, Telegram y SpeciesNet comparten directorios para acceder a las imágenes en disco.
+        \item \textbf{Docker Compose:} Entorno containerizado y reproducible que encapsula el backend y sus dependencias
+        \item \textbf{Red Aislada:} Los servicios se comunican privadamente dentro de una red interna gestionada por Docker
+        \item \textbf{Puerto Expuesto:} Solo el Orquestador expone puertos al exterior para recibir imágenes de la malla
+        \item \textbf{Volúmenes Compartidos:} Django, Telegram y SpeciesNet comparten directorios para acceder a las imágenes en disco
       \end{itemize}
     \end{column}
   \end{columns}
@@ -1454,15 +1457,15 @@ viendo la IP, sin involucrar a su capa de aplicación.
     \begin{column}{0.5\textwidth}
       \begin{itemize}
         \setlength{\itemsep}{0.5em}
-        \item \textbf{Python} 3.13 + \textbf{Django} 5.2.
-        \item \textbf{Recepción:} Endpoint HTTP POST \texttt{/upload/} para recibir las capturas desde la red mesh.
-        \item \textbf{Gestión de Archivos:} Almacena la imagen original e interactúa con el módulo de inferencia.
-        \item \textbf{Panel Web:} Interfaz de monitoreo que permite visualizar en tiempo real los eventos de captura y diagnósticos.
+        \item \textbf{Python} 3.13 + \textbf{Django} 5.2
+        \item \textbf{Recepción:} Endpoint HTTP POST \texttt{/upload/} para recibir las capturas desde la red mesh
+        \item \textbf{Gestión de Archivos:} Almacena la imagen original e interactúa con el módulo de inferencia
+        \item \textbf{Panel Web:} Interfaz de monitoreo que permite visualizar en tiempo real los eventos de captura y diagnósticos
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
       \centering
-      \scalebox{0.85}{
+      \scalebox{0.95}{
         \begin{tikzpicture}[
             node distance=0.6cm,
             box/.style={rectangle, draw=black!70, rounded corners=2pt, fill=blue!5, text width=3.4cm, text centered, minimum height=0.7cm, font=\sffamily\small, line width=0.8pt},
@@ -1494,7 +1497,36 @@ viendo la IP, sin involucrar a su capa de aplicación.
   }
 \end{frame}
 
-\begin{frame}{Servicio de Detección (SpeciesNet)}
+\begin{frame}{Módulo de Clasificación: SpeciesNet} % TODO: resumir
+  \begin{columns}[t]
+    \begin{column}{0.5\textwidth}
+      \textbf{¿Qué es SpeciesNet\footcite{speciesnet2024}?}
+      \begin{itemize}
+        \setlength{\itemsep}{0.4em}
+        \item \textbf{Tecnología de Google:} Pipeline de aprendizaje automático desarrollado para el monitoreo de fauna silvestre
+        \item \textbf{Ensemble de modelos:} Combina un detector de objetos (MegaDetector) con un clasificador de especies
+        \item \textbf{Clasificador base:} Red entrenada a gran escala con más de 65M de imágenes
+        \item \textbf{Licencia libre:} Código abierto distribuido bajo la licencia Apache 2.0
+      \end{itemize}
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
+      \textbf{Capacidades principales:}
+      \begin{itemize}
+        \setlength{\itemsep}{0.4em}
+        \item \textbf{Rango taxonómico:} Clasificación en más de 2000 etiquetas, incluyendo especies específicas y categorías vacías
+        \item \textbf{Localización espacial:} Identificación y encuadrado de animales, personas y vehículos mediante cajas delimitadoras
+        \item \textbf{Heurísticas geográficas:} Filtrado por ubicación para refinar predicciones según el ecosistema regional
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \note{
+    Google SpeciesNet es un pipeline de IA que combina MegaDetector (YOLOv5) para detectar la presencia de objetos en la imagen y generar las cajas delimitadoras, y un conjunto de modelos clasificadores taxonómicos para identificar las especies. 
+    En el proyecto, lo desplegamos de forma 100\% local en un contenedor Docker, exponiendo un endpoint con LitServe para que el orquestador Django le envíe imágenes de forma asíncrona. Al procesar localmente, no dependemos de internet ni de nubes de terceros.
+  }
+\end{frame}
+
+\begin{frame}{Módulo de Clasificación: Flujo de Inferencia}
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \centering
@@ -1570,15 +1602,15 @@ genera una imagen anotada. Todo expuesto via API REST con LitServe.
     \begin{column}{0.5\textwidth}
       \begin{itemize}
         \setlength{\itemsep}{0.4em}
-        \item \textbf{Desarrollo:} Basado en la biblioteca \texttt{python-telegram-bot} con ejecución asíncrona.
-        \item \textbf{Alertas Push:} Envío inmediato de un \textit{Media Group} con la imagen original y anotada al superar el umbral de confianza.
-        \item \textbf{Interactividad:} Teclados en el mensaje (\textit{inline keyboards}) que posibilitan la auditoría inmediata por operadores.
-        \item \textbf{Human-in-the-loop (HITL):} Permite corregir falsos positivos taxonómicos en tiempo real, curando el \textit{Ground Truth} para futuro reentrenamiento.
+        \item \textbf{Bot asíncrono:} Envío en tiempo real mediante \texttt{python-telegram-bot}
+        \item \textbf{Mensajes de alerta:} Adjunta imágenes original y anotada del evento
+        \item \textbf{Interactividad:} Botones integrados en el chat para auditoría inmediata
+        \item \textbf{Lógica HITL:} Recolección de datos para futuro análisis y reentrenamiento
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
       \centering
-      \scalebox{0.75}{
+      \scalebox{0.8}{
         \begin{tikzpicture}[
             node distance=0.6cm,
             box/.style={rectangle, draw=black!70, rounded corners=2pt, fill=blue!5, text width=3.4cm, text centered, minimum height=0.7cm, font=\sffamily\small, line width=0.8pt},
@@ -1588,13 +1620,13 @@ genera una imagen anotada. Todo expuesto via API REST con LitServe.
             arrow/.style={thick, -Latex}
           ]
           
-          \node (receive) [io] {1. Evento de Detección};
-          \node (send) [process, below=of receive] {2. Enviar Alerta\\(Media Group + Botones)};
-          \node (interact) [box, below=of send] {3. Interacción de\\Operador (Telegram)};
+          \node (receive) [io] {Evento de Detección};
+          \node (send) [process, below=of receive] {Enviar Alerta\\(Imágenes + Botones)};
+          \node (interact) [box, below=of send] {Interacción de\\Usuario};
           \node (decide) [decision, below=of interact, yshift=-0.15cm] {¿Correcto?};
-          \node (correct) [io, right=of decide, xshift=0.3cm, text width=2.0cm] {4b. Corregir\\Especie};
-          \node (confirm) [process, below=of decide, yshift=-0.15cm] {4a. Confirmar Clasificación};
-          \node (persist) [process, below=of confirm] {5. Actualizar BD\\(Lógica HITL)};
+          \node (correct) [io, right=of decide, xshift=0.3cm, text width=2.0cm] {Corregir\\Especie};
+          \node (confirm) [process, below=of decide, yshift=-0.15cm] {Confirmar Clasificación};
+          \node (persist) [process, below=of confirm] {Actualizar BD};
 
           \draw [arrow] (receive) -- (send);
           \draw [arrow] (send) -- (interact);
@@ -1612,32 +1644,26 @@ genera una imagen anotada. Todo expuesto via API REST con LitServe.
   }
 \end{frame}
 
-\begin{frame}{Sistema de Alertas}
+\begin{frame}{Mensajes de Alerta}
 \begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{Bot de Telegram}
-
-\vspace{0.5em}
-Cada notificación incluye:
+\begin{column}{0.6\textwidth}
+Cada alerta incluye:
 \begin{itemize}
+  \item Fecha y hora de recepción
+  \item Nodo emisor\footnotemark
   \item Imagen original
-  \item Imagen anotada (bounding boxes)
+  \item Imagen anotada (cajas delimitadoras)
   \item Cantidad y confianza de detecciones
   \item Top 5 clasificaciones taxonómicas
-\end{itemize}
-
-\vspace{1em}
-\textbf{Human-in-the-loop:}
-\begin{itemize}
-  \item Teclados inline para \textbf{corregir} clasificaciones
-  \item Genera datos para futuro \textit{fine-tuning}
+  \item Encuesta de retroalimentación
 \end{itemize}
 \end{column}
-\begin{column}{0.5\textwidth}
+\begin{column}{0.4\textwidth}
 \centering
-\includegraphics[width=0.7\textwidth]{bachelor-thesis/img/notificacionTelegramLab.png}
+\includegraphics[width=\textwidth]{bachelor-thesis/img/notificacionTelegramLab.png}
 \end{column}
 \end{columns}
+\footnotetext{Identificado por MAC, no visible en captura}
 \note{
 Bot de Telegram envía imagen original + anotada + detecciones + top 5
 clasificaciones. 
@@ -1693,15 +1719,14 @@ para futuro fine-tuning del modelo.
         cells = {font=\small},
         row{1} = {font=\bfseries\normalsize, bg=blue!10},
         row{Z} = {font=\bfseries\normalsize, bg=blue!5},
-        hline{1,2,7,Z} = {0.8pt, gray!50},
+        hline{1,2,6,Z} = {0.8pt, gray!50},
       }
         Componente & Costo (USD) \\
         ESP32-CAM + Antena + OV2640 & \num{9.00} \\
         Sensor PIR HC-SR501 & \num{2.00} \\
         Módulo Convertidor Buck LM2596 & \num{3.00} \\
-        Cables, estaño y conectores & \num{5.00} \\
         Carcasa (PLA + tornillería) & \num{6.00} \\
-        Subtotal Nodo Cámara & \num{25.00} \\
+        Subtotal Nodo Cámara & \num{20.00} \\
       \end{tblr}
     \end{column}
     \begin{column}{0.5\textwidth}
@@ -1715,23 +1740,23 @@ para futuro fine-tuning del modelo.
       }
         Componente & Costo (USD) \\
         Baterías 18650 (2 celdas) & \num{18.00} \\
-        Caja estanca & \num{1.00} \\
-        Portabaterías, cable y prensacables & \num{1.00} \\
-        Conectores XT30 & \num{1.00} \\
-        Subtotal Alimentación & \num{20.00} \\
+        Módulo BMS 2S & \num{1.00} \\
+        Cables, estaño y conectores & \num{4.00} \\
+        Caja estanca & \num{2.00} \\
+        Subtotal Alimentación & \num{25.00} \\
       \end{tblr}
-
-      \begin{block}{Costo Total del Prototipo}
-        \centering
-        \textbf{\large\color{blue!80!black}{\num{45.00}~USD}}
-      \end{block}
     \end{column}
   \end{columns}
+  \begin{block}{Costo Total Aproximado del Prototipo}
+  \centering
+  \textbf{\large\color{blue!80!black}{\num{45.00}~USD}}
+  \end{block}
   \note{
     Detalle de la estructura de costos del nodo de cámara (Capítulo 7, Tabla 7.3 de la tesis).
-    Dividimos el costo en dos partes: el nodo de cámara en sí, que suma 25 USD, y el pack de baterías y alimentación (incluyendo celdas 18650, caja estanca, holder y prensaestopas), que suma 20 USD, totalizando 45 USD.
+    Dividimos el costo en dos partes: el nodo de cámara en sí, que suma 21 USD, y el pack de alimentación (incluyendo celdas 18650, cables, conectores y caja estanca), que suma 24 USD, totalizando exactamente 45 USD.
   }
 \end{frame}
+
 
 \section*{Pruebas de Campo}
 
