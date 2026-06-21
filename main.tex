@@ -194,25 +194,33 @@ Ejercicio
 \section*{Misiones en números}
 
 \begin{frame}{El Bosque Atlántico}
-  \textbf{El marco ecológico global}
-  \vspace{1em}
-  \begin{itemize}
-    \setlength{\itemsep}{1.2em}
-    \item Originalmente: \num{1.3} millones de \unit{\km\squared} de cobertura continua \footcite{ribeiro2009atlantic}
-    \item Distribución: Brasil (\qty{92}{\percent}), Paraguay (\qty{6}{\percent}) y Argentina (\qty{2}{\percent})
-    \item Estado actual: reducido a solo el \qtyrange{12}{17}{\percent} de su extensión original
-    \item Uno de los \textbf{focos de biodiversidad} más amenazados del planeta \footcite{wwf2024atlantic}
-  \end{itemize}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \setlength{\itemsep}{0.8em}
+        \item Originalmente: \num{1.3} millones de \unit{\km\squared} de cobertura continua \footcite{ribeiro2009atlantic}
+        \item Distribución: Brasil (\qty{92}{\percent}), Paraguay (\qty{6}{\percent}) y Argentina (\qty{2}{\percent})
+        \item Estado actual: reducido a solo el \qtyrange{12}{17}{\percent} de su extensión original
+        \item Uno de los \textbf{focos de biodiversidad} más amenazados del planeta \footcite{wwf2024atlantic}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{img/ecorregiones.png}
+        {\tiny Fuente: \href{https://cambioclimatico.misiones.gob.ar/bosque-atlantico/}{cambioclimatico.misiones.gob.ar}}
+      \end{figure}
+    \end{column}
+  \end{columns}
   \note{
     Arrancamos con el contexto global. El Bosque Atlántico es uno de los focos de biodiversidad más amenazados del planeta, habiéndose perdido más del 80\% de su cobertura original. En la siguiente diapositiva, veremos el mapa histórico de esta regresión forestal.
   }
 \end{frame}
 
-\begin{frame}{El Bosque Atlántico - Deforestación}
+\begin{frame}{El Bosque Atlántico del Alto Paraná}
   \centering
   \includegraphics[height=0.8\textheight,keepaspectratio]{img/bosque_altantico.png}
-  
-  \vspace{0.2em}
+
   {\tiny Fuente: \href{https://www.researchgate.net/figure/Figura-8-Proceso-de-deforestacion-del-Bosque-Atlantico-Alto-Parana-desde-el-ano-1900_fig1_268334207}{ResearchGate (Fig. 8)}}
   \note{
     Si miran la imagen del proceso de deforestación desde 1900, el pequeño remanente continuo que sobrevive en la frontera de Argentina es Misiones. Por eso, en la siguiente diapositiva, hacemos foco en esta selva.
@@ -317,14 +325,32 @@ Ejercicio
 
 \section*{Amenazas}
 \begin{frame}{Cambio de Uso del Suelo y Degradación Forestal}
-  \begin{itemize}
-    \item \textbf{Expansión agrícola:} Grandes monocultivos orientados a la exportación (soja, caña de azúcar, café).
-    \item \textbf{Pastoreo de ganado:} Conversión masiva de la selva nativa en pastizales.
-    \item \textbf{Fragmentación del hábitat:} Reducción del bosque a ``islas'' aisladas, limitando el movimiento de las especies y su viabilidad genética.
-    \item \textbf{Efecto de borde:} El aumento de la relación perímetro/superficie altera el microclima, reduce la humedad y facilita la entrada de especies invasoras.
-  \end{itemize}
+  \begin{columns}
+    \begin{column}{0.4\textwidth}
+      \begin{itemize}
+        \setlength{\itemsep}{1em}
+        \item \textbf{Expansión agrícola}
+        \item \textbf{Pastoreo de ganado}
+        \item \textbf{Fragmentación del hábitat}
+        \item \textbf{Efecto de borde}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.6\textwidth}
+      \begin{figure}
+        \centering
+        \includegraphics[width=.85\textwidth]{img/cambio_uso_suelo.png}
+        \par\vspace{0.3em}
+        \tiny Fuente: \href{https://cambioclimatico.misiones.gob.ar/bosque-atlantico/}{cambioclimatico.misiones.gob.ar}
+      \end{figure}
+    \end{column}
+  \end{columns}
   \note{
-    Explicar que la conversión de bosques para agricultura comercial y ganadería es la causa principal de la pérdida y degradación. Genera un efecto isla que fragmenta los ecosistemas.
+    \begin{itemize}
+      \item \textbf{Expansión agrícola:} Grandes monocultivos orientados a la exportación (soja, caña de azúcar, café).
+      \item \textbf{Pastoreo de ganado:} Conversión masiva de la selva nativa en pastizales.
+      \item \textbf{Fragmentación del hábitat:} Reducción del bosque a ``islas'' aisladas, limitando el movimiento de las especies y su viabilidad genética.
+      \item \textbf{Efecto de borde:} El aumento de la relación perímetro/superficie altera el microclima, reduce la humedad y facilita la entrada de especies invasoras.
+    \end{itemize}
   }
 \end{frame}
 
@@ -620,17 +646,27 @@ Ejercicio
 \section*{El Rol de la Tecnología}
 
 \begin{frame}{Avances en Hardware y Sensores de Campo}
-  \textbf{Dispositivos de captura autónomos y procesamiento local:}
-  
-  \vspace{0.5em}
-  \begin{itemize}
-    \item \textbf{Cómputo en el Borde (Edge Computing):} Microcomputadoras y microcontroladores de bajo costo capaces de procesar datos localmente en el nodo sensor.
-    \item \textbf{Cámaras Trampa Modernas:} Dispositivos con sensores de movimiento PIR optimizados, flash infrarrojo invisible y alta eficiencia energética para operación continua por meses.
-    \item \textbf{Sistemas Autónomos Integrados:} Prototipos académicos (ej. \textit{AiCatcher} \footcite{mallya2019aicatcher}) orientados a la inferencia y captura automatizada.
-  \end{itemize}
-  
+  \begin{columns}
+    \begin{column}{0.55\textwidth}
+      \textbf{Dispositivos de captura autónomos y procesamiento local:}
+      
+      \vspace{0.5em}
+      \begin{itemize}
+        \item \textbf{Cómputo en el Borde:} Microcomputadoras y microcontroladores de bajo costo que procesan datos localmente
+        \item \textbf{Cámaras Trampa:} Optimización de sensores PIR, flash IR invisible y alta eficiencia energética
+        \item \textbf{Sistemas Integrados:} Prototipos académicos orientados a la inferencia y captura automatizada
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{img/aicatcher.png}
+        \caption*{\small Prototipo \textit{AiCatcher}\footcite{mallya2019aicatcher}}
+      \end{figure}
+    \end{column}
+  \end{columns}
   \note{
-    Resumir los avances físicos: microcomputadoras minúsculas de bajo costo y consumo en el borde, mejoras críticas en las cámaras trampa tradicionales para capturar imágenes sin alertar a la fauna, y el desarrollo de prototipos integrados autónomos.
+    Resumir los avances físicos: microcomputadoras minúsculas de bajo costo y consumo en el borde, mejoras críticas en las cámaras trampa tradicionales para capturar imágenes sin alertar a la fauna, y el desarrollo de prototipos integrados autónomos como AiCatcher.
   }
 \end{frame}
 
@@ -639,28 +675,30 @@ Ejercicio
   
   \vspace{0.5em}
   \begin{itemize}
-    \item \textbf{Redes Autoorganizadas (Mesh):} Redes descentralizadas basadas en protocolos como WiFi o Bluetooth, donde cada sensor actúa como repetidor para extender la cobertura.
-    \item \textbf{Protocolos de Largo Alcance (LoRaWAN):} Tecnologías de modulación de radio de bajo consumo que enlazan sensores a kilómetros de distancia con un ancho de banda mínimo.
-    \item \textbf{Telemetría Satelital Híbrida:} Integración de módulos satelitales compactos (ej. red Iridium) para transmitir alertas críticas en tiempo real desde selvas densas o aisladas.
+    \item \textbf{Redes Auto-organizadas (Mesh):} Redes descentralizadas basadas en protocolos como WiFi, Bluetooth o Zigbee, donde cada sensor actúa como repetidor para extender la cobertura
+    \item \textbf{Protocolos de Largo Alcance (LoRaWAN):} Tecnologías de modulación de radio de bajo consumo que enlazan sensores a kilómetros de distancia con un ancho de banda mínimo
+    \item \textbf{Comunicación Satelital:} Integración de módulos satelitales compactos (ej. red Iridium) para transmitir alertas críticas en tiempo real desde áreas remotas
   \end{itemize}
   
   \note{
-    Explicar la evolución de las telecomunicaciones aplicadas a la conservación: redes mesh para autoorganizarse en terreno difícil, protocolos de largo alcance como LoRa para enviar datos a gran distancia con baterías chicas, y soluciones satelitales híbridas.
+    Explicar la evolución de las telecomunicaciones aplicadas a la conservación: redes mesh para autoorganizarse en terreno difícil (como WiFi, Bluetooth o Zigbee), protocolos de largo alcance como LoRa para enviar datos a gran distancia con baterías chicas, y soluciones satelitales híbridas.
   }
 \end{frame}
 
-\begin{frame}{Avances en Software y Visión Computacional}
-  \textbf{Automatización y procesamiento masivo de datos ecológicos:}
-  
-  \vspace{0.5em}
+\begin{frame}{Avances en Software y Visión por Computadora}
   \begin{itemize}
-    \item \textbf{Ecosistemas en la Nube:} Plataformas globales como \textit{Microsoft WildLife} (e iniciativas derivadas de \textit{AI for Earth}) que centralizan datos geoespaciales y facilitan herramientas de computación a investigadores de todo el mundo.
-    \item \textbf{Detección en Tiempo Real (YOLO):} Modelos de redes neuronales convolucionales aplicados a video y fotografía que permiten clasificar e identificar múltiples objetos (fauna, vehículos, personas) de forma simultánea e instantánea.
-    \item \textbf{Modelos Pre-entrenados (MegaDetector):} Algoritmos abiertos especializados en el filtrado masivo de imágenes de cámaras trampa; automatizan la eliminación de falsos positivos (como movimiento de vegetación o sombras) para aislar la actividad biológica relevante.
+    \setlength{\itemsep}{0.2em}
+    \item \textbf{Detección en Tiempo Real (YOLO):} Modelos neuronales aplicados a video y fotografía para clasificar e identificar fauna, personas y vehículos de forma instantánea
+    \item \textbf{Modelos Pre-entrenados (MegaDetector):} Algoritmos abiertos para cámaras trampa que automatizan el descarte de falsos positivos (viento, sombras) y aíslan la actividad biológica
+    \item \textbf{Apoyo de Grandes Tecnológicas:} Iniciativas con respaldo de empresas como Microsoft (\textit{Microsoft Biodiversity}) o Google (\textit{SpeciesNet}) que proveen modelos abiertos y plataformas en la nube
   \end{itemize}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.95\textwidth]{img/microsoft.png}
+  \end{figure}
 
   \note{
-    Explicar el salto cualitativo en el procesamiento: la IA resuelve el cuello de botella de analizar millones de fotos o videos. Modelos como YOLO permiten la detección inmediata de objetos, mientras que herramientas específicas de conservación como MegaDetector limpian de forma automatizada las ráfagas de fotos vacías causadas por el viento o la luz.
+    Explicar el salto cualitativo: la nube e iniciativas con respaldo de gigantes como Microsoft (AI for Earth / Biodiversity) y Google (SpeciesNet) resuelven el análisis masivo de datos. Modelos como YOLO y MegaDetector automatizan la detección y el descarte de falsos positivos.
   }
 \end{frame}
 
