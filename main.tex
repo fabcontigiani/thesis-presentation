@@ -849,7 +849,7 @@ Ejercicio
       % \node[above=0.2cm of evento, text=red!80!black, font=\tiny\bfseries] {Intruso /\\Evento};
 
       % Texto de las flechas de monitoreo remoto
-      \node[right, font=\scriptsize\bfseries\color{orange!80!black}] at (11.0, 3.1) {Imágen};
+      \node[right, font=\scriptsize\bfseries\color{orange!80!black}] at (11.0, 3.1) {Imagen};
       \node[right, font=\scriptsize\bfseries\color{orange!80!black}] at (11.0, 1.3) {Alerta};
     }
     \uncover<7->{
@@ -1207,32 +1207,32 @@ desarrollamos.
   
   \note{
     La topología de la red es un árbol jerárquico auto-organizado. Se distinguen cuatro tipos de nodos:
-    1. Root Node (amarillo): el nodo raíz, conectado directamente al router de salida.
-    2. Intermediate Parent Node (azul): nodos intermedios que retransmiten datos de sus hijos hacia arriba.
-    3. Leaf Node (verde): nodos hoja que solo generan datos, no retransmiten.
-    4. Idle Node (blanco): nodos que aún no se han asociado a la red.
+    1. Nodo Raíz (amarillo): el nodo raíz, conectado directamente al router de salida.
+    2. Nodo Intermedio (azul): nodos intermedios que retransmiten datos de sus hijos hacia arriba.
+    3. Nodo Hoja (verde): nodos hoja que solo generan datos, no retransmiten.
+    4. Nodo Inactivo (blanco): nodos que aún no se han asociado a la red.
     La profundidad máxima (capas) es configurable. Esta estructura permite escalar la red agregando nodos sin reconfigurar los existentes.
   }
 \end{frame}
 
 % ---------- Slide 5: Roles y Energía ----------
-\begin{frame}{Red Malla - Robustez (Self-Healing)}
+\begin{frame}{Red Malla - Robustez (Auto-recuperación)}
   \begin{columns}[c]
     \begin{column}{0.5\textwidth}
-      \textbf{Auto-recuperación (Self-Healing):}
+      \textbf{Auto-recuperación:}
       \vspace{1em}
       
       \only<1>{
         \textbf{1. Estado Normal}
         \begin{itemize}
           \item Estructura jerárquica activa.
-          \item El nodo Leaf C envía datos a través del Relay A.
+          \item El nodo Hoja C envía datos a través del Intermedio A.
         \end{itemize}
       }
       \only<2>{
         \textbf{2. Pérdida de Enlace}
         \begin{itemize}
-          \item El nodo Relay A falla o se apaga.
+          \item El nodo Intermedio A falla o se apaga.
           \item C detecta la pérdida del enlace y queda desconectado.
         \end{itemize}
       }
@@ -1240,13 +1240,13 @@ desarrollamos.
         \textbf{3. Re-escaneo}
         \begin{itemize}
           \item C realiza un escaneo activo del entorno de radio.
-          \item Busca balizas e identifica al Relay B como nuevo padre potencial.
+          \item Busca balizas e identifica al Intermedio B como nuevo padre potencial.
         \end{itemize}
       }
       \only<4>{
         \textbf{4. Conexión Restablecida}
         \begin{itemize}
-          \item C se asocia con el Relay B.
+          \item C se asocia con el Intermedio B.
           \item La red se reestructura automáticamente.
         \end{itemize}
       }
@@ -1297,7 +1297,7 @@ desarrollamos.
     \end{column}
   \end{columns}
   \note{
-    Esta secuencia muestra el mecanismo de self-healing.
+    Esta secuencia muestra el mecanismo de auto-recuperación (self-healing).
     Paso 1: Red funcionando normalmente.
     Paso 2: El nodo A falla. Los enlaces asociados se caen y el nodo C queda huérfano.
     Paso 3: C detecta la falla del padre y escanea canales de radio buscando balizas de otros padres.
@@ -1305,17 +1305,17 @@ desarrollamos.
   }
 \end{frame}
 
-\begin{frame}{Red Malla - Selección de Root Node}
+\begin{frame}{Red Malla - Selección de Nodo Raíz}
   \begin{columns}[c]
     \begin{column}{0.52\textwidth}
-      \textbf{Elección del nodo Raíz (Root):}
+      \textbf{Elección del nodo Raíz:}
       \vspace{0.8em}
       \begin{itemize}
         \setlength{\itemsep}{0.6em}
         \small
         \item Los candidatos evalúan su potencia de señal \textbf{RSSI} al Router.
-        \item El nodo con mejor señal (\textbf{-58 dBm}) se establece automáticamente como \textbf{Root}.
-        \item Nodos con señal más débil (\textbf{-85 dBm}) se reconfiguran como \textbf{Relays} y se conectan al Root.
+        \item El nodo con mejor señal (\textbf{-58 dBm}) se establece automáticamente como \textbf{Raíz}.
+        \item Nodos con señal más débil (\textbf{-85 dBm}) se reconfiguran como \textbf{Intermedios} y se conectan a la Raíz.
       \end{itemize}
       
       \vspace{0.8em}
@@ -1356,9 +1356,9 @@ desarrollamos.
         \end{scope}
 
         % Nodos candidatos
-        \node[node_root] (A) at (0.7, 0.9) {Root};
-        \node[node_relay] (B) at (0.2, -0.9) {Relay};
-        \node[node_leaf] (C) at (-1.0, 0.0) {Leaf};
+        \node[node_root] (A) at (0.7, 0.9) {Raíz};
+        \node[node_relay] (B) at (0.2, -0.9) {Intermedio};
+        \node[node_leaf] (C) at (-1.0, 0.0) {Hoja};
 
         % Enlaces de evaluación RSSI
         \draw[link_root] (router.west) -- (A.east) node[midway, above, sloped, font=\tiny\bfseries, text=orange!80!black] {-58 dBm\\(Mejor)};
@@ -1372,7 +1372,7 @@ desarrollamos.
     \end{column}
   \end{columns}
   \note{
-    Además del self-healing de nodos hijos, la elección del nodo raíz (Root) es dinámica. Si hay varios nodos cerca del router de salida, comparan su señal RSSI y el que tenga mejor enlace se designa como Root, lo que asegura el camino más óptimo hacia el exterior.
+    Además de la auto-recuperación (self-healing) de nodos hijos, la elección del nodo raíz (Raíz) es dinámica. Si hay varios nodos cerca del router de salida, comparan su señal RSSI y el que tenga mejor enlace se designa como Raíz, lo que asegura el camino más óptimo hacia el exterior.
   }
 \end{frame}
 
@@ -1382,7 +1382,7 @@ desarrollamos.
   \vspace{1em}
   \begin{columns}[t]
     \begin{column}{0.32\textwidth}
-      \begin{block}{Leaf (Hoja)}
+      \begin{block}{Nodo Hoja}
         \small
         \textbf{Máxima autonomía}
         \begin{itemize}
@@ -1394,7 +1394,7 @@ desarrollamos.
       \end{block}
     \end{column}
     \begin{column}{0.32\textwidth}
-      \begin{block}{Relay (Intermedio)}
+      \begin{block}{Nodo Intermedio}
         \small
         \textbf{Extensor de cobertura}
         \begin{itemize}
@@ -1406,7 +1406,7 @@ desarrollamos.
       \end{block}
     \end{column}
     \begin{column}{0.32\textwidth}
-      \begin{block}{Root (Raíz)}
+      \begin{block}{Nodo Raíz}
         \small
         \textbf{Puerta de enlace}
         \begin{itemize}
@@ -1422,7 +1422,7 @@ desarrollamos.
   \vspace{0.8em}
   \centering
   \small
-  \textbf{Leaf} $\dots \xrightarrow{\text{más consumo}}$ \textbf{Relay} $\dots \xrightarrow{\text{más consumo}}$ \textbf{Root}
+  \textbf{Hoja} $\dots \xrightarrow{\text{más consumo}}$ \textbf{Intermedio} $\dots \xrightarrow{\text{más consumo}}$ \textbf{Raíz}
   \note{
     Explicamos los tres roles de la red malla y su balance energético.
     1. El nodo Hoja prioriza el ahorro de batería: solo origina sus propias capturas y no ayuda a enrutar, obteniendo la mayor autonomía.
@@ -1447,14 +1447,14 @@ desarrollamos.
         \node[box] (bg) at (0,0) {};
         \node[anchor=north, font=\scriptsize\bfseries\color{teal!80!black}, yshift=-0.15cm] at (bg.north) {Intermedio en Light Sleep (Activo)};
         
-        \node[node_root] (R) at (-1.4, -0.15) {Root};
-        \node[node_relay] (Re) at (0, -0.15) {Relay};
-        \node[node_leaf] (L) at (1.4, -0.15) {Leaf};
+        \node[node_root] (R) at (-1.4, -0.15) {Raíz};
+        \node[node_relay] (Re) at (0, -0.15) {Intermedio};
+        \node[node_leaf] (L) at (1.4, -0.15) {Hoja};
         
         \draw[link_ok] (R) -- (Re);
         \draw[link_ok] (Re) -- (L);
         
-        \node[anchor=south, font=\tiny\color{teal!80!black}, yshift=0.15cm] at (bg.south) {Enlace mesh activo e hijos conectados};
+        \node[anchor=south, font=\tiny\color{teal!80!black}, yshift=0.15cm] at (bg.south) {Enlace de malla activo e hijos conectados};
       \end{tikzpicture}
     \end{column}
     
@@ -1473,9 +1473,9 @@ desarrollamos.
         \node[box] (bg) at (0,0) {};
         \node[anchor=north, font=\scriptsize\bfseries\color{red!80!black}, yshift=-0.15cm] at (bg.north) {Intermedio en Deep Sleep (Inactivo)};
         
-        \node[node_root] (R) at (-1.4, -0.15) {Root};
-        \node[node_relay_ds] (Re) at (0, -0.15) {Relay};
-        \node[node_leaf_fail] (L) at (1.4, -0.15) {Leaf};
+        \node[node_root] (R) at (-1.4, -0.15) {Raíz};
+        \node[node_relay_ds] (Re) at (0, -0.15) {Intermedio};
+        \node[node_leaf_fail] (L) at (1.4, -0.15) {Hoja};
         
         \draw[link_ok] (R) -- (Re);
         \draw[link_fail] (Re) -- (L) node[midway, above, font=\tiny\bfseries\color{red}, yshift=-1pt] {Roto};
@@ -1492,7 +1492,7 @@ desarrollamos.
       {
         \setbeamercolor{block title}{fg=black!80, bg=black!10}
         \setbeamercolor{block body}{bg=black!5}
-        \begin{block}{Nodo Hoja (Leaf Node)}
+        \begin{block}{Nodo Hoja}
           \scriptsize
           \begin{itemize}
             \item \textbf{Deep Sleep completo:} Apagado absoluto de CPU y radio WiFi.
@@ -1507,7 +1507,7 @@ desarrollamos.
       {
         \setbeamercolor{block title}{fg=orange!80!black, bg=black!10}
         \setbeamercolor{block body}{bg=black!5}
-        \begin{block}{Nodo Intermedio (Relay Node)}
+        \begin{block}{Nodo Intermedio}
           \scriptsize
           \begin{itemize}
             \item \textbf{Prohibido el Deep Sleep:} Si se apagara del todo, rompería la topología mesh.
@@ -1522,7 +1522,7 @@ desarrollamos.
   \note{
     Explicamos la diferencia de gestión de energía entre nodos Hoja y nodos Intermedios.
     Un nodo Hoja puede entrar en Deep Sleep completo apagando su radio WiFi y CPU porque ningún otro nodo depende de él.
-    En cambio, un nodo Intermedio (Relay) no puede usar Deep Sleep, ya que rompería los enlaces de la red y dejaría a sus nodos hijos aislados. Para ahorrar energía, se utiliza Light Sleep en combinación con Modem Power Save para suspender la CPU sin perder la sesión WiFi y mantener el AP activo.
+    En cambio, un nodo Intermedio no puede usar Deep Sleep, ya que rompería los enlaces de la red y dejaría a sus nodos hijos aislados. Para ahorrar energía, se utiliza Light Sleep en combinación con Modem Power Save para suspender la CPU sin perder la sesión WiFi y mantener el AP activo.
   }
 \end{frame}
 
@@ -2189,9 +2189,9 @@ todo código abierto.
   Objetivo & Resultado \\
   Detección de fauna, personas y vehículos & Accuracy \qty{77.7}{\percent} (\num{94} imgs) \\
   Latencia de respuesta & $\sim$\qty{40}{s} (campo) / \qty{1.27}{s} (LAN) \\
-  Cobertura mesh & \qtyrange{15}{18}{m} (línea de vista) \\
-  Autonomía (Relay) & $\sim$\qty{5}{h} medidas \\
-  Consumo Leaf (ULP) & $\sim$\qty{13}{mA} \\
+  Cobertura de malla & \qtyrange{15}{18}{m} (línea de vista) \\
+  Autonomía (Intermedio) & $\sim$\qty{5}{h} medidas \\
+  Consumo Hoja (ULP) & $\sim$\qty{13}{mA} \\
 \end{tblr}
 
 \vspace{0.3em}
@@ -2202,7 +2202,7 @@ Se demostró la \textbf{viabilidad técnica} del sistema propuesto. Mejora de \t
 Comparación objetivo vs. resultado. Detección funcional con 77.7\% accuracy.
 Latencia de 40 s en campo (vs. semanas en cámaras convencionales).
 Cobertura de 15-18 m suficiente para despliegue en cadena. Autonomía de
-5 h en Relay, consumo Leaf de apenas 13 mA.
+5 h en el Intermedio, consumo de la Hoja de apenas 13 mA.
 }
 \end{frame}
 
