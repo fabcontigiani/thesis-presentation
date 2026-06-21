@@ -778,16 +778,16 @@ Ejercicio
       \fill[fov] (7.8, 0.2) -- +(110:3.0cm) arc (110:170:3.0cm) -- cycle;
 
       % 5. NODOS DE CÁMARA
-      % Cámara 1 (Leaf)
+      % Cámara 1 (Hoja)
       \node[camera] (c1) at (1.0, 5.2) {C1};
       
-      % Cámara 2 (Relay)
+      % Cámara 2 (Intermedio)
       \node[camera] (c2) at (3.0, 0.5) {C2};
       
-      % Cámara 3 (Relay)
+      % Cámara 3 (Intermedio)
       \node[camera] (c3) at (5.5, 5) {C3};
       
-      % Cámara 4 (Relay) - Anteriormente Root
+      % Cámara 4 (Intermedio) - Anteriormente Raíz
       \node[camera] (c4) at (7.8, 0.2) {C4};
 
       % Dibujar pequeños lentes para indicar hacia dónde apuntan
@@ -798,7 +798,7 @@ Ejercicio
     }
 
     \uncover<3->{
-      % 6. ENLACES MESH (ESP-MESH-LITE)
+      % 6. ENLACES DE MALLA (ESP-MESH-LITE)
       \draw[mesh, ->] (c1) -- (c2);
       \draw[mesh, ->] (c2) -- (c3);
       \draw[mesh] (c3) -- (c4);
@@ -849,7 +849,7 @@ Ejercicio
       % \node[above=0.2cm of evento, text=red!80!black, font=\tiny\bfseries] {Intruso /\\Evento};
 
       % Texto de las flechas de monitoreo remoto
-      \node[right, font=\scriptsize\bfseries\color{orange!80!black}] at (11.0, 3.1) {Imágen};
+      \node[right, font=\scriptsize\bfseries\color{orange!80!black}] at (11.0, 3.1) {Imagen};
       \node[right, font=\scriptsize\bfseries\color{orange!80!black}] at (11.0, 1.3) {Alerta};
     }
     \uncover<7->{
@@ -862,7 +862,7 @@ Ejercicio
 
       % Notas del flujo en el diagrama
       %\node[text=red!80!black, font=\tiny\bfseries, anchor=west] at (0.2, 5.6) {1. Captura e Inferencia (MegaDetector)};
-      %\node[text=teal!80!black, font=\tiny\bfseries, anchor=west] at (0.2, -0.1) {2. Envío a través de Saltos Mesh};
+      %\node[text=teal!80!black, font=\tiny\bfseries, anchor=west] at (0.2, -0.1) {2. Envío a través de Saltos de Malla};
       %\node[text=orange!80!black, font=\tiny\bfseries, anchor=west] at (5.0, -0.1) {3. Transmisión al Servidor};
     }
     \uncover<8->{
@@ -872,7 +872,7 @@ Ejercicio
   \end{tikzpicture}
   }
   \note{
-    Representación gráfica de nuestra red. Las cámaras capturan eventos (por ejemplo, el intruso marcado en rojo), realizan inferencia local o lo pasan a través de saltos mesh inalámbricos (WiFi/ESP-MESH-LITE) hasta llegar al nodo raíz en la frontera del bosque. De allí se transmite por 4G o internet satelital hacia el servidor e internet, donde se corre la clasificación avanzada y se envía la alerta.
+    Representación gráfica de nuestra red. Las cámaras capturan eventos (por ejemplo, el intruso marcado en rojo), realizan inferencia local o lo pasan a través de saltos de malla inalámbricos (WiFi/ESP-MESH-LITE) hasta llegar al nodo raíz en la frontera del bosque. De allí se transmite por 4G o internet satelital hacia el servidor e internet, donde se corre la clasificación avanzada y se envía la alerta.
   }
 \end{frame}
 
@@ -891,7 +891,7 @@ Redes neuronales pre-entrenadas para detección y clasificación.
 \end{block}
 \note{
 Tres tecnologías convergen: ESP32 a menos de \num{10} dólares con WiFi integrado,
-redes mesh que extienden cobertura sin infraestructura, y modelos de IA de
+redes de malla que extienden cobertura sin infraestructura, y modelos de IA de
 código abierto como SpeciesNet.
 }
 \end{frame}
@@ -940,7 +940,7 @@ desarrollamos.
 % \textbf{Dentro del alcance:}
 % \begin{itemize}
 %   \item Nodos ESP32-CAM + sensor PIR
-%   \item Red mesh funcional
+%   \item Red de malla funcional
 %   \item Servidor de recepción y clasificación
 %   \item Bot de Telegram para alertas
 %   \item Pruebas en laboratorio y campo
@@ -1207,87 +1207,32 @@ desarrollamos.
   
   \note{
     La topología de la red es un árbol jerárquico auto-organizado. Se distinguen cuatro tipos de nodos:
-    1. Root Node (amarillo): el nodo raíz, conectado directamente al router de salida.
-    2. Intermediate Parent Node (azul): nodos intermedios que retransmiten datos de sus hijos hacia arriba.
-    3. Leaf Node (verde): nodos hoja que solo generan datos, no retransmiten.
-    4. Idle Node (blanco): nodos que aún no se han asociado a la red.
+    1. Nodo Raíz (amarillo): el nodo raíz, conectado directamente al router de salida.
+    2. Nodo Intermedio (azul): nodos intermedios que retransmiten datos de sus hijos hacia arriba.
+    3. Nodo Hoja (verde): nodos hoja que solo generan datos, no retransmiten.
+    4. Nodo Inactivo (blanco): nodos que aún no se han asociado a la red.
     La profundidad máxima (capas) es configurable. Esta estructura permite escalar la red agregando nodos sin reconfigurar los existentes.
   }
 \end{frame}
 
 % ---------- Slide 5: Roles y Energía ----------
-\begin{frame}{Red Malla - Roles y Energía}
-  \textbf{Trade-off de energía y funcionalidad:}
-  
-  \vspace{1em}
-  \begin{columns}[t]
-    \begin{column}{0.32\textwidth}
-      \begin{block}{Leaf (Hoja)}
-        \small
-        \textbf{Máxima autonomía}
-        \begin{itemize}
-          \scriptsize
-          \item Solo captura y envía
-          \item No retransmite tráfico ajeno
-          \item Modo de bajo consumo profundo
-        \end{itemize}
-      \end{block}
-    \end{column}
-    \begin{column}{0.32\textwidth}
-      \begin{block}{Relay (Intermedio)}
-        \small
-        \textbf{Extensor de cobertura}
-        \begin{itemize}
-          \scriptsize
-          \item Captura y envía
-          \item Retransmite tráfico de vecinos
-          \item Modo de bajo consumo parcial
-        \end{itemize}
-      \end{block}
-    \end{column}
-    \begin{column}{0.32\textwidth}
-      \begin{block}{Root (Raíz)}
-        \small
-        \textbf{Puerta de enlace}
-        \begin{itemize}
-          \scriptsize
-          \item Siempre activo (100\%)
-          \item Conectado al router
-          \item Sin cámara (solo enruta)
-        \end{itemize}
-      \end{block}
-    \end{column}
-  \end{columns}
-
-  \vspace{0.8em}
-  \centering
-  \small
-  \textbf{Leaf} $\xrightarrow{\text{más consumo}}$ \textbf{Relay} $\xrightarrow{\text{más consumo}}$ \textbf{Root}
-  \note{
-    Explicamos los tres roles de la red malla y su balance energético.
-    1. El Leaf prioriza el ahorro de batería: solo origina sus propias capturas y no ayuda a enrutar, obteniendo la mayor autonomía.
-    2. El Relay sacrifica batería permaneciendo parcialmente activo para poder recibir y retransmitir paquetes de otros nodos, extendiendo la cobertura.
-    3. El Root es la única puerta de enlace hacia internet, está 100\% activo, no tiene cámara y se alimenta directamente de una fuente de energía externa.
-  }
-\end{frame}
-
-\begin{frame}{Red Malla - Robustez (Self-Healing)}
+\begin{frame}{Red Malla - Robustez (Auto-recuperación)}
   \begin{columns}[c]
     \begin{column}{0.5\textwidth}
-      \textbf{Auto-recuperación (Self-Healing):}
+      \textbf{Auto-recuperación:}
       \vspace{1em}
       
       \only<1>{
         \textbf{1. Estado Normal}
         \begin{itemize}
           \item Estructura jerárquica activa.
-          \item El nodo Leaf C envía datos a través del Relay A.
+          \item El nodo Hoja C envía datos a través del Intermedio A.
         \end{itemize}
       }
       \only<2>{
         \textbf{2. Pérdida de Enlace}
         \begin{itemize}
-          \item El nodo Relay A falla o se apaga.
+          \item El nodo Intermedio A falla o se apaga.
           \item C detecta la pérdida del enlace y queda desconectado.
         \end{itemize}
       }
@@ -1295,13 +1240,13 @@ desarrollamos.
         \textbf{3. Re-escaneo}
         \begin{itemize}
           \item C realiza un escaneo activo del entorno de radio.
-          \item Busca balizas e identifica al Relay B como nuevo padre potencial.
+          \item Busca balizas e identifica al Intermedio B como nuevo padre potencial.
         \end{itemize}
       }
       \only<4>{
         \textbf{4. Conexión Restablecida}
         \begin{itemize}
-          \item C se asocia con el Relay B.
+          \item C se asocia con el Intermedio B.
           \item La red se reestructura automáticamente.
         \end{itemize}
       }
@@ -1345,14 +1290,14 @@ desarrollamos.
           \draw[link_scan] (B) -- (C) node[midway, below, sloped, font=\tiny\bfseries, text=orange] {Escaneo};
         }
         \only<4>{
-          \draw[link_new] (B) -- (C) node[midway, below, sloped, font=\tiny\bfseries, text=green!50!black] {Healed};
+          \draw[link_new] (B) -- (C) node[midway, below, sloped, font=\tiny\bfseries, text=green!50!black] {Recuperado};
         }
         
       \end{tikzpicture}
     \end{column}
   \end{columns}
   \note{
-    Esta secuencia muestra el mecanismo de self-healing.
+    Esta secuencia muestra el mecanismo de auto-recuperación (self-healing).
     Paso 1: Red funcionando normalmente.
     Paso 2: El nodo A falla. Los enlaces asociados se caen y el nodo C queda huérfano.
     Paso 3: C detecta la falla del padre y escanea canales de radio buscando balizas de otros padres.
@@ -1360,17 +1305,17 @@ desarrollamos.
   }
 \end{frame}
 
-\begin{frame}{Red Malla - Selección de Root Node}
+\begin{frame}{Red Malla - Selección de Nodo Raíz}
   \begin{columns}[c]
     \begin{column}{0.52\textwidth}
-      \textbf{Elección del nodo Raíz (Root):}
+      \textbf{Elección del nodo Raíz:}
       \vspace{0.8em}
       \begin{itemize}
         \setlength{\itemsep}{0.6em}
         \small
         \item Los candidatos evalúan su potencia de señal \textbf{RSSI} al Router.
-        \item El nodo con mejor señal (\textbf{-58 dBm}) se establece automáticamente como \textbf{Root}.
-        \item Nodos con señal más débil (\textbf{-85 dBm}) se reconfiguran como \textbf{Relays} y se conectan al Root.
+        \item El nodo con mejor señal (\textbf{-58 dBm}) se establece automáticamente como \textbf{Raíz}.
+        \item Nodos con señal más débil (\textbf{-85 dBm}) se reconfiguran como \textbf{Intermedios} y se conectan a la Raíz.
       \end{itemize}
       
       \vspace{0.8em}
@@ -1411,9 +1356,9 @@ desarrollamos.
         \end{scope}
 
         % Nodos candidatos
-        \node[node_root] (A) at (0.7, 0.9) {Root};
-        \node[node_relay] (B) at (0.2, -0.9) {Relay};
-        \node[node_leaf] (C) at (-1.0, 0.0) {Leaf};
+        \node[node_root] (A) at (0.7, 0.9) {Raíz};
+        \node[node_relay] (B) at (0.2, -0.9) {Intermedio};
+        \node[node_leaf] (C) at (-1.0, 0.0) {Hoja};
 
         % Enlaces de evaluación RSSI
         \draw[link_root] (router.west) -- (A.east) node[midway, above, sloped, font=\tiny\bfseries, text=orange!80!black] {-58 dBm\\(Mejor)};
@@ -1427,7 +1372,157 @@ desarrollamos.
     \end{column}
   \end{columns}
   \note{
-    Además del self-healing de nodos hijos, la elección del nodo raíz (Root) es dinámica. Si hay varios nodos cerca del router de salida, comparan su señal RSSI y el que tenga mejor enlace se designa como Root, lo que asegura el camino más óptimo hacia el exterior.
+    Además de la auto-recuperación (self-healing) de nodos hijos, la elección del nodo raíz (Raíz) es dinámica. Si hay varios nodos cerca del router de salida, comparan su señal RSSI y el que tenga mejor enlace se designa como Raíz, lo que asegura el camino más óptimo hacia el exterior.
+  }
+\end{frame}
+
+\begin{frame}{Red Malla - Roles y Energía}
+  \textbf{Trade-off de energía y funcionalidad:}
+  
+  \vspace{1em}
+  \begin{columns}[t]
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Nodo Hoja}
+        \small
+        \textbf{Máxima autonomía}
+        \begin{itemize}
+          \scriptsize
+          \item Solo captura y envía
+          \item No retransmite tráfico ajeno
+          \item Modo de bajo consumo profundo
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Nodo Intermedio}
+        \small
+        \textbf{Extensor de cobertura}
+        \begin{itemize}
+          \scriptsize
+          \item Captura y envía
+          \item Retransmite tráfico de vecinos
+          \item Modo de bajo consumo parcial
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Nodo Raíz}
+        \small
+        \textbf{Puerta de enlace}
+        \begin{itemize}
+          \scriptsize
+          \item Siempre activo (100\%)
+          \item Conectado al router
+          \item Sin cámara (solo enruta)
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.8em}
+  \centering
+  \small
+  \textbf{Hoja} $\dots \xrightarrow{\text{más consumo}}$ \textbf{Intermedio} $\dots \xrightarrow{\text{más consumo}}$ \textbf{Raíz}
+  \note{
+    Explicamos los tres roles de la red malla y su balance energético.
+    1. El nodo Hoja prioriza el ahorro de batería: solo origina sus propias capturas y no ayuda a enrutar, obteniendo la mayor autonomía.
+    2. El nodo Intermedio sacrifica batería permaneciendo parcialmente activo para poder recibir y retransmitir paquetes de otros nodos, extendiendo la cobertura.
+    3. El nodo Raíz es la única puerta de enlace hacia internet, está 100\% activo, no tiene cámara y se alimenta directamente de una fuente de energía externa.
+  }
+\end{frame}
+
+\begin{frame}{Gestión de Energía: Hoja vs. Intermedio}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \centering
+      \begin{tikzpicture}[
+          font=\sffamily,
+          >=Latex,
+          box/.style={draw=gray!30, fill=white, rounded corners=6pt, minimum width=5.2cm, minimum height=2.7cm, line width=0.8pt},
+          node_root/.style={circle, draw=orange!80!black, fill=orange!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
+          node_relay/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
+          node_leaf/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
+          link_ok/.style={draw=teal!80!black, <-, line width=1.5pt}
+        ]
+        \node[box] (bg) at (0,0) {};
+        \node[anchor=north, font=\scriptsize\bfseries\color{teal!80!black}, yshift=-0.2cm] at (bg.north) {Intermedio en Light Sleep (Activo)};
+        
+        \node[node_root] (R) at (-1.5, 0.05) {Raíz};
+        \node[node_relay] (Re) at (0, 0.05) {Inter-\\medio};
+        \node[node_leaf] (L) at (1.5, 0.05) {Hoja};
+        
+        \draw[link_ok] (R) -- (Re);
+        \draw[link_ok] (Re) -- (L);
+        
+        \node[anchor=south, font=\scriptsize\color{teal!80!black}, yshift=0.15cm] at (bg.south) {Enlace de malla activo e hijos conectados};
+      \end{tikzpicture}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      \centering
+      \begin{tikzpicture}[
+          font=\sffamily,
+          >=Latex,
+          box/.style={draw=red!20, fill=white, rounded corners=6pt, minimum width=5.2cm, minimum height=2.7cm, line width=0.8pt},
+          node_root/.style={circle, draw=orange!80!black, fill=orange!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
+          node_relay_ds/.style={circle, draw=gray!60, fill=gray!10, minimum size=0.9cm, thick, dashed, font=\scriptsize\bfseries, text=gray!70, align=center},
+          node_leaf_fail/.style={circle, draw=red!80, fill=red!5, minimum size=0.9cm, thick, font=\scriptsize\bfseries, text=red!80!black, align=center},
+          link_ok/.style={draw=teal!80!black, <-, line width=1.5pt},
+          link_fail/.style={draw=red!80, <-, dashed, line width=1.5pt}
+        ]
+        \node[box] (bg) at (0,0) {};
+        \node[anchor=north, font=\scriptsize\bfseries\color{red!80!black}, yshift=-0.2cm] at (bg.north) {Intermedio en Deep Sleep (Inactivo)};
+        
+        \node[node_root] (R) at (-1.5, 0.05) {Raíz};
+        \node[node_relay_ds] (Re) at (0, 0.05) {Inter-\\medio};
+        \node[node_leaf_fail] (L) at (1.5, 0.05) {Hoja};
+        
+        \draw[link_ok] (R) -- (Re);
+        \draw[link_fail] (Re) -- (L) node[midway, above, font=\tiny\bfseries\color{red}, yshift=-1pt] {Roto};
+        
+        \node[anchor=south, font=\scriptsize\color{red!85!black}, yshift=0.15cm] at (bg.south) {Nodos hijos aislados de la red};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.45em}
+
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      {
+        \setbeamercolor{block title}{fg=black!80, bg=black!10}
+        \setbeamercolor{block body}{bg=black!5}
+        \begin{block}{Nodo Hoja}
+          \scriptsize
+          \begin{itemize}
+            \item \textbf{Deep Sleep completo:} Apagado absoluto de CPU y radio WiFi.
+            \item \textbf{Sin dependencia:} No tiene nodos hijos asociados. Su desconexión temporal no afecta a terceros.
+            \item \textbf{Consumo mínimo:} Ahorro crítico de batería.
+          \end{itemize}
+        \end{block}
+      }
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      {
+        \setbeamercolor{block title}{fg=orange!80!black, bg=black!10}
+        \setbeamercolor{block body}{bg=black!5}
+        \begin{block}{Nodo Intermedio}
+          \scriptsize
+          \begin{itemize}
+            \item \textbf{Prohibido el Deep Sleep:} Si se apagara del todo, rompería la topología mesh.
+            \item \textbf{Restricción:} Debe mantener el AP activo para que sus hijos no queden aislados.
+            \item \textbf{Solución:} Light Sleep + Modem Power Save para suspender la CPU sin perder la sesión WiFi.
+          \end{itemize}
+        \end{block}
+      }
+    \end{column}
+  \end{columns}
+  
+  \note{
+    Explicamos la diferencia de gestión de energía entre nodos Hoja y nodos Intermedios.
+    Un nodo Hoja puede entrar en Deep Sleep completo apagando su radio WiFi y CPU porque ningún otro nodo depende de él.
+    En cambio, un nodo Intermedio no puede usar Deep Sleep, ya que rompería los enlaces de la red y dejaría a sus nodos hijos aislados. Para ahorrar energía, se utiliza Light Sleep en combinación con Modem Power Save para suspender la CPU sin perder la sesión WiFi y mantener el AP activo.
   }
 \end{frame}
 
@@ -1498,7 +1593,7 @@ desarrollamos.
           \draw[app] (speciesnet.east) -| (db.south);
 
           % External communication
-          \draw[incoming] ($(web.west)+(-2,0)$) -- node[above, font=\sffamily\small] {Red Mesh} (web.west);
+          \draw[incoming] ($(web.west)+(-2,0)$) -- node[above, font=\sffamily\small] {Red de Malla} (web.west);
 
         \end{tikzpicture}
     \end{column}
@@ -1519,7 +1614,7 @@ desarrollamos.
     La arquitectura del servidor se despliega mediante Docker Compose:
     1. Aísla y estandariza la ejecución de los servicios (Django, PostgreSQL, bot de Telegram, SpeciesNet).
     2. La red interna privada de Docker protege los servicios, permitiendo comunicación interna segura sin exponer bases de datos o APIs de IA.
-    3. Solo el puerto del servidor central está expuesto hacia la red mesh para recibir las peticiones POST de subida de imágenes.
+    3. Solo el puerto del servidor central está expuesto hacia la red de malla para recibir las peticiones POST de subida de imágenes.
     4. Los volúmenes montados posibilitan que Django y SpeciesNet accedan al mismo directorio de imágenes compartidas.
   }
 \end{frame}
@@ -1530,7 +1625,7 @@ desarrollamos.
       \begin{itemize}
         \setlength{\itemsep}{0.5em}
         \item \textbf{Python} 3.13 + \textbf{Django} 5.2
-        \item \textbf{Recepción:} Endpoint HTTP POST \texttt{/upload/} para recibir las capturas desde la red mesh
+        \item \textbf{Recepción:} Endpoint HTTP POST \texttt{/upload/} para recibir las capturas desde la red de malla
         \item \textbf{Gestión de Archivos:} Almacena la imagen original e interactúa con el módulo de inferencia
         \item \textbf{Panel Web:} Interfaz de monitoreo que permite visualizar en tiempo real los eventos de captura y diagnósticos
       \end{itemize}
@@ -1565,7 +1660,7 @@ desarrollamos.
     \end{column}
   \end{columns}
   \note{
-    El Orquestador Central está construido con Django y actúa como el núcleo del sistema. Recibe de forma asíncrona las capturas enviadas por la red mesh a través del endpoint de subida, almacena las imágenes originales en disco y delega la inferencia del modelo al contenedor SpeciesNet. Cuenta además con un panel de monitoreo web para los administradores.
+    El Orquestador Central está construido con Django y actúa como el núcleo del sistema. Recibe de forma asíncrona las capturas enviadas por la red de malla a través del endpoint de subida, almacena las imágenes originales en disco y delega la inferencia del modelo al contenedor SpeciesNet. Cuenta además con un panel de monitoreo web para los administradores.
   }
 \end{frame}
 
@@ -1751,11 +1846,11 @@ para futuro fine-tuning del modelo.
 %   \centering
 %   \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}
 %       [Espacio para demostración en vivo o video]\\
-%       (Activación de cámara $\rightarrow$ Mesh $\rightarrow$ Telegram)
+%       (Activación de cámara $\rightarrow$ Malla $\rightarrow$ Telegram)
 %   \vspace{3cm}}}
 %   \note{
 %     Aquí realizamos la demostración en vivo. Activamos una cámara,
-%     la petición viaja por la red mesh al servidor local, procesa la imagen
+%     la petición viaja por la red de malla al servidor local, procesa la imagen
 %     y llega la notificación al bot de Telegram frente a todos.
 %   }
 % \end{frame}
@@ -1850,7 +1945,7 @@ para futuro fine-tuning del modelo.
 \textbf{Condiciones:}
 \begin{itemize}
 \item Duración: \qty{5}{h} de operación continua
-\item 3 nodos cámara + 1 nodo root desplegados
+\item 3 nodos cámara + 1 nodo raíz desplegados
 \item Distancia entre nodos: \qty{15}{m} a \qty{20}{m}
 \item Condiciones climáticas favorables
 \end{itemize}
@@ -1923,7 +2018,7 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
     - \textbf{Nota de conectividad}: La prueba de campo se realizó sobre un hotspot celular con cobertura limitada y ancho de banda compartido, representando un escenario de conectividad adverso. Esta saturación del canal inalámbrico y la alta latencia del uplink celular explican la diferencia de dos órdenes de magnitud respecto a la prueba de laboratorio.\\
     - \textbf{Definiciones para comentar}:
       1. \textbf{Transmisión}: Tiempo transcurrido desde que la cámara captura el evento hasta que el paquete llega al nodo raíz (puerta de enlace).
-      2. \textbf{Ciclo completo}: Tiempo total desde que se genera el disparo en el PIR hasta que la alerta con la imagen clasificada llega al teléfono del usuario final. Requiere pasar por la red mesh, el uplink celular del root, el procesamiento en el servidor remoto, la inferencia de SpeciesNet y la API de Telegram.\\
+      2. \textbf{Ciclo completo}: Tiempo total desde que se genera el disparo en el PIR hasta que la alerta con la imagen clasificada llega al teléfono del usuario final. Requiere pasar por la red de malla, el uplink celular del nodo raíz, el procesamiento en el servidor remoto, la inferencia de SpeciesNet y la API de Telegram.\\
     - \textbf{Rendimiento de transmisión y ciclo}:
       - En Laboratorio, con imágenes de \num{12.9}~KB, la transmisión toma \num{463}~ms y el ciclo completo \num{1.27}~s.
       - En Campo, con imágenes de aproximadamente \num{30}~KB, la transmisión demora de \num{20} a \num{60}~s por salto y congestión, y el ciclo completo puede ir de \num{3} a \num{5}~minutos debido al cuello de botella en el enlace celular (hotspot compartido para toda la red y servidores).\\
@@ -1936,39 +2031,44 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 \begin{frame}{Resultados - Bot de Telegram (HITL)}
   \only<1>{
     \centering
-    \textbf{Paso 1:} Clasificación errónea inicial en el panel web
+    \textbf{Caso Exitoso:} Detección y clasificación correcta sin intervención
+
+    \vspace{0.5em}
+    \includegraphics[height=0.7\textheight]{img/pajaroOk.png}
+  }
+  \only<2>{
+    \centering
+    \textbf{Paso 1 (HITL):} Clasificación errónea inicial en el panel web
 
     \vspace{0.5em}
     \includegraphics[height=0.7\textheight]{img/pajaroSinCorregir.jpg}
   }
-  \only<2>{
+  \only<3>{
     \centering
-    \textbf{Pasos 2 y 3:} Notificación y corrección de etiqueta en el bot de Telegram
+    \textbf{Pasos 2 y 3 (HITL):} Notificación y corrección de etiqueta en el bot de Telegram
 
     \vspace{0.5em}
     \includegraphics[height=0.7\textheight]{img/botSinCorregir.jpg}
     \hfil
     \includegraphics[height=0.7\textheight]{img/botCorreccion.jpg}
   }
-  \only<3>{
+  \only<4>{
     \centering
-    \textbf{Paso 4:} Registro actualizado y auditado en el panel web
+    \textbf{Paso 4 (HITL):} Registro actualizado y auditado en el panel web
 
     \vspace{0.5em}
     \includegraphics[height=0.7\textheight]{img/pajaroCorregido.jpg}
   }
   \note{
-    Este flujo demuestra el mecanismo Human-in-the-loop en acción.
+    Este flujo demuestra el funcionamiento de las alertas y el mecanismo Human-in-the-loop (HITL) en acción.
+    \textbf{Caso Exitoso:} El sistema detecta y clasifica correctamente la fauna (en este caso, un ave) y notifica directamente al usuario.
+    \textbf{Flujo HITL:}
     Paso 1: el modelo clasifica erróneamente una imagen (ej. confunde persona con animal).
-    Paso 2: el usuario recibe la notificación en Telegram y mediante un teclado inline
-    indica que la clasificación es incorrecta.
-    Paso 3: el bot presenta las alternativas sugeridas por el modelo y el usuario
-    selecciona la etiqueta correcta (human).
-    Paso 4: el sistema actualiza la base de datos y el panel web refleja el cambio
-    inmediatamente, marcando el evento como auditado.
+    Paso 2: el usuario recibe la notificación en Telegram y mediante un teclado inline indica que la clasificación es incorrecta.
+    Paso 3: el bot presenta las alternativas sugeridas por el modelo y el usuario selecciona la etiqueta correcta (human).
+    Paso 4: el sistema actualiza la base de datos y el panel web refleja el cambio inmediatamente, marcando el evento como auditado.
 
-    Esto no solo corrige errores en tiempo real, sino que genera datos etiquetados
-    de alta calidad para futuro fine-tuning del modelo con imágenes del ecosistema local.
+    Esto no solo corrige errores en tiempo real, sino que genera datos etiquetados de alta calidad para futuro fine-tuning del modelo con imágenes del ecosistema local.
   }
 \end{frame}
 
@@ -2068,7 +2168,7 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 \begin{itemize}
 \item[$\checkmark$] Sistema completo de monitoreo con \textbf{hardware de bajo costo}
 \item[$\checkmark$] Reduccion de tiempo de procesamiento: \textbf{dias $\rightarrow$ minutos}
-\item[$\checkmark$] Red mesh funcional con \textbf{ESP-MESH-LITE} (roles Leaf/Relay/Root)
+\item[$\checkmark$] Red de malla funcional con \textbf{ESP-MESH-LITE} (roles Hoja/Intermedio/Raíz)
 \item[$\checkmark$] Integracion exitosa de \textbf{SpeciesNet/MegaDetector}
 \item[$\checkmark$] Sistema de alertas via \textbf{Telegram} con retroalimentacion \textit{Human-in-the-loop}
 \item[$\checkmark$] Carcasa imprimible en 3D (disponible en Printables)
@@ -2076,7 +2176,7 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 \end{itemize}
 \note{
 Resumen de logros: sistema completo funcionando, reducción de tiempo de
-días a minutos, red mesh estable con ESP-MESH-LITE y roles diferenciados,
+días a minutos, red de malla estable con ESP-MESH-LITE y roles diferenciados,
 IA integrada, alertas por Telegram con Human-in-the-loop, carcasa 3D,
 todo código abierto.
 }
@@ -2094,9 +2194,9 @@ todo código abierto.
   Objetivo & Resultado \\
   Detección de fauna, personas y vehículos & Accuracy \qty{77.7}{\percent} (\num{94} imgs) \\
   Latencia de respuesta & $\sim$\qty{40}{s} (campo) / \qty{1.27}{s} (LAN) \\
-  Cobertura mesh & \qtyrange{15}{18}{m} (línea de vista) \\
-  Autonomía (Relay) & $\sim$\qty{5}{h} medidas \\
-  Consumo Leaf (ULP) & $\sim$\qty{13}{mA} \\
+  Cobertura de malla & \qtyrange{15}{18}{m} (línea de vista) \\
+  Autonomía (Intermedio) & $\sim$\qty{5}{h} medidas \\
+  Consumo Hoja (ULP) & $\sim$\qty{13}{mA} \\
 \end{tblr}
 
 \vspace{0.3em}
@@ -2107,7 +2207,7 @@ Se demostró la \textbf{viabilidad técnica} del sistema propuesto. Mejora de \t
 Comparación objetivo vs. resultado. Detección funcional con 77.7\% accuracy.
 Latencia de 40 s en campo (vs. semanas en cámaras convencionales).
 Cobertura de 15-18 m suficiente para despliegue en cadena. Autonomía de
-5 h en Relay, consumo Leaf de apenas 13 mA.
+5 h en el Intermedio, consumo de la Hoja de apenas 13 mA.
 }
 \end{frame}
 
@@ -2117,7 +2217,7 @@ Cobertura de 15-18 m suficiente para despliegue en cadena. Autonomía de
 \item[Sensor PIR:] Optimizado para humanos, puede no detectar fauna pequeña
 \item[Resolución:] VGA (640$\times$480), limitada por el balance entre calidad JPEG y tiempo de transmisión
 \item[Consumo:] WiFi consume más que cámaras trampa comerciales optimizadas
-\item[Gestión de energía:] Nodos intermedios (Relay) deben mantener conectividad mesh permanente, limitando su autonomía
+\item[Gestión de energía:] Nodos intermedios deben mantener conectividad de malla permanente, limitando su autonomía
 \end{description}
 
 \vspace{0.5em}
@@ -2127,7 +2227,7 @@ No es tiempo real deterministico (milisegundos), sino \textbf{operativo}: de dia
 \note{
 Transparencia sobre limitaciones: sin visión nocturna, PIR domótico,
 resolución VGA limitada por el balance compresión/transmisión.
-Nodos Relay deben mantener la red activa (Light Sleep), lo que reduce
+Nodos intermedios deben mantener la red activa (Light Sleep), lo que reduce
 autonomía. Tiempo real significa minutos, no milisegundos.
 }
 \end{frame}
@@ -2136,7 +2236,7 @@ autonomía. Tiempo real significa minutos, no milisegundos.
 \begin{description}
 \item[Visión nocturna:] Cámaras con capacidad infrarroja
 \item[Conectividad largo alcance:] LoRa, \num{4}G/LTE, satelital para zonas remotas
-\item[Nodo repetidor dedicado:] Nodo sin cámara que mantenga la red mesh, permitiendo Deep Sleep puro en nodos cámara
+\item[Nodo repetidor dedicado:] Nodo sin cámara que mantenga la red de malla, permitiendo Deep Sleep puro en nodos cámara
 \item[Optimización energética:] Paneles solares, reguladores más eficientes
 \item[Retransmisión de imágenes:] Mecanismo robusto de reenvío (con ACK) ante pérdidas de conectividad externa
 \item[Optimización de alcance:] Antenas de mayor ganancia, calibración RSSI, mayor compresión
@@ -2372,13 +2472,13 @@ sido posible sin su apoyo.
 % \vspace{0.3em}
 % \textbf{Diferenciación por rol:}
 % \begin{description}
-% \item[Relay:] Interrupción GPIO para PIR. Light Sleep + Modem Sleep.
-% \item[Leaf:] Coprocesador ULP (polling cada \qty{100}{ms}). Deep Sleep total.
+% \item[Intermedio:] Interrupción GPIO para PIR. Light Sleep + Modem Sleep.
+% \item[Hoja:] Coprocesador ULP (polling cada \qty{100}{ms}). Deep Sleep total.
 % \end{description}
 % \note{
 % Firmware con ESP-IDF + ESP-MESH-LITE. Ambos roles comparten la
-% inicialización y captura. La diferencia clave: Relay usa interrupción
-% GPIO y Light Sleep, Leaf usa el coprocesador ULP con polling cada 100ms
+% inicialización y captura. La diferencia clave: el nodo Intermedio usa interrupción
+% GPIO y Light Sleep, el nodo Hoja usa el coprocesador ULP con polling cada 100ms
 % y Deep Sleep completo. Cada nodo hace HTTP POST estándar, no hay Mwifi.
 % }
 % \end{frame}
@@ -2420,7 +2520,7 @@ sido posible sin su apoyo.
 % \textbf{Hardware:} ESP32 DevKit V1 (sin cámara)
 
 % \vspace{0.5em}
-% \textbf{Rol:} Puerta de enlace Mesh $\leftrightarrow$ Internet
+% \textbf{Rol:} Puerta de enlace Malla $\leftrightarrow$ Internet
 
 % \vspace{0.5em}
 % \textbf{Funciones:}
@@ -2478,7 +2578,7 @@ sido posible sin su apoyo.
 
 % \begin{frame}{Aportes del Trabajo}
 % \begin{block}{Arquitectura integrada}
-% Captura distribuida + transmisión mesh + procesamiento IA centralizado
+% Captura distribuida + transmisión de malla + procesamiento IA centralizado
 % \end{block}
 
 % \begin{block}{Prototipo de bajo costo}
