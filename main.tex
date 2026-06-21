@@ -1978,6 +1978,28 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 }
 \end{frame}
 
+
+\begin{frame}{Resultados - Galería de Detecciones}
+  \centering
+  \begin{tikzpicture}[
+    img/.style={inner sep=0, draw=gray!30, line width=0.8pt},
+    bbox/.style={draw=red!80!black, line width=1.2pt},
+    lbl/.style={fill=red!80!black, text=white, font=\tiny\bfseries, inner sep=2pt, rounded corners=1pt, anchor=south west}
+  ]
+    % Fila 1
+    \node[img] (img1) at (0,0) {\includegraphics[width=5.3cm,height=3.3cm]{img/gato.png}};
+    \node[img] (img2) at (5.8,0) {\includegraphics[width=5.3cm,height=3.3cm]{img/paloma.png}};
+    
+    % Fila 2
+    \node[img] (img3) at (0,-3.7) {\includegraphics[width=5.3cm,height=3.3cm]{img/persona.png}};
+    \node[img] (img4) at (5.8,-3.7) {\includegraphics[width=5.3cm,height=3.3cm]{img/auto.png}};
+
+  \end{tikzpicture}
+  \note{
+    Galería de capturas reales obtenidas por los nodos en campo con sus correspondientes cuadros delimitadores (bounding boxes).
+  }
+\end{frame}
+
 \begin{frame}{Resultados - Red Mesh}
   \centering
   
