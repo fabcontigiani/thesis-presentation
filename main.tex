@@ -1216,61 +1216,6 @@ desarrollamos.
 \end{frame}
 
 % ---------- Slide 5: Roles y Energía ----------
-\begin{frame}{Red Malla - Roles y Energía}
-  \textbf{Trade-off de energía y funcionalidad:}
-  
-  \vspace{1em}
-  \begin{columns}[t]
-    \begin{column}{0.32\textwidth}
-      \begin{block}{Leaf (Hoja)}
-        \small
-        \textbf{Máxima autonomía}
-        \begin{itemize}
-          \scriptsize
-          \item Solo captura y envía
-          \item No retransmite tráfico ajeno
-          \item Modo de bajo consumo profundo
-        \end{itemize}
-      \end{block}
-    \end{column}
-    \begin{column}{0.32\textwidth}
-      \begin{block}{Relay (Intermedio)}
-        \small
-        \textbf{Extensor de cobertura}
-        \begin{itemize}
-          \scriptsize
-          \item Captura y envía
-          \item Retransmite tráfico de vecinos
-          \item Modo de bajo consumo parcial
-        \end{itemize}
-      \end{block}
-    \end{column}
-    \begin{column}{0.32\textwidth}
-      \begin{block}{Root (Raíz)}
-        \small
-        \textbf{Puerta de enlace}
-        \begin{itemize}
-          \scriptsize
-          \item Siempre activo (100\%)
-          \item Conectado al router
-          \item Sin cámara (solo enruta)
-        \end{itemize}
-      \end{block}
-    \end{column}
-  \end{columns}
-
-  \vspace{0.8em}
-  \centering
-  \small
-  \textbf{Leaf} $\xrightarrow{\text{más consumo}}$ \textbf{Relay} $\xrightarrow{\text{más consumo}}$ \textbf{Root}
-  \note{
-    Explicamos los tres roles de la red malla y su balance energético.
-    1. El nodo Hoja prioriza el ahorro de batería: solo origina sus propias capturas y no ayuda a enrutar, obteniendo la mayor autonomía.
-    2. El nodo Intermedio sacrifica batería permaneciendo parcialmente activo para poder recibir y retransmitir paquetes de otros nodos, extendiendo la cobertura.
-    3. El nodo Raíz es la única puerta de enlace hacia internet, está 100\% activo, no tiene cámara y se alimenta directamente de una fuente de energía externa.
-  }
-\end{frame}
-
 \begin{frame}{Red Malla - Robustez (Self-Healing)}
   \begin{columns}[c]
     \begin{column}{0.5\textwidth}
@@ -1428,6 +1373,156 @@ desarrollamos.
   \end{columns}
   \note{
     Además del self-healing de nodos hijos, la elección del nodo raíz (Root) es dinámica. Si hay varios nodos cerca del router de salida, comparan su señal RSSI y el que tenga mejor enlace se designa como Root, lo que asegura el camino más óptimo hacia el exterior.
+  }
+\end{frame}
+
+\begin{frame}{Red Malla - Roles y Energía}
+  \textbf{Trade-off de energía y funcionalidad:}
+  
+  \vspace{1em}
+  \begin{columns}[t]
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Leaf (Hoja)}
+        \small
+        \textbf{Máxima autonomía}
+        \begin{itemize}
+          \scriptsize
+          \item Solo captura y envía
+          \item No retransmite tráfico ajeno
+          \item Modo de bajo consumo profundo
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Relay (Intermedio)}
+        \small
+        \textbf{Extensor de cobertura}
+        \begin{itemize}
+          \scriptsize
+          \item Captura y envía
+          \item Retransmite tráfico de vecinos
+          \item Modo de bajo consumo parcial
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{block}{Root (Raíz)}
+        \small
+        \textbf{Puerta de enlace}
+        \begin{itemize}
+          \scriptsize
+          \item Siempre activo (100\%)
+          \item Conectado al router
+          \item Sin cámara (solo enruta)
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.8em}
+  \centering
+  \small
+  \textbf{Leaf} $\dots \xrightarrow{\text{más consumo}}$ \textbf{Relay} $\dots \xrightarrow{\text{más consumo}}$ \textbf{Root}
+  \note{
+    Explicamos los tres roles de la red malla y su balance energético.
+    1. El nodo Hoja prioriza el ahorro de batería: solo origina sus propias capturas y no ayuda a enrutar, obteniendo la mayor autonomía.
+    2. El nodo Intermedio sacrifica batería permaneciendo parcialmente activo para poder recibir y retransmitir paquetes de otros nodos, extendiendo la cobertura.
+    3. El nodo Raíz es la única puerta de enlace hacia internet, está 100\% activo, no tiene cámara y se alimenta directamente de una fuente de energía externa.
+  }
+\end{frame}
+
+\begin{frame}{Gestión de Energía: Hoja vs. Intermedio}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \centering
+      \begin{tikzpicture}[
+          font=\sffamily,
+          >=Latex,
+          box/.style={draw=gray!30, fill=white, rounded corners=6pt, minimum width=5.2cm, minimum height=2.5cm, line width=0.8pt},
+          node_root/.style={circle, draw=orange!80!black, fill=orange!10, minimum size=0.8cm, thick, font=\scriptsize\bfseries},
+          node_relay/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.8cm, thick, font=\scriptsize\bfseries},
+          node_leaf/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.8cm, thick, font=\scriptsize\bfseries},
+          link_ok/.style={draw=teal!80!black, <-, line width=1.5pt}
+        ]
+        \node[box] (bg) at (0,0) {};
+        \node[anchor=north, font=\scriptsize\bfseries\color{teal!80!black}, yshift=-0.15cm] at (bg.north) {Intermedio en Light Sleep (Activo)};
+        
+        \node[node_root] (R) at (-1.4, -0.15) {Root};
+        \node[node_relay] (Re) at (0, -0.15) {Relay};
+        \node[node_leaf] (L) at (1.4, -0.15) {Leaf};
+        
+        \draw[link_ok] (R) -- (Re);
+        \draw[link_ok] (Re) -- (L);
+        
+        \node[anchor=south, font=\tiny\color{teal!80!black}, yshift=0.15cm] at (bg.south) {Enlace mesh activo e hijos conectados};
+      \end{tikzpicture}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      \centering
+      \begin{tikzpicture}[
+          font=\sffamily,
+          >=Latex,
+          box/.style={draw=red!20, fill=white, rounded corners=6pt, minimum width=5.2cm, minimum height=2.5cm, line width=0.8pt},
+          node_root/.style={circle, draw=orange!80!black, fill=orange!10, minimum size=0.8cm, thick, font=\scriptsize\bfseries},
+          node_relay_ds/.style={circle, draw=gray!60, fill=gray!10, minimum size=0.8cm, thick, dashed, font=\scriptsize\bfseries, text=gray!70},
+          node_leaf_fail/.style={circle, draw=red!80, fill=red!5, minimum size=0.8cm, thick, font=\scriptsize\bfseries, text=red!80!black},
+          link_ok/.style={draw=teal!80!black, <-, line width=1.5pt},
+          link_fail/.style={draw=red!80, <-, dashed, line width=1.5pt}
+        ]
+        \node[box] (bg) at (0,0) {};
+        \node[anchor=north, font=\scriptsize\bfseries\color{red!80!black}, yshift=-0.15cm] at (bg.north) {Intermedio en Deep Sleep (Inactivo)};
+        
+        \node[node_root] (R) at (-1.4, -0.15) {Root};
+        \node[node_relay_ds] (Re) at (0, -0.15) {Relay};
+        \node[node_leaf_fail] (L) at (1.4, -0.15) {Leaf};
+        
+        \draw[link_ok] (R) -- (Re);
+        \draw[link_fail] (Re) -- (L) node[midway, above, font=\tiny\bfseries\color{red}, yshift=-1pt] {Roto};
+        
+        \node[anchor=south, font=\tiny\color{red!85!black}, yshift=0.15cm] at (bg.south) {Nodos hijos aislados de la red};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.45em}
+
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      {
+        \setbeamercolor{block title}{fg=black!80, bg=black!10}
+        \setbeamercolor{block body}{bg=black!5}
+        \begin{block}{Nodo Hoja (Leaf Node)}
+          \scriptsize
+          \begin{itemize}
+            \item \textbf{Deep Sleep completo:} Apagado absoluto de CPU y radio WiFi.
+            \item \textbf{Sin dependencia:} No tiene nodos hijos asociados. Su desconexión temporal no afecta a terceros.
+            \item \textbf{Consumo mínimo:} Ahorro crítico de batería.
+          \end{itemize}
+        \end{block}
+      }
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      {
+        \setbeamercolor{block title}{fg=orange!80!black, bg=black!10}
+        \setbeamercolor{block body}{bg=black!5}
+        \begin{block}{Nodo Intermedio (Relay Node)}
+          \scriptsize
+          \begin{itemize}
+            \item \textbf{Prohibido el Deep Sleep:} Si se apagara del todo, rompería la topología mesh.
+            \item \textbf{Restricción:} Debe mantener el AP activo para que sus hijos no queden aislados.
+            \item \textbf{Solución:} Light Sleep + Modem Power Save para suspender la CPU sin perder la sesión WiFi.
+          \end{itemize}
+        \end{block}
+      }
+    \end{column}
+  \end{columns}
+  
+  \note{
+    Explicamos la diferencia de gestión de energía entre nodos Hoja y nodos Intermedios.
+    Un nodo Hoja puede entrar en Deep Sleep completo apagando su radio WiFi y CPU porque ningún otro nodo depende de él.
+    En cambio, un nodo Intermedio (Relay) no puede usar Deep Sleep, ya que rompería los enlaces de la red y dejaría a sus nodos hijos aislados. Para ahorrar energía, se utiliza Light Sleep en combinación con Modem Power Save para suspender la CPU sin perder la sesión WiFi y mantener el AP activo.
   }
 \end{frame}
 
