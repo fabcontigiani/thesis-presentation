@@ -2031,39 +2031,44 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 \begin{frame}{Resultados - Bot de Telegram (HITL)}
   \only<1>{
     \centering
-    \textbf{Paso 1:} Clasificación errónea inicial en el panel web
+    \textbf{Caso Exitoso:} Detección y clasificación correcta sin intervención
+
+    \vspace{0.5em}
+    \includegraphics[height=0.7\textheight]{img/pajaroOk.png}
+  }
+  \only<2>{
+    \centering
+    \textbf{Paso 1 (HITL):} Clasificación errónea inicial en el panel web
 
     \vspace{0.5em}
     \includegraphics[height=0.7\textheight]{img/pajaroSinCorregir.jpg}
   }
-  \only<2>{
+  \only<3>{
     \centering
-    \textbf{Pasos 2 y 3:} Notificación y corrección de etiqueta en el bot de Telegram
+    \textbf{Pasos 2 y 3 (HITL):} Notificación y corrección de etiqueta en el bot de Telegram
 
     \vspace{0.5em}
     \includegraphics[height=0.7\textheight]{img/botSinCorregir.jpg}
     \hfil
     \includegraphics[height=0.7\textheight]{img/botCorreccion.jpg}
   }
-  \only<3>{
+  \only<4>{
     \centering
-    \textbf{Paso 4:} Registro actualizado y auditado en el panel web
+    \textbf{Paso 4 (HITL):} Registro actualizado y auditado en el panel web
 
     \vspace{0.5em}
     \includegraphics[height=0.7\textheight]{img/pajaroCorregido.jpg}
   }
   \note{
-    Este flujo demuestra el mecanismo Human-in-the-loop en acción.
+    Este flujo demuestra el funcionamiento de las alertas y el mecanismo Human-in-the-loop (HITL) en acción.
+    \textbf{Caso Exitoso:} El sistema detecta y clasifica correctamente la fauna (en este caso, un ave) y notifica directamente al usuario.
+    \textbf{Flujo HITL:}
     Paso 1: el modelo clasifica erróneamente una imagen (ej. confunde persona con animal).
-    Paso 2: el usuario recibe la notificación en Telegram y mediante un teclado inline
-    indica que la clasificación es incorrecta.
-    Paso 3: el bot presenta las alternativas sugeridas por el modelo y el usuario
-    selecciona la etiqueta correcta (human).
-    Paso 4: el sistema actualiza la base de datos y el panel web refleja el cambio
-    inmediatamente, marcando el evento como auditado.
+    Paso 2: el usuario recibe la notificación en Telegram y mediante un teclado inline indica que la clasificación es incorrecta.
+    Paso 3: el bot presenta las alternativas sugeridas por el modelo y el usuario selecciona la etiqueta correcta (human).
+    Paso 4: el sistema actualiza la base de datos y el panel web refleja el cambio inmediatamente, marcando el evento como auditado.
 
-    Esto no solo corrige errores en tiempo real, sino que genera datos etiquetados
-    de alta calidad para futuro fine-tuning del modelo con imágenes del ecosistema local.
+    Esto no solo corrige errores en tiempo real, sino que genera datos etiquetados de alta calidad para futuro fine-tuning del modelo con imágenes del ecosistema local.
   }
 \end{frame}
 
