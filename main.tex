@@ -493,110 +493,11 @@ Ejercicio
   }
 \end{frame}
 
-% \begin{frame}{Desafios de la Vigilancia}
-%   \textbf{\num{780000} hectareas} distribuidas en \textbf{\num{106}+ areas protegidas}
-
-%   \vspace{0.5em}
-%   \begin{description}
-%     \item[Extension:] Terreno accidentado, vegetacion densa, acceso limitado
-%     \item[Comunicaciones:] Sin cobertura celular en zonas interiores
-%     \item[Latencia:] Semanas/meses entre captura de evento y descubrimiento
-%     \item[Volumen:] Miles de imagenes requieren clasificacion manual
-%   \end{description}
-
-%   % TODO: Foto de terreno/vegetacion densa
-%   \centering
-%   \fbox{\parbox{0.5\textwidth}{\centering\vspace{1.2cm}
-%       [Foto vegetacion densa]
-%   \vspace{1.2cm}}}
-%   \note{
-%     \num{780000} hectáreas en más de \num{100} áreas protegidas. Sin cobertura celular,
-%     con terreno difícil y miles de imágenes que clasificar manualmente. Estos
-%     desafíos motivan nuestra propuesta tecnológica.
-%   }
-% \end{frame}
-
-\begin{frame}{Monitoreo Acústico y Aéreo}
-  \begin{columns}
-    \begin{column}{0.6\textwidth}
-      \textbf{Monitoreo Acústico:}
-      \begin{itemize}
-        \item \textbf{Uso:} Grabadoras en árboles para fauna o amenazas (motosierras, disparos).
-        \item \textbf{Limitación:} Propensión a falsos positivos (ruidos naturales confundidos con disparos o motosierras).
-      \end{itemize}
-
-      \vspace{0.5em}
-      \textbf{Drones y Satélites:}
-      \begin{itemize}
-        \item \textbf{Uso:} Vigilancia aérea contra desmontes e incendios forestales.
-        \item \textbf{Limitación:} Las copas de los árboles ocultan el suelo. Baja autonomía (drones) y baja frecuencia de paso (satélites).
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.4\textwidth}
-      \centering
-      \includegraphics[width=0.85\textwidth]{img/monitoreoAcustico.jpg}
-      \vspace{1em}
-      \includegraphics[width=0.85\textwidth]{img/monitoreoDron.jpg}
-    \end{column}
-  \end{columns}
-  \note{
-    Para combatir las amenazas de caza y deforestación, el monitoreo acústico usa grabadoras automáticas en árboles, pero sufre de falsos positivos al confundirse ruidos naturales (como caídas de ramas o truenos) con amenazas reales.
-    Los drones y satélites permiten vigilar grandes extensiones de bosque desde el aire, pero las copas de los árboles impiden ver lo que ocurre a nivel del suelo o debajo de ellas, sumado a las limitaciones físicas de autonomía de drones y frecuencia de paso de satélites.
-  }
-\end{frame}
-
-\begin{frame}{Cámaras Trampa Tradicionales}
-  \begin{columns}
-    \begin{column}{0.6\textwidth}
-      \begin{itemize}
-        \setlength{\itemsep}{1em}
-        \item \textbf{Funcionamiento:} Sensor \textbf{PIR} (movimiento/calor) y almacenamiento local de fotos y videos en tarjeta SD.
-        \item \textbf{Limitación (Alta Latencia):} Requiere recolectar manualmente la tarjeta SD de forma periódica (semanas/meses), impidiendo una alerta temprana.
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.4\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{img/camaraTrampaConvencional.png}
-    \end{column}
-  \end{columns}
-  \note{
-    Las cámaras trampa pasivas capturan imágenes automáticamente usando sensores PIR y las guardan localmente en una tarjeta SD.
-    Su gran limitación es la alta latencia: para ver las fotos, alguien debe ir físicamente al sitio y retirar la tarjeta de memoria, lo cual toma semanas o meses, perdiendo la oportunidad de reaccionar a tiempo ante actividades ilícitas.
-  }
-\end{frame}
-
-\begin{frame}{Cámaras Trampa Modernas}
-  \begin{columns}
-    \begin{column}{0.6\textwidth}
-      \textbf{Funcionamiento:}
-      \begin{itemize}
-        \item Transmisión casi instantánea por red celular (3G/4G) o enlace satelital.
-      \end{itemize}
-
-      \vspace{0.5em}
-      \textbf{Limitaciones Principales:}
-      \begin{itemize}
-        \item \textbf{Falta de cobertura:} Inexistente en selva profunda.
-        \item \textbf{Costos elevados:} Hardware y planes satelitales caros.
-        \item \textbf{Baja escalabilidad:} Inviable para despliegues masivos.
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.4\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{img/camaraActiva.png}
-    \end{column}
-  \end{columns}
-  \note{
-    Las cámaras trampa activas intentan resolver la latencia enviando las imágenes al instante usando redes móviles o satélites.
-    Sin embargo, en zonas interiores y remotas de la selva profunda no existe cobertura celular. Además, el uso de enlaces satelitales tiene costos de suscripción y hardware que impiden escalar a decenas o cientos de cámaras en un despliegue masivo.
-  }
-\end{frame}
-
 \begin{frame}{El Desafío de la Comunicación en la Selva}
   \begin{itemize}
     \setlength{\itemsep}{0.4em}
     \item \textbf{Absorción por humedad:} la vegetación con alto contenido de agua atenúa la señal RF (2.4\,GHz).
-    \item \textbf{Dispersión \textit{multipath}:} ramas y hojas desvían la señal, generando ecos destructivos.
+    \item \textbf{Dispersión multicamino:} ramas y hojas desvían la señal, generando ecos destructivos.
     \item \textbf{Obstrucción de la Zona de Fresnel:} vegetación y relieve degradan el enlace aun con línea de vista.
   \end{itemize}
 
@@ -702,6 +603,84 @@ Ejercicio
   }
 \end{frame}
 
+\begin{frame}{Monitoreo Acústico y Aéreo}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \textbf{Monitoreo Acústico:}
+      \begin{itemize}
+        \item \textbf{Uso:} Grabadoras en árboles para fauna o amenazas (motosierras, disparos).
+        \item \textbf{Limitación:} Propensión a falsos positivos (ruidos naturales confundidos con disparos o motosierras).
+      \end{itemize}
+
+      \vspace{0.5em}
+      \textbf{Drones y Satélites:}
+      \begin{itemize}
+        \item \textbf{Uso:} Vigilancia aérea contra desmontes e incendios forestales.
+        \item \textbf{Limitación:} Las copas de los árboles ocultan el suelo. Baja autonomía (drones) y baja frecuencia de paso (satélites).
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      \includegraphics[width=0.85\textwidth]{img/monitoreoAcustico.jpg}
+      \vspace{1em}
+      \includegraphics[width=0.85\textwidth]{img/monitoreoDron.jpg}
+    \end{column}
+  \end{columns}
+  \note{
+    Para combatir las amenazas de caza y deforestación, el monitoreo acústico usa grabadoras automáticas en árboles, pero sufre de falsos positivos al confundirse ruidos naturales (como caídas de ramas o truenos) con amenazas reales.
+    Los drones y satélites permiten vigilar grandes extensiones de bosque desde el aire, pero las copas de los árboles impiden ver lo que ocurre a nivel del suelo o debajo de ellas, sumado a las limitaciones físicas de autonomía de drones y frecuencia de paso de satélites.
+  }
+\end{frame}
+
+\begin{frame}{Cámaras Trampa Tradicionales}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \begin{itemize}
+        \setlength{\itemsep}{1em}
+        \item \textbf{Funcionamiento:} Sensor \textbf{PIR} (movimiento/calor) y almacenamiento local de fotos y videos en tarjeta SD.
+        \item \textbf{Limitación (Alta Latencia):} Requiere recolectar manualmente la tarjeta SD de forma periódica (semanas/meses), impidiendo una alerta temprana.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/camaraTrampaConvencional.png}
+    \end{column}
+  \end{columns}
+  \note{
+    Las cámaras trampa pasivas capturan imágenes automáticamente usando sensores PIR y las guardan localmente en una tarjeta SD.
+    Su gran limitación es la alta latencia: para ver las fotos, alguien debe ir físicamente al sitio y retirar la tarjeta de memoria, lo cual toma semanas o meses, perdiendo la oportunidad de reaccionar a tiempo ante actividades ilícitas.
+  }
+\end{frame}
+
+\begin{frame}{Cámaras Trampa Modernas}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \textbf{Funcionamiento:}
+      \begin{itemize}
+        \item Transmisión casi instantánea por red celular (3G/4G) o enlace satelital.
+      \end{itemize}
+
+      \vspace{0.5em}
+      \textbf{Limitaciones Principales:}
+      \begin{itemize}
+        \item \textbf{Falta de cobertura:} Inexistente en selva profunda.
+        \item \textbf{Costos elevados:} Hardware y planes satelitales caros.
+        \item \textbf{Baja escalabilidad:} Inviable para despliegues masivos.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/camaraActiva.png}
+    \end{column}
+  \end{columns}
+  \note{
+    Las cámaras trampa activas intentan resolver la latencia enviando las imágenes al instante usando redes móviles o satélites.
+    Sin embargo, en zonas interiores y remotas de la selva profunda no existe cobertura celular. Además, el uso de enlaces satelitales tiene costos de suscripción y hardware que impiden escalar a decenas o cientos de cámaras en un despliegue masivo.
+  }
+\end{frame}
+
+
+
 \section*{El Rol de la Tecnología}
 
 \begin{frame}{Avances en Hardware y Sensores de Campo}
@@ -774,27 +753,6 @@ Ejercicio
 % Sección 2: Objetivos (Nuestra Propuesta)
 % ==============================================================================
 \section{Objetivos}
-
-% \begin{frame}{Escenario Objetivo}
-%   \begin{alertblock}{Solución}
-%     Diseño e implementación de un \textbf{Sistema de Monitoreo y Alerta Temprana basado en IA} para áreas protegidas.
-%   \end{alertblock}
-  
-%   \vspace{1em}
-%   \textbf{Pilares del sistema:}
-%   \begin{itemize}
-%     \item \textbf{Barato y escalable} (hardware económico y open source)
-%     \item \textbf{Reducción del tiempo de respuesta} (de semanas a minutos)
-%     \item \textbf{Cobertura en zonas remotas} (red malla independiente)
-%     \item \textbf{Eliminación de ruido} (IA para evitar falsos positivos)
-%   \end{itemize}
-%   \note{
-%     Nuestra propuesta es un Sistema de Monitoreo y Alerta Temprana. Sus 4
-%     pilares son: que sea barato y escalable, que reduzca drásticamente la
-%     latencia, que funcione en zonas remotas sin celular, y que elimine los
-%     falsos positivos usando IA.
-%   }
-% \end{frame}
 
 \begin{frame}{Escenario de Despliegue Objetivo}
   % \hspace{-0.7cm}
@@ -1002,35 +960,6 @@ validación. Cada uno corresponde a un componente del sistema que
 desarrollamos.
 }
 \end{frame}
-
-% \begin{frame}{Alcance del Proyecto}
-% \begin{columns}
-% \begin{column}{0.5\textwidth}
-% \textbf{Dentro del alcance:}
-% \begin{itemize}
-%   \item Nodos ESP32-CAM + sensor PIR
-%   \item Red de malla funcional
-%   \item Servidor de recepción y clasificación
-%   \item Bot de Telegram para alertas
-%   \item Pruebas en laboratorio y campo
-% \end{itemize}
-% \end{column}
-% \begin{column}{0.5\textwidth}
-% \textbf{Fuera del alcance:}
-% \begin{itemize}
-%   \item Despliegue en selva densa
-%   \item Carcasas con grado IP
-%   \item Entrenamiento de modelos específicos
-%   \item Certificación comercial
-% \end{itemize}
-% \end{column}
-% \end{columns}
-% \note{
-% Definimos claramente qué sí y qué no incluye el proyecto. Prototipo
-% funcional para pruebas, no producto comercial. Sin despliegue en selva
-% real ni carcasas industriales.
-% }
-% \end{frame}
 
 \begin{frame}{Alcance y Limitaciones}
   \begin{itemize}
