@@ -2003,8 +2003,8 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
     - \textbf{Métricas y Entornos}: Comparamos las pruebas en Laboratorio (bajo una red local LAN con servidor en la misma subred) frente a las de Campo (utilizando un hotspot celular con cobertura limitada y ancho de banda compartido, representando un escenario adverso).\\
     - \textbf{Nota de conectividad}: La prueba de campo se realizó sobre un hotspot celular con cobertura limitada y ancho de banda compartido, representando un escenario de conectividad adverso. Esta saturación del canal inalámbrico y la alta latencia del uplink celular explican la diferencia de dos órdenes de magnitud respecto a la prueba de laboratorio.\\
     - \textbf{Definiciones para comentar}:
-      1. \textbf{Transmisión}: Tiempo transcurrido desde que la cámara captura el evento hasta que el paquete llega al nodo raíz (puerta de enlace).
-      2. \textbf{Ciclo completo}: Tiempo total desde que se genera el disparo en el PIR hasta que la alerta con la imagen clasificada llega al teléfono del usuario final. Requiere pasar por la red de malla, el uplink celular del nodo raíz, el procesamiento en el servidor remoto, la inferencia de SpeciesNet y la API de Telegram.\\
+      Transmisión: Tiempo transcurrido desde que la cámara captura el evento hasta que el paquete llega al nodo raíz (puerta de enlace).
+      Ciclo completo: Tiempo total desde que se genera el disparo en el PIR hasta que la alerta con la imagen clasificada llega al teléfono del usuario final. Requiere pasar por la red de malla, el uplink celular del nodo raíz, el procesamiento en el servidor remoto, la inferencia de SpeciesNet y la API de Telegram.\\
     - \textbf{Rendimiento de transmisión y ciclo}:
       - En Laboratorio, con imágenes de \num{12.9}~KB, la transmisión toma \num{463}~ms y el ciclo completo \num{1.27}~s.
       - En Campo, con imágenes de aproximadamente \num{30}~KB, la transmisión demora de \num{20} a \num{60}~s por salto y congestión, y el ciclo completo puede ir de \num{3} a \num{5}~minutos debido al cuello de botella en el enlace celular (hotspot compartido para toda la red y servidores).\\
@@ -2014,36 +2014,24 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 
 % El frame de Consumo Energético fue movido a la Sección 3 (Diseño y Energía)
 
-\begin{frame}{Resultados - Bot de Telegram (HITL)}
+\begin{frame}{Bot de Telegram (HITL) - \only<1>{Caso Exitoso}\only<2>{Clasificación Errónea}\only<3>{Corrección por Telegram}\only<4>{Registro Actualizado}}
   \only<1>{
     \centering
-    \textbf{Caso Exitoso:} Detección y clasificación correcta sin intervención
-
-    \vspace{0.5em}
-    \includegraphics[height=0.7\textheight]{img/pajaroOk.png}
+    \includegraphics[height=0.82\textheight]{img/pajaroOk.png}
   }
   \only<2>{
     \centering
-    \textbf{Paso 1 (HITL):} Clasificación errónea inicial en el panel web
-
-    \vspace{0.5em}
-    \includegraphics[height=0.7\textheight]{img/pajaroSinCorregir.jpg}
+    \includegraphics[height=0.82\textheight]{img/pajaroSinCorregir.jpg}
   }
   \only<3>{
     \centering
-    \textbf{Pasos 2 y 3 (HITL):} Notificación y corrección de etiqueta en el bot de Telegram
-
-    \vspace{0.5em}
-    \includegraphics[height=0.7\textheight]{img/botSinCorregir.jpg}
+    \includegraphics[height=0.82\textheight]{img/botSinCorregir.jpg}
     \hfil
-    \includegraphics[height=0.7\textheight]{img/botCorreccion.jpg}
+    \includegraphics[height=0.82\textheight]{img/botCorreccion.jpg}
   }
   \only<4>{
     \centering
-    \textbf{Paso 4 (HITL):} Registro actualizado y auditado en el panel web
-
-    \vspace{0.5em}
-    \includegraphics[height=0.7\textheight]{img/pajaroCorregido.jpg}
+    \includegraphics[height=0.82\textheight]{img/pajaroCorregido.jpg}
   }
   \note{
     Este flujo demuestra el funcionamiento de las alertas y el mecanismo Human-in-the-loop (HITL) en acción.
@@ -2146,7 +2134,7 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
         \scriptsize
         \begin{itemize}
           \item Red de malla robusta con \textbf{ESP-MESH-LITE}
-          \item Roles funcionales adaptativos (Hoja, Intermedio, Raíz)
+          % \item Extensión de cobertura sin infraestructura móvil
         \end{itemize}
       \end{block}
     \end{column}
@@ -2162,11 +2150,11 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
       
       \vspace{0.4em}
       
-      \begin{block}{Impacto y Código Abierto}
+      \begin{block}{Impacto y Escalabilidad}
         \scriptsize
         \begin{itemize}
           \item Tiempo de procesamiento: \textbf{días $\rightarrow$ minutos}
-          \item Prototipo \textbf{100\% de código abierto} (GitHub)
+          \item Enfoque en un sistema \textbf{altamente escalable} y de bajo costo
         \end{itemize}
       \end{block}
     \end{column}
