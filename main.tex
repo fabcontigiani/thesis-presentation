@@ -944,7 +944,6 @@ desarrollamos.
   \begin{itemize}
     \setlength{\itemsep}{1.0em}
     \item \textbf{Hardware:} Operación diurna o bajo luz visible (filtro IR integrado) y autonomía energética limitada por baterías utilizadas.
-    \item \textbf{Transmisión:} Ancho de banda y rango acorde a MCU; el envío de paquetes grandes añade complicaciones extra en estas redes malla.
     \item \textbf{Enlace de larga distancia:} No se implementa un nodo raíz con protocolo de comunicación de larga distancia (satelital/celular dedicada).
     \item \textbf{Despliegue Físico:} No se contempla el diseño de carcasas con grado de protección IP, ni el despliegue permanente en campo.
     \item \textbf{Modelos de IA:} Se utilizan modelos preentrenados; no se incluye el entrenamiento de un modelo específico para la fauna local, aunque sí se tiene en cuenta esta posibilidad a futuro.
@@ -1430,12 +1429,11 @@ desarrollamos.
     colsep = 4pt,
     rowsep = 3.5pt,
   }
-    Característica & Nodo Hoja (\textbf{Deep Sleep}) & Nodo Intermedio (\textbf{Light Sleep} + \textbf{Power Save}) \\
+    Característica & Nodo Hoja (\textbf{Deep Sleep}) & Nodo Intermedio (\textbf{Light Sleep}) \\
     \textbf{CPU} & Apagado absoluto & Suspendida \\
     \textbf{Radio Wi-Fi} & Apagada por completo & Activa periódicamente \\
     \textbf{Memoria RAM} & Se borra & Se preserva íntegramente \\
     \textbf{Al despertar} & Reinicio completo & Retorno instantáneo \\
-    \textbf{Rol en Malla} & No enruta tráfico & \textbf{Obligatorio retransmitir} \\
   \end{tblr}
   
   \note{
@@ -1616,55 +1614,55 @@ desarrollamos.
   {\tiny Fuente: \href{https://research.google/blog/where-wild-things-roam-identifying-wildlife-with-speciesnet/}{research.google/blog}}
 \end{frame}
 
-\begin{frame}{Módulo de Clasificación: Flujo de Inferencia}
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \centering
-      \scalebox{0.85}{
-        \begin{tikzpicture}[
-            node distance=0.5cm and 1.2cm,
-            box/.style={rectangle, draw, rounded corners, fill=blue!10, text width=3.5cm, text centered, minimum height=0.7cm, font=\sffamily\small},
-            io/.style={rectangle, draw, fill=green!10, text width=3.5cm, text centered, minimum height=0.6cm, font=\sffamily\small},
-            process/.style={rectangle, draw, fill=orange!10, text width=3.5cm, text centered, minimum height=0.7cm, font=\sffamily\small},
-            arrow/.style={thick, -Latex}
-          ]
+% \begin{frame}{Módulo de Clasificación: Flujo de Inferencia}
+%   \begin{columns}
+%     \begin{column}{0.5\textwidth}
+%       \centering
+%       \scalebox{0.85}{
+%         \begin{tikzpicture}[
+%             node distance=0.5cm and 1.2cm,
+%             box/.style={rectangle, draw, rounded corners, fill=blue!10, text width=3.5cm, text centered, minimum height=0.7cm, font=\sffamily\small},
+%             io/.style={rectangle, draw, fill=green!10, text width=3.5cm, text centered, minimum height=0.6cm, font=\sffamily\small},
+%             process/.style={rectangle, draw, fill=orange!10, text width=3.5cm, text centered, minimum height=0.7cm, font=\sffamily\small},
+%             arrow/.style={thick, -Latex}
+%           ]
   
-          % Nodos
-          \node (request) [io] {HTTP POST \texttt{/predict}};
-          \node (read) [process, below=of request] {Lectura de Imagen};
-          \node (detect) [box, below=of read] {Detección\\(MegaDetector)};
-          \node (classify) [box, below=of detect] {Clasificación\\(SpeciesNet)};
-          \node (draw) [process, below=of classify] {Anotación de Imagen};
-          \node (save) [process, below=of draw] {Guardado de Imagen};
-          \node (response) [io, below=of save] {Respuesta JSON};
+%           % Nodos
+%           \node (request) [io] {HTTP POST \texttt{/predict}};
+%           \node (read) [process, below=of request] {Lectura de Imagen};
+%           \node (detect) [box, below=of read] {Detección\\(MegaDetector)};
+%           \node (classify) [box, below=of detect] {Clasificación\\(SpeciesNet)};
+%           \node (draw) [process, below=of classify] {Anotación de Imagen};
+%           \node (save) [process, below=of draw] {Guardado de Imagen};
+%           \node (response) [io, below=of save] {Respuesta JSON};
   
-          % Conexiones
-          \draw [arrow] (request) -- (read);
-          \draw [arrow] (read) -- (detect);
-          \draw [arrow] (detect) -- node[anchor=east, font=\small] {Recortes} (classify);
-          \draw [arrow] (classify) -- node[anchor=east, font=\small] {Clases} (draw);
-          \draw [arrow] (draw) -- (save);
-          \draw [arrow] (save) -- (response);
-          \draw [arrow] (detect.east) -- ++(1.0,0) |- (draw.east);
+%           % Conexiones
+%           \draw [arrow] (request) -- (read);
+%           \draw [arrow] (read) -- (detect);
+%           \draw [arrow] (detect) -- node[anchor=east, font=\small] {Recortes} (classify);
+%           \draw [arrow] (classify) -- node[anchor=east, font=\small] {Clases} (draw);
+%           \draw [arrow] (draw) -- (save);
+%           \draw [arrow] (save) -- (response);
+%           \draw [arrow] (detect.east) -- ++(1.0,0) |- (draw.east);
   
-        \end{tikzpicture}
-      }
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \begin{enumerate}
-        \item \textbf{Detección:} MegaDetector (YOLOv5) identifica regiones de interés (animal, persona, vehículo).
-        \item \textbf{Clasificación:} Modelos SpeciesNet analizan recortes y predicen familia, género y especie.
-        \item \textbf{Anotación:} Genera copia con bounding boxes.
-        \item \textbf{Respuesta:} JSON con detecciones (clases), clasificaciones (especie) y la ruta de la imagen anotada.
-      \end{enumerate}
-    \end{column}
-  \end{columns}
-\note{
-Pipeline de 3 fases dentro del contenedor SpeciesNet: MegaDetector detecta
-y localiza objetos, clasificador taxonómico identifica especies, y se
-genera una imagen anotada. Todo expuesto via API REST con LitServe.
-}
-\end{frame}
+%         \end{tikzpicture}
+%       }
+%     \end{column}
+%     \begin{column}{0.5\textwidth}
+%       \begin{enumerate}
+%         \item \textbf{Detección:} MegaDetector (YOLOv5) identifica regiones de interés (animal, persona, vehículo).
+%         \item \textbf{Clasificación:} Modelos SpeciesNet analizan recortes y predicen familia, género y especie.
+%         \item \textbf{Anotación:} Genera copia con bounding boxes.
+%         \item \textbf{Respuesta:} JSON con detecciones (clases), clasificaciones (especie) y la ruta de la imagen anotada.
+%       \end{enumerate}
+%     \end{column}
+%   \end{columns}
+% \note{
+% Pipeline de 3 fases dentro del contenedor SpeciesNet: MegaDetector detecta
+% y localiza objetos, clasificador taxonómico identifica especies, y se
+% genera una imagen anotada. Todo expuesto via API REST con LitServe.
+% }
+% \end{frame}
 
 % \begin{frame}{Lógica de Umbrales de Detección}
 % \textbf{Tres niveles de decisión para enviar alertas:}
@@ -1795,7 +1793,7 @@ genera una imagen anotada. Todo expuesto via API REST con LitServe.
     \setlength{\itemsep}{0.4em}
     \small
     \item \textbf{Limitación del regulador (LM2596):} Requiere entrada $\ge$ \qty{6.5}{V} (dropout de \qty{1.5}{V}), reduciendo la capacidad útil real de la batería 2S 18650 al \qty{40}{\percent} ($\approx$\qty{1400}{mAh}).
-    \item \textbf{Autonomía medida y proyectada:} \qty{5}{h} continuas para el nodo intermedio (medido en campo) y 4 días para el nodo hoja.
+    \item \textbf{Autonomía medida:} \qty{5}{h} continuas para el nodo intermedio (medido en campo) y 4 días para el nodo hoja (proyectada).
   \end{itemize}
 
   \note{
@@ -2332,11 +2330,13 @@ sido posible sin su apoyo.
 ¡Muchas gracias!
 \end{frame}
 
+
+\section*{Preguntas}
+
 \begin{frame}[allowframebreaks]{Referencias}
 \printbibliography[heading=none]
 \end{frame}
 
-\section*{Preguntas}
 
 % ==============================================================================
 % Slides de Backup
