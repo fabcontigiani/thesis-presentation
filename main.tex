@@ -1090,12 +1090,12 @@ desarrollamos.
         \begin{itemize}
           \setlength{\itemsep}{0.6em}
           \item Basado en Regulador tipo \textit{Buck} LM2596
+          \item Consumo en reposo: hasta \qty{10}{mA}
+          \item Versatilidad de tensión de entrada (\qty{40}{\volt})
           \item Pack de baterías 18650 2S 
           \item Voltaje nominal: \qty{7.4}{\volt}
           \item Capacidad nominal: \qty{3500}{mAh}
-          % \item Corte por caída de tensión del regulador a \qty{6.5}{\volt}
           \item Capacidad utilizable: \qty{1400}{mAh}
-          \item Eficiencia (\qty{92}{\percent}) y versatilidad de tensión de entrada (\qty{40}{\volt})
         \end{itemize}
       \end{block}
     \end{column}
@@ -2224,54 +2224,54 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 % ==============================================================================
 \section{Conclusión}
 
-\begin{frame}{Logros Alcanzados}
-  \begin{columns}[t]
-    \begin{column}{0.48\textwidth}
-      \begin{block}{Hardware y Diseño 3D}
-        \scriptsize
-        \begin{itemize}
-          \item Prototipo de \textbf{bajo costo} ($\sim$\qty{45}{USD})
-        \end{itemize}
-      \end{block}
+% \begin{frame}{Logros Alcanzados}
+%   \begin{columns}[t]
+%     \begin{column}{0.48\textwidth}
+%       \begin{block}{Hardware y Diseño 3D}
+%         \scriptsize
+%         \begin{itemize}
+%           \item Prototipo de \textbf{bajo costo} ($\sim$\qty{45}{USD})
+%         \end{itemize}
+%       \end{block}
       
-      \vspace{0.4em}
+%       \vspace{0.4em}
       
-      \begin{block}{Conectividad Inalámbrica}
-        \scriptsize
-        \begin{itemize}
-          \item Red de malla robusta con \textbf{ESP-MESH-LITE}
-        \end{itemize}
-      \end{block}
-    \end{column}
+%       \begin{block}{Conectividad Inalámbrica}
+%         \scriptsize
+%         \begin{itemize}
+%           \item Red de malla robusta con \textbf{ESP-MESH-LITE}
+%         \end{itemize}
+%       \end{block}
+%     \end{column}
     
-    \begin{column}{0.48\textwidth}
-      \begin{block}{Software e Inteligencia}
-        \scriptsize
-        \begin{itemize}
-          \item Pipeline local con \textbf{MegaDetector} y \textbf{SpeciesNet}
-          \item Alertas vía Telegram y corrección \textbf{Human-in-the-loop}
-        \end{itemize}
-      \end{block}
+%     \begin{column}{0.48\textwidth}
+%       \begin{block}{Software e Inteligencia}
+%         \scriptsize
+%         \begin{itemize}
+%           \item Pipeline local con \textbf{MegaDetector} y \textbf{SpeciesNet}
+%           \item Alertas vía Telegram y corrección \textbf{Human-in-the-loop}
+%         \end{itemize}
+%       \end{block}
       
-      \vspace{0.4em}
+%       \vspace{0.4em}
       
-      \begin{block}{Automatización}
-        \scriptsize
-        \begin{itemize}
-          \item Tiempo entre captura y clasificación: \textbf{días $\rightarrow$ minutos}
-        \end{itemize}
-      \end{block}
-    \end{column}
-  \end{columns}
+%       \begin{block}{Automatización}
+%         \scriptsize
+%         \begin{itemize}
+%           \item Tiempo entre captura y clasificación: \textbf{días $\rightarrow$ minutos}
+%         \end{itemize}
+%       \end{block}
+%     \end{column}
+%   \end{columns}
   
-  \note{
-    Resumen de logros en cuatro áreas clave:
-    1. Hardware: Diseño viable y económico con carcasa impresa en 3D.
-    2. Conectividad: Malla robusta que extiende cobertura sin infraestructura celular.
-    3. Inteligencia: Procesamiento local acoplado con retroalimentación humana interactiva.
-    4. Automatización: Reducción drástica en el tiempo de procesamiento de imágenes frente a métodos tradicionales.
-  }
-\end{frame}
+%   \note{
+%     Resumen de logros en cuatro áreas clave:
+%     1. Hardware: Diseño viable y económico con carcasa impresa en 3D.
+%     2. Conectividad: Malla robusta que extiende cobertura sin infraestructura celular.
+%     3. Inteligencia: Procesamiento local acoplado con retroalimentación humana interactiva.
+%     4. Automatización: Reducción drástica en el tiempo de procesamiento de imágenes frente a métodos tradicionales.
+%   }
+% \end{frame}
 
 \begin{frame}{Validación y Viabilidad Técnica}
   \centering
@@ -2387,63 +2387,63 @@ sido posible sin su apoyo.
 % ==============================================================================
 \appendix
 
-\begin{frame}{Anexo: Gestión de Energía}
-  \begin{columns}[t]
-    \begin{column}{0.48\textwidth}
-      \centering
-      \begin{tikzpicture}[
-          font=\sffamily,
-          >=Latex,
-          box/.style={draw=gray!30, fill=white, rounded corners=6pt, minimum width=5.2cm, minimum height=2.7cm, line width=0.8pt},
-          node_root/.style={circle, draw=orange!80!black, fill=orange!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
-          node_relay/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
-          node_leaf/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
-          link_ok/.style={draw=teal!80!black, <-, line width=1.5pt}
-        ]
-        \node[box] (bg) at (0,0) {};
-        \node[anchor=north, font=\scriptsize\bfseries\color{teal!80!black}, yshift=-0.2cm] at (bg.north) {Intermedio en Light Sleep (Activo)};
+% \begin{frame}{Anexo: Gestión de Energía}
+%   \begin{columns}[t]
+%     \begin{column}{0.48\textwidth}
+%       \centering
+%       \begin{tikzpicture}[
+%           font=\sffamily,
+%           >=Latex,
+%           box/.style={draw=gray!30, fill=white, rounded corners=6pt, minimum width=5.2cm, minimum height=2.7cm, line width=0.8pt},
+%           node_root/.style={circle, draw=orange!80!black, fill=orange!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
+%           node_relay/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
+%           node_leaf/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
+%           link_ok/.style={draw=teal!80!black, <-, line width=1.5pt}
+%         ]
+%         \node[box] (bg) at (0,0) {};
+%         \node[anchor=north, font=\scriptsize\bfseries\color{teal!80!black}, yshift=-0.2cm] at (bg.north) {Intermedio en Light Sleep (Activo)};
         
-        \node[node_root] (R) at (-1.5, 0.05) {Raíz};
-        \node[node_relay] (Re) at (0, 0.05) {Inter-\\medio};
-        \node[node_leaf] (L) at (1.5, 0.05) {Hoja};
+%         \node[node_root] (R) at (-1.5, 0.05) {Raíz};
+%         \node[node_relay] (Re) at (0, 0.05) {Inter-\\medio};
+%         \node[node_leaf] (L) at (1.5, 0.05) {Hoja};
         
-        \draw[link_ok] (R) -- (Re);
-        \draw[link_ok] (Re) -- (L);
+%         \draw[link_ok] (R) -- (Re);
+%         \draw[link_ok] (Re) -- (L);
         
-        \node[anchor=south, font=\scriptsize\color{teal!80!black}, yshift=0.15cm] at (bg.south) {Enlace de malla activo e hijos conectados};
-      \end{tikzpicture}
-    \end{column}
+%         \node[anchor=south, font=\scriptsize\color{teal!80!black}, yshift=0.15cm] at (bg.south) {Enlace de malla activo e hijos conectados};
+%       \end{tikzpicture}
+%     \end{column}
     
-    \begin{column}{0.48\textwidth}
-      \centering
-      \begin{tikzpicture}[
-          font=\sffamily,
-          >=Latex,
-          box/.style={draw=red!20, fill=white, rounded corners=6pt, minimum width=5.2cm, minimum height=2.7cm, line width=0.8pt},
-          node_root/.style={circle, draw=orange!80!black, fill=orange!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
-          node_relay_ds/.style={circle, draw=gray!60, fill=gray!10, minimum size=0.9cm, thick, dashed, font=\scriptsize\bfseries, text=gray!70, align=center},
-          node_leaf_fail/.style={circle, draw=red!80, fill=red!5, minimum size=0.9cm, thick, font=\scriptsize\bfseries, text=red!80!black, align=center},
-          link_ok/.style={draw=teal!80!black, <-, line width=1.5pt},
-          link_fail/.style={draw=red!80, <-, dashed, line width=1.5pt}
-        ]
-        \node[box] (bg) at (0,0) {};
-        \node[anchor=north, font=\scriptsize\bfseries\color{red!80!black}, yshift=-0.2cm] at (bg.north) {Intermedio en Deep Sleep (Inactivo)};
+%     \begin{column}{0.48\textwidth}
+%       \centering
+%       \begin{tikzpicture}[
+%           font=\sffamily,
+%           >=Latex,
+%           box/.style={draw=red!20, fill=white, rounded corners=6pt, minimum width=5.2cm, minimum height=2.7cm, line width=0.8pt},
+%           node_root/.style={circle, draw=orange!80!black, fill=orange!10, minimum size=0.9cm, thick, font=\scriptsize\bfseries, align=center},
+%           node_relay_ds/.style={circle, draw=gray!60, fill=gray!10, minimum size=0.9cm, thick, dashed, font=\scriptsize\bfseries, text=gray!70, align=center},
+%           node_leaf_fail/.style={circle, draw=red!80, fill=red!5, minimum size=0.9cm, thick, font=\scriptsize\bfseries, text=red!80!black, align=center},
+%           link_ok/.style={draw=teal!80!black, <-, line width=1.5pt},
+%           link_fail/.style={draw=red!80, <-, dashed, line width=1.5pt}
+%         ]
+%         \node[box] (bg) at (0,0) {};
+%         \node[anchor=north, font=\scriptsize\bfseries\color{red!80!black}, yshift=-0.2cm] at (bg.north) {Intermedio en Deep Sleep (Inactivo)};
         
-        \node[node_root] (R) at (-1.5, 0.05) {Raíz};
-        \node[node_relay_ds] (Re) at (0, 0.05) {Inter-\\medio};
-        \node[node_leaf_fail] (L) at (1.5, 0.05) {Hoja};
+%         \node[node_root] (R) at (-1.5, 0.05) {Raíz};
+%         \node[node_relay_ds] (Re) at (0, 0.05) {Inter-\\medio};
+%         \node[node_leaf_fail] (L) at (1.5, 0.05) {Hoja};
         
-        \draw[link_ok] (R) -- (Re);
-        \draw[link_fail] (Re) -- (L) node[midway, above, font=\tiny\bfseries\color{red}, yshift=-1pt] {Roto};
+%         \draw[link_ok] (R) -- (Re);
+%         \draw[link_fail] (Re) -- (L) node[midway, above, font=\tiny\bfseries\color{red}, yshift=-1pt] {Roto};
         
-        \node[anchor=south, font=\scriptsize\color{red!85!black}, yshift=0.15cm] at (bg.south) {Nodos hijos aislados de la red};
-      \end{tikzpicture}
-    \end{column}
-  \end{columns}
-  \note{
-    Anexo: Comparación gráfica de topología activa vs. inactiva si un nodo intermedio se apagara por completo en Deep Sleep (derecha), rompiendo los enlaces con sus nodos hijos y dejándolos aislados.
-  }
-\end{frame}
+%         \node[anchor=south, font=\scriptsize\color{red!85!black}, yshift=0.15cm] at (bg.south) {Nodos hijos aislados de la red};
+%       \end{tikzpicture}
+%     \end{column}
+%   \end{columns}
+%   \note{
+%     Anexo: Comparación gráfica de topología activa vs. inactiva si un nodo intermedio se apagara por completo en Deep Sleep (derecha), rompiendo los enlaces con sus nodos hijos y dejándolos aislados.
+%   }
+% \end{frame}
 
 \begin{frame}{Trabajos Futuros}
 \begin{itemize}
