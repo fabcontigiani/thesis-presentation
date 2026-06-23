@@ -1281,77 +1281,6 @@ desarrollamos.
   }
 \end{frame}
 
-\begin{frame}{Red Malla - Selección de Nodo Raíz}
-  \begin{columns}[c]
-    \begin{column}{0.52\textwidth}
-      \textbf{Elección del nodo Raíz:}
-      \vspace{0.8em}
-      \begin{itemize}
-        \setlength{\itemsep}{0.6em}
-        \small
-        \item Los candidatos evalúan su potencia de señal \textbf{RSSI} al Router.
-        \item El nodo con mejor señal (\textbf{\qty{-58}{dBm}}) se establece automáticamente como \textbf{Raíz}.
-        \item Nodos con señal más débil (\textbf{\qty{-85}{dBm}}) se reconfiguran como \textbf{Intermedios} y se conectan a la Raíz.
-      \end{itemize}
-      
-    %   \vspace{0.8em}
-    %   \begin{block}{Prevención de Bucles}
-    %     \scriptsize
-    %     Evita reenvíos cíclicos de paquetes durante la autoconfiguración jerárquica de la topología.
-    %   \end{block}
-    \end{column}
-    
-    \begin{column}{0.48\textwidth}
-      \centering
-      \begin{tikzpicture}[
-          font=\sffamily,
-          >=Latex,
-          every node/.style={align=center},
-          node_root/.style={circle, draw=orange!80!black, fill=orange!15, minimum size=1.0cm, thick, line width=1.2pt, font=\scriptsize\bfseries},
-          node_relay/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=1.0cm, thick, font=\scriptsize\bfseries},
-          node_leaf/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=1.0cm, thick, font=\scriptsize\bfseries},
-          link_root/.style={draw=orange!80!black, <->, line width=1.2pt},
-          link_weak/.style={draw=black!40, dashed, line width=1pt},
-          link_mesh/.style={draw=teal!80!black, ->, line width=1.2pt}
-        ]
-        
-        % Router / AP (Derecha)
-        \begin{scope}[shift={(2.2,0.0)}, scale=0.8]
-          \draw[draw=black, fill=white, rounded corners=1.5pt, line width=1.1pt] (-0.4,-0.18) rectangle (0.4,0.22);
-          \draw[draw=black, line width=1.2pt] (-0.3,0.22) -- (-0.48,0.58);
-          \draw[draw=black, line width=1.2pt] (0.3,0.22) -- (0.58,0.58);
-          \fill[black] (0,-0.08) circle (1.2pt);
-          \draw[draw=black, line width=0.7pt] (-0.1,-0.02) to[out=45, in=135] (0.1,-0.02);
-          \draw[draw=black, line width=0.7pt] (-0.17,0.06) to[out=45, in=135] (0.17,0.06);
-          \node (router) at (0,0.02) [minimum width=0.8cm, minimum height=0.6cm] {};
-        \end{scope}
-        \node[right=0.1cm of router, font=\tiny\bfseries, text=black!70, align=left] {Router\\(Salida)};
-
-        \begin{scope}[on background layer]
-          \draw[draw=blue!30, fill=blue!5, fill opacity=0.15, dashed, line width=1pt] (2.2, 0.0) -- ++(120:2.45cm) arc (120:240:2.45cm) -- cycle;
-        \end{scope}
-
-        % Nodos candidatos
-        \node[node_root] (A) at (0.7, 0.9) {Raíz};
-        \node[node_relay] (B) at (0.2, -0.9) {Inter-\\medio};
-        \node[node_leaf] (C) at (-1.0, 0.0) {Hoja};
-
-        % Enlaces de evaluación RSSI
-        \draw[link_root] (router.west) -- (A.east) node[midway, above, sloped, font=\tiny\bfseries, text=orange!80!black] {\qty{-58}{dBm}\\\\(Mejor)};
-        \draw[link_weak] (router.west) -- (B.east) node[midway, below, sloped, font=\tiny\bfseries, text=black!50] {\qty{-85}{dBm}\\\\(Débil)};
-
-        % Enlaces de la topología formada
-        \draw[link_mesh] (B) -- (A);
-        \draw[link_mesh] (C) -- (B);
-        
-      \end{tikzpicture}
-    \end{column}
-  \end{columns}
-  \note{
-    Además de la auto-recuperación (self-healing) de nodos hijos, la elección del nodo raíz (Raíz) es dinámica. Si hay varios nodos cerca del router de salida, comparan su señal RSSI y el que tenga mejor enlace se designa como Raíz, lo que asegura el camino más óptimo hacia el exterior.
-  }
-\end{frame}
-
 \begin{frame}{Red Malla - Roles y Energía}
   % \textbf{Trade-off de energía y funcionalidad:}
   % 
@@ -2413,6 +2342,71 @@ sido posible sin su apoyo.
 % Slides de Backup
 % ==============================================================================
 \appendix
+
+\begin{frame}{Anexo: Selección de Nodo Raíz}
+  \begin{columns}[c]
+    \begin{column}{0.52\textwidth}
+      \textbf{Elección del nodo Raíz:}
+      \vspace{0.8em}
+      \begin{itemize}
+        \setlength{\itemsep}{0.6em}
+        \small
+        \item Los candidatos evalúan su potencia de señal \textbf{RSSI} al Router.
+        \item El nodo con mejor señal (\textbf{\qty{-58}{dBm}}) se establece automáticamente como \textbf{Raíz}.
+        \item Nodos con señal más débil (\textbf{\qty{-85}{dBm}}) se reconfiguran como \textbf{Intermedios} y se conectan a la Raíz.
+      \end{itemize}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      \centering
+      \begin{tikzpicture}[
+          font=\sffamily,
+          >=Latex,
+          every node/.style={align=center},
+          node_root/.style={circle, draw=orange!80!black, fill=orange!15, minimum size=1.0cm, thick, line width=1.2pt, font=\scriptsize\bfseries},
+          node_relay/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=1.0cm, thick, font=\scriptsize\bfseries},
+          node_leaf/.style={circle, draw=teal!80!black, fill=teal!10, minimum size=1.0cm, thick, font=\scriptsize\bfseries},
+          link_root/.style={draw=orange!80!black, <->, line width=1.2pt},
+          link_weak/.style={draw=black!40, dashed, line width=1pt},
+          link_mesh/.style={draw=teal!80!black, ->, line width=1.2pt}
+        ]
+        
+        % Router / AP (Derecha)
+        \begin{scope}[shift={(2.2,0.0)}, scale=0.8]
+          \draw[draw=black, fill=white, rounded corners=1.5pt, line width=1.1pt] (-0.4,-0.18) rectangle (0.4,0.22);
+          \draw[draw=black, line width=1.2pt] (-0.3,0.22) -- (-0.48,0.58);
+          \draw[draw=black, line width=1.2pt] (0.3,0.22) -- (0.58,0.58);
+          \fill[black] (0,-0.08) circle (1.2pt);
+          \draw[draw=black, line width=0.7pt] (-0.1,-0.02) to[out=45, in=135] (0.1,-0.02);
+          \draw[draw=black, line width=0.7pt] (-0.17,0.06) to[out=45, in=135] (0.17,0.06);
+          \node (router) at (0,0.02) [minimum width=0.8cm, minimum height=0.6cm] {};
+        \end{scope}
+        \node[right=0.1cm of router, font=\tiny\bfseries, text=black!70, align=left] {Router\\(Salida)};
+
+        \begin{scope}[on background layer]
+          \draw[draw=blue!30, fill=blue!5, fill opacity=0.15, dashed, line width=1pt] (2.2, 0.0) -- ++(120:2.45cm) arc (120:240:2.45cm) -- cycle;
+        \end{scope}
+
+        % Nodos candidatos
+        \node[node_root] (A) at (0.7, 0.9) {Raíz};
+        \node[node_relay] (B) at (0.2, -0.9) {Inter-\\medio};
+        \node[node_leaf] (C) at (-1.0, 0.0) {Hoja};
+
+        % Enlaces de evaluación RSSI
+        \draw[link_root] (router.west) -- (A.east) node[midway, above, sloped, font=\tiny\bfseries, text=orange!80!black] {\qty{-58}{dBm}\\\\(Mejor)};
+        \draw[link_weak] (router.west) -- (B.east) node[midway, below, sloped, font=\tiny\bfseries, text=black!50] {\qty{-85}{dBm}\\\\(Débil)};
+
+        % Enlaces de la topología formada
+        \draw[link_mesh] (B) -- (A);
+        \draw[link_mesh] (C) -- (B);
+        
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+  \note{
+    Además de la auto-recuperación (self-healing) de nodos hijos, la elección del nodo raíz (Raíz) es dinámica. Si hay varios nodos cerca del router de salida, comparan su señal RSSI y el que tenga mejor enlace se designa como Raíz, lo que asegura el camino más óptimo hacia el exterior.
+  }
+\end{frame}
 
 % \begin{frame}{Anexo: Gestión de Energía}
 %   \begin{columns}[t]

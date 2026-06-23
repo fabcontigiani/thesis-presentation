@@ -244,14 +244,14 @@ Este documento contiene la guía estructurada, puntos clave y ganchos de transic
     *   Diseño optimizado para albergar el pack de baterías 18650, el sensor PIR en la parte frontal y la placa ESP32-CAM con su antena.
     *   Pensada para impresión 3D sencilla sin soportes complejos.
 *   **Gancho al siguiente slide:**
-    > *(Nota: Aquí le cedes la palabra a Gabriel para que exponga la SECCIÓN 4 de Firmware de la Red Malla [Diapositivas 15 a 22])*
+    > *(Nota: Aquí le cedes la palabra a Gabriel para que exponga la SECCIÓN 4 de Firmware de la Red Malla [Diapositivas 15 a 21])*
 
 ---
 ---
 
 ## SECCIÓN 6: Servidor de Monitoreo Remoto
 
-*(Nota: F retoma la palabra tras la diapositiva 22 de Gabriel "Gestión de Energía: Hoja vs. Intermedio" para explicar el Backend del sistema)*
+*(Nota: F retoma la palabra tras la diapositiva 21 de Gabriel "Gestión de Energía: Hoja vs. Intermedio" para explicar el Backend del sistema)*
 
 ### Diapositiva 23: Arquitectura del Servidor
 *   **Cómo arrancar (Señalando el diagrama de bloques en la diapositiva):**
@@ -387,7 +387,7 @@ Este documento contiene la guía estructurada, puntos clave y ganchos de transic
     *   **Costo inicial de despliegue (CAPEX):** Sumando la batería común, el prototipo cuesta **84.95 USD** contra **239.95 USD** de la Spartan.
     *   Representa un ahorro neto del **64.6% en la inversión inicial**, permitiendo desplegar casi 3 nodos de nuestro prototipo por el precio de una sola cámara comercial.
 *   **Gancho al siguiente slide:**
-    > *(Nota: Aquí le cedes la palabra a Gabriel para que exponga la diapositiva 23 "Resultados - Red Mesh (Pruebas de Campo: Condiciones y Total)" y las diapositivas del Bot de Telegram [slides 24 a 27])*
+    > *(Nota: Aquí le cedes la palabra a Gabriel para que exponga la diapositiva 22 "Resultados - Red Mesh (Pruebas de Campo: Condiciones y Total)" y las diapositivas del Bot de Telegram [slides 23 a 26])*
 
 ---
 ---
