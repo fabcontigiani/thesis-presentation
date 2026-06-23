@@ -2138,35 +2138,40 @@ movimiento de vegetación fueron filtradas por la lógica de umbrales.
 
 % El frame de Consumo Energético fue movido a la Sección 3 (Diseño y Energía)
 
-\begin{frame}{Bot de Telegram (HITL) - \only<1>{Caso Exitoso}\only<2>{Clasificación Errónea}\only<3>{Corrección por Telegram}\only<4>{Registro Actualizado}}
-  \only<1>{
-    \centering
-    \includegraphics[height=0.82\textheight]{img/pajaroOk.png}
-  }
-  \only<2>{
-    \centering
-    \includegraphics[height=0.82\textheight]{img/pajaroSinCorregir.jpg}
-  }
-  \only<3>{
-    \centering
-    \includegraphics[height=0.82\textheight]{img/botSinCorregir.jpg}
-    \hfil
-    \includegraphics[height=0.82\textheight]{img/botCorreccion.jpg}
-  }
-  \only<4>{
-    \centering
-    \includegraphics[height=0.82\textheight]{img/pajaroCorregido.jpg}
-  }
+\begin{frame}{Bot de Telegram (HITL) - Caso Exitoso}
+  \centering
+  \includegraphics[height=0.82\textheight]{img/pajaroOk.png}
   \note{
     Este flujo demuestra el funcionamiento de las alertas y el mecanismo Human-in-the-loop (HITL) en acción.
     \textbf{Caso Exitoso:} El sistema detecta y clasifica correctamente la fauna (en este caso, un ave) y notifica directamente al usuario.
-    \textbf{Flujo HITL:}
-    Paso 1: el modelo clasifica erróneamente una imagen (ej. confunde persona con animal).
-    Paso 2: el usuario recibe la notificación en Telegram y mediante un teclado inline indica que la clasificación es incorrecta.
-    Paso 3: el bot presenta las alternativas sugeridas por el modelo y el usuario selecciona la etiqueta correcta (human).
-    Paso 4: el sistema actualiza la base de datos y el panel web refleja el cambio inmediatamente, marcando el evento como auditado.
 
-    Esto no solo corrige errores en tiempo real, sino que genera datos etiquetados de alta calidad para futuro fine-tuning del modelo con imágenes del ecosistema local.
+  }
+\end{frame}
+
+\begin{frame}{Bot de Telegram (HITL) - Paso 1: Clasificación Errónea}
+  \centering
+  \includegraphics[height=0.82\textheight]{img/pajaroSinCorregir.jpg}
+  \note{
+    \textbf{Flujo HITL - Paso 1:} El modelo clasifica erróneamente una imagen (ej. confunde persona con animal). En el panel web se observa el registro inicial sin corregir.
+  }
+\end{frame}
+
+\begin{frame}{Bot de Telegram (HITL) - Pasos 2 y 3: Corrección por Telegram}
+  \centering
+  \includegraphics[height=0.82\textheight]{img/botSinCorregir.jpg}
+  \hfil
+  \includegraphics[height=0.82\textheight]{img/botCorreccion.jpg}
+  \note{
+    \textbf{Flujo HITL - Pasos 2 y 3:} El usuario recibe la notificación en Telegram y mediante un teclado inline indica que la clasificación es incorrecta. El bot presenta las alternativas y el usuario selecciona la etiqueta correcta.
+  }
+\end{frame}
+
+\begin{frame}{Bot de Telegram (HITL) - Paso 4: Registro Actualizado}
+  \centering
+  \includegraphics[height=0.82\textheight]{img/pajaroCorregido.jpg}
+  \note{
+    \textbf{Flujo HITL - Paso 4:} El sistema actualiza la base de datos y el panel web refleja el cambio inmediatamente, marcando el evento como auditado.
+    Esto permite corregir errores en tiempo real y genera datos etiquetados de alta calidad para futuros entrenamientos del modelo.
   }
 \end{frame}
 
